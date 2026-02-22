@@ -1,0 +1,39 @@
+{
+  "collection": "article_templates",
+  "exportedAt": "2025-12-13T14:49:43.627Z",
+  "recordCount": 1,
+  "data": [
+    {
+      "id": "1c80263e-ddc2-4ea9-8ac2-60f5f0d10e3d",
+      "name": "Long Form Sales Letter (Master Blueprint)",
+      "structure_json": [
+        "headline_variations",
+        "content_headlines",
+        "avatar_engagement",
+        "sales_letter_core",
+        "brunson_bullets",
+        "feature_benefit_meaning",
+        "feature_benefit_meaning",
+        "content_headlines",
+        "sales_letter_core",
+        "sales_letter_core",
+        "how_to_scripts",
+        "how_to_scripts",
+        "framework_teaching",
+        "framework_teaching",
+        "brunson_bullets",
+        "brunson_bullets",
+        "content_headlines",
+        "sales_letter_core",
+        "feature_benefit_meaning",
+        "feature_benefit_meaning",
+        "framework_teaching",
+        "bio_section",
+        "offer_stack",
+        "how_to_scripts",
+        "avatar_engagement"
+      ],
+      "date_created": "2025-12-13T05:13:20"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/ui/Hero.astro';
+import GlassCard from '../components/ui/GlassCard.astro';
+import CTA from '../components/ui/CTA.astro';
+import Breadcrumbs from '../components/ui/Breadcrumbs.astro';
+const crumbs=[{name:'Home',url:'/'},{name:'About',url:'/about'}];
+---
+<BaseLayout title="About Jumpstart Scaling" description="We are growth engineers. Not a marketing agency, not a consulting firm — a team that engineers the systems, infrastructure, and automation that make scaling predictable." crumbs={crumbs} fluid={true}>
+<div class="pt-24">
+<Hero title="Growth Engineers, Not Marketers" subtitle="We engineer the infrastructure that makes scaling predictable, defensible, and inevitable."/>
+</div>
+<GlassCard title="Why We Exist">
+<p>Jumpstart Scaling exists because the growth services industry is broken. Agencies sell tactics. Consultants sell advice. Neither sells results. We founded Jumpstart Scaling on a different premise: that predictable revenue growth is an engineering problem, not a creative one. When you approach scaling with the same rigor that software engineers bring to building products — systematic architecture, measurement, iteration, and automation — the results become predictable rather than hopeful.</p>
+<p>Every service we offer is designed around this engineering mindset. We do not brainstorm. We blueprint. We do not run campaigns. We build systems. We do not generate reports. We build measurement infrastructure. This approach is not for everyone. Companies looking for flashy creative or viral social media moments will be happier with a traditional agency. But for companies serious about building a revenue engine that produces predictable, scalable growth month after month, there is no better partner than a team of growth engineers.</p>
+<p>Our team combines deep expertise across paid media, conversion optimization, CRM automation, data engineering, and content strategy. But what makes us different is not our individual skills — it is how we integrate those skills into unified systems. A media buyer who understands CRM data. A funnel architect who understands attribution. A data analyst who understands creative testing. This cross-functional fluency is what enables us to build growth systems that actually work at scale rather than collections of disconnected tactics that fall apart under pressure.</p>
+</GlassCard>
+<GlassCard title="Our Approach">
+<p>We follow three principles in every engagement. First, we engineer for permanence. Every system, automation, and process we build becomes a permanent asset of your business. When our engagement ends the infrastructure stays and continues generating returns. Second, we measure everything. If we cannot connect an activity to revenue impact we do not do it. Vanity metrics, brand awareness campaigns, and activities that feel productive but cannot be measured are not part of our methodology. Third, we compound deliberately. Every optimization we make is designed to amplify the effect of every other optimization in the system. This compounding approach is what produces the exponential growth curves our clients experience rather than the linear growth that characterizes most marketing efforts.</p>
+</GlassCard>
+<CTA heading="Ready to Work With Growth Engineers?" text="Start with our free Moat Audit to see how defensible your current growth engine really is."/>
+</BaseLayout>

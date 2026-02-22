@@ -1,0 +1,257 @@
+---
+title: "Authority Engine"
+description: "Build category authority that makes competitors irrelevant. We engineer content, PR, and thought leadership systems that position your brand as the definitive choice in your market."
+palette: "gold"
+order: 5
+keyMetrics:
+  - label: "Organic Traffic Growth"
+    value: "340%"
+  - label: "Domain Authority Lift"
+    value: "+28"
+  - label: "Brand Search Volume"
+    value: "5x"
+---
+
+import ParallaxHero from '../../components/ui/ParallaxHero.astro';
+import Hero from '../../components/ui/Hero.astro';
+import AnimatedSection from '../../components/ui/AnimatedSection.astro';
+import GlassCard from '../../components/ui/GlassCard.astro';
+import PullQuote from '../../components/ui/PullQuote.astro';
+import InteractiveTimeline from '../../components/visuals/InteractiveTimeline.tsx';
+import IconBullet from '../../components/ui/IconBullet.astro';
+import ScrollRevealGrid from '../../components/ui/ScrollRevealGrid.tsx';
+import BentoGrid from '../../components/ui/BentoGrid.astro';
+import ScalingSurvey from '../../components/interactivity/ScalingSurvey.tsx';
+import CTA from '../../components/ui/CTA.astro';
+import ImagePlaceholder from '../../components/ui/ImagePlaceholder.tsx';
+import CohortAnalysisCalculator from '../../components/calculators/CohortAnalysisCalculator.tsx';
+import MRRForecastCalculator from '../../components/calculators/MRRForecastCalculator.tsx';
+
+<section class="section dark py-20">
+  <div class="container text-center max-w-5xl mx-auto">
+    <AnimatedSection delay={100}>
+      <h1 class="text-5xl md:text-7xl font-black gradient-text mb-12 leading-tight">
+        The Silent Authority Killer That's Making Your Competitors Invisible... 
+        <br class="hidden md:block" />
+        <span class="text-white block mt-4 text-4xl md:text-5xl">And the Proven "Authority Engine" Framework That Turns Your Brand Into the Obvious Choice in 6-12 Months</span>
+      </h1>
+      <p class="text-2xl md:text-3xl text-white/85 mb-16 max-w-4xl mx-auto leading-relaxed">
+        (Even if you're buried in noise on Google, LinkedIn, and podcasts right now)
+      </p>
+
+      <div class="grid lg:grid-cols-2 gap-12 items-center text-left">
+        <div class="prose prose-xl prose-invert">
+            <p class="text-2xl font-bold text-white">Stop for a second and think about the brands that dominate your space.</p>
+            <p>Who comes to mind first when someone needs what you sell?</p>
+            <p class="text-white/60 italic">If it's not you... you're losing deals you never even knew existed.</p>
+            
+            <p><strong>Here's the brutal truth:</strong> In every category, there's one brand that doesn't compete — they dominate. The market comes to them. Price becomes irrelevant. Features become secondary. They are the default choice.</p>
+            <p>Apple. Salesforce. HubSpot. These aren't just "good" companies. **They engineered authority.**</p>
+        </div>
+        <div>
+            <ImagePlaceholder 
+                client:visible
+                minHeight="400px"
+                suggestion="Authority vs Noise"
+                description="Visual comparing a brand that stands out as a signal vs competitors lost in noise."
+                videoSrc="/assets/Authority.mp4"
+            />
+        </div>
+      </div>
+
+      <div class="prose prose-xl prose-invert max-w-4xl mx-auto text-left mt-16">
+        <p>I remember when I first realized this. I was consulting for a SaaS company spending $50K/month on ads... getting decent traffic... but conversions were flatlining.</p>
+        <p>Their content was everywhere — blog posts, social media, podcasts. But nobody remembered them. They were just "another option."</p>
+        <p class="text-2xl font-bold text-[#E8C677] border-l-4 border-[#E8C677] pl-6 my-8">
+            Then we flipped the script. Instead of more content, we built authority.
+        </p>
+        <div class="grid md:grid-cols-2 gap-8 my-12">
+            <div class="bg-white/5 p-6 rounded-xl border border-white/10">
+                <h4 class="text-xl font-bold text-white mb-2">Before</h4>
+                <p class="text-white/60">High ad spend, low brand recall, fighting for every lead.</p>
+            </div>
+            <div class="bg-[#E8C677]/10 p-6 rounded-xl border border-[#E8C677]/20">
+                <h4 class="text-xl font-bold text-[#E8C677] mb-2">After (9 Months)</h4>
+                <p class="text-white/80">Branded search up 5x. Organic traffic +340%. Leads asking for us by name.</p>
+            </div>
+        </div>
+        <p><strong>Competitors? Irrelevant.</strong> This isn't luck. It's engineering.</p>
+        <p>The <strong>Authority Engine</strong> is our battle-tested 5-pillar system that systematically builds category dominance — whether you're using GoHighLevel (our top recommendation), Ghost, or custom setups.</p>
+        <p>No more random content hoping to go viral. No more vanity PR. Just measurable, compounding authority that turns your brand into the obvious choice.</p>
+      </div>
+
+      <div class="mt-20 flex flex-col sm:flex-row justify-center gap-8">
+        <a href="/audit" class="px-12 py-6 bg-white text-black font-bold text-2xl rounded-2xl hover:scale-105 transition shadow-2xl no-underline">
+          Start Authority Audit
+        </a>
+        <a href="#framework" class="px-12 py-6 border-2 border-[#E8C677] text-[#E8C677] font-bold text-2xl rounded-2xl hover:bg-[#E8C677]/10 transition no-underline">
+          Explore the 5 Pillars →
+        </a>
+      </div>
+    </AnimatedSection>
+  </div>
+</section>
+
+<section class="section light py-20">
+  <div class="container max-w-6xl mx-auto">
+    <AnimatedSection delay={200}>
+      <h2 class="text-5xl md:text-6xl font-black text-center mb-16 text-black">
+        Why Most "Authority Building" Efforts Fail Spectacularly
+      </h2>
+      <p class="text-xl text-black/60 max-w-3xl mx-auto text-center mb-16">(And Waste Millions)</p>
+
+      <div class="grid lg:grid-cols-2 gap-16 items-start">
+        <div class="prose prose-xl text-black">
+          <p class="text-2xl font-bold">Let me ask you a question that keeps founders up at night:</p>
+          <p class="italic text-black/70">Why do some brands become the default choice... while others fight for scraps?</p>
+          
+          <div class="bg-black/5 p-6 rounded-xl border-l-4 border-black my-8">
+              <p class="mb-0 font-bold">It's not better products. It's not bigger budgets. It's authority.</p>
+          </div>
+
+          <h3 class="text-2xl font-bold mt-12 mb-6">Where 95% of Companies Get It Wrong</h3>
+          <ul class="space-y-6 text-lg">
+            <li class="flex gap-4">
+                <span class="text-red-500 font-bold">❌</span>
+                <span><strong>They create content for volume, not dominance.</strong> 50 mediocre blog posts/month hoping Google notices. Result? Buried on page 3.</span>
+            </li>
+            <li class="flex gap-4">
+                <span class="text-red-500 font-bold">❌</span>
+                <span><strong>They chase vanity metrics.</strong> 100K LinkedIn followers who never buy. PR placements nobody reads.</span>
+            </li>
+            <li class="flex gap-4">
+                <span class="text-red-500 font-bold">❌</span>
+                <span><strong>They copy competitors.</strong> Same topics, same formats, same message. Zero differentiation.</span>
+            </li>
+          </ul>
+
+          <h3 class="text-2xl font-bold mt-12 mb-6">The Authority Advantage</h3>
+          <p>When you're the recognized expert, prospects seek YOU out. Price resistance vanishes. Sales cycles shorten.</p>
+          <p>One client went from "who are you?" to category leader in 11 months. <strong>Branded search up 500%. Organic leads replaced 70% of paid spend.</strong></p>
+          <p>The difference? They stopped playing the content game... and started engineering authority.</p>
+        </div>
+        <div>
+          <a href="/resources/calculators#cohort-analysis" class="group block p-10 bg-white border border-black/10 rounded-2xl shadow-2xl hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-center no-underline">
+            <div class="text-5xl mb-6 p-4 bg-black/5 w-fit mx-auto rounded-2xl group-hover:bg-[#E8C677] group-hover:text-black transition-colors">📊</div>
+            <h3 class="text-3xl font-bold mb-8 text-black">See Authority's Impact on Retention</h3>
+            <p class="text-black/60 mb-8 font-medium">Authority brands retain 50%+ at Month 12 vs industry 30-40%.</p>
+            <span class="inline-block px-8 py-4 bg-black !text-white rounded-full font-bold group-hover:bg-[#E8C677] group-hover:!text-black transition-colors">Run Cohort Analysis →</span>
+          </a>
+        </div>
+      </div>
+    </AnimatedSection>
+  </div>
+</section>
+
+<section id="framework" class="section dark py-20">
+  <div class="container max-w-6xl mx-auto">
+    <AnimatedSection delay={300}>
+      <h2 class="text-5xl md:text-7xl font-black gradient-text text-center mb-16">
+        The Authority Engine: Your 6-12 Month Path to Category Dominance
+      </h2>
+      <p class="text-2xl text-white/85 text-center max-w-4xl mx-auto mb-20">
+        Our systematic 5-pillar framework builds measurable authority that compounds. Works with GoHighLevel (recommended), Ghost, or any platform.
+      </p>
+
+      <div class="max-w-4xl mx-auto mb-20">
+        <InteractiveTimeline client:load steps={[
+           {title: "Pillar 1: Authority Mapping", content: "Deep market research to identify 'authority gaps' where no competitor has definitive expertise."},
+           {title: "Pillar 2: Content Engineering", content: "Producing definitive resources, original research, and technical deep-dives that no competitor has published."},
+           {title: "Pillar 3: Strategic Distribution", content: "Engineering distribution systems that place your content where your audience consumes information."},
+           {title: "Pillar 4: Third-Party Validation", content: "Strategic media placements, speaking opportunities, and podcast appearances to reinforce trust."},
+           {title: "Pillar 5: Measurement & Optimization", content: "Tracking branded search volume, organic rankings, and lead attribution to content assets."}
+        ]} />
+      </div>
+
+      <div class="mt-20 grid lg:grid-cols-2 gap-16">
+        <GlassCard class="p-12">
+          <h3 class="text-4xl font-bold gradient-text mb-8">Pillar 1: Authority Mapping (Months 1-2)</h3>
+          <div class="prose prose-invert prose-xl">
+            <p><strong>Who needs this most:</strong> Companies lost in content chaos — creating posts but owning no territory.</p>
+            <p><strong>What we do:</strong> Deep competitive analysis to find "authority gaps" — topics where no brand has definitive expertise.</p>
+            <p><strong>Why it matters:</strong> Without owning a territory, you're just noise. Mapping identifies your unique domain.</p>
+            <p><strong>How we do it:</strong> 60-day research sprint → analyze top 50 competitors → map audience journey → identify 10-15 high-leverage topics → create Authority Blueprint documenting your territory, positioning, and metrics.</p>
+            <p><strong>Proof:</strong> Clients typically discover 3-5 completely open categories their competitors ignore. One client claimed "SaaS churn prediction" — now ranks #1-3 for all related terms.</p>
+            <p>The result? You stop competing in crowded spaces and start dominating open ones.</p>
+          </div>
+        </GlassCard>
+        
+        <a href="/resources/calculators#mrr-forecast" class="group block p-12 glass-card hover:-translate-y-1 transition-all duration-300 text-center no-underline h-fit">
+          <div class="text-5xl mb-6 p-4 bg-white/10 w-fit mx-auto rounded-2xl group-hover:bg-[#E8C677] group-hover:text-black transition-colors">📈</div>
+          <h3 class="text-3xl font-bold mb-4 text-white">Forecast Authority Growth</h3>
+          <p class="text-white/60 mb-8">Model how organic authority compounds your revenue over 12 months.</p>
+          <span class="inline-block px-8 py-4 bg-white/10 text-white border border-white/20 rounded-full font-bold group-hover:bg-[#E8C677] group-hover:border-[#E8C677] group-hover:text-black transition-colors">
+              Launch MRR Forecast →
+          </span>
+        </a>
+      </div>
+    </AnimatedSection>
+  </div>
+</section>
+
+<section class="section light py-20">
+  <div class="container max-w-6xl mx-auto">
+    <AnimatedSection delay={400}>
+      <h2 class="text-5xl md:text-6xl font-black text-center mb-16 text-black">
+        The Math of Market Dominance: Why Authority Is Your Highest-ROI Investment
+      </h2>
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <div class="prose prose-xl text-black">
+          <p class="text-2xl font-bold mb-4">Let's run the numbers that changed everything for our clients...</p>
+          <p>Typical client before: $100K/month paid acquisition, 40% of leads from organic, CAC $600.</p>
+          <p class="bg-black/5 p-4 rounded-lg border-l-4 border-[#E8C677]">After Authority Engine: Organic traffic +340%, branded search 5x, 70% of leads organic, CAC drops to $180.</p>
+          <p>That's $420K/month saved on ads... while revenue grows faster.</p>
+          <p>Imagine: Prospects Google your category and find YOUR content on page 1. They read your definitive guide. They see you on podcasts. They hear peers mention your name.</p>
+          <p>When they need what you sell, they don't shop around. They call you.</p>
+          <p>Price objections vanish. Sales cycles shorten. Premium pricing becomes default.</p>
+          <p>This is what authority feels like.</p>
+          <p>And it compounds. Every piece of content, every placement, every mention builds on the last.</p>
+          <p>In year 2? Competitors can't catch up without years of work.</p>
+        </div>
+        <div class="space-y-6">
+            <a href="/resources/calculators#mrr-forecast" class="group block p-8 bg-white border border-black/10 rounded-2xl shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex items-center gap-6 no-underline">
+               <div class="text-4xl p-3 bg-black/5 rounded-xl group-hover:bg-[#E8C677] group-hover:text-black transition-colors">📊</div>
+               <div class="text-left">
+                 <h4 class="text-xl font-bold mb-1 text-black">MRR Growth Forecast</h4>
+                 <p class="text-sm text-black/60">Project compounding organic growth →</p>
+               </div>
+            </a>
+
+            <a href="/resources/calculators#cohort-analysis" class="group block p-8 bg-white border border-black/10 rounded-2xl shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex items-center gap-6 no-underline">
+               <div class="text-4xl p-3 bg-black/5 rounded-xl group-hover:bg-[#E8C677] group-hover:text-black transition-colors">👥</div>
+               <div class="text-left">
+                 <h4 class="text-xl font-bold mb-1 text-black">Retention Cohort Analysis</h4>
+                 <p class="text-sm text-black/60">See how authority boosts long-term retention →</p>
+               </div>
+            </a>
+        </div>
+      </div>
+    </AnimatedSection>
+  </div>
+</section>
+
+<section class="section dark">
+  <div class="container mx-auto px-6 text-center">
+    <AnimatedSection delay={500}>
+      <div class="my-32">
+        <h2 class="text-4xl md:text-5xl font-bold mb-8 gradient-text">Start Building Your Authority Today</h2>
+        <div class="max-w-3xl mx-auto">
+          <ScalingSurvey client:load />
+        </div>
+      </div>
+    </AnimatedSection>
+  </div>
+</section>
+
+<section class="section dark pt-0 pb-20">
+  <div class="container mx-auto px-6">
+      <div class="my-32">
+        <h2 class="text-3xl font-bold text-center mb-12">Related Services & Reading</h2>
+        <BentoGrid items={[
+          {title: "Paid Acquisition Engineering", desc: "Combine authority with engineered media buying for compounded growth.", link: "/services/paid-acquisition"},
+          {title: "Market Domination Strategy", desc: "How authority fits into the four-moat framework for market domination.", link: "/intel/market-domination-strategy"},
+          {title: "Data Attribution", desc: "Track which authority content pieces drive actual pipeline and revenue.", link: "/services/data-attribution"}
+        ]} />
+      </div>
+  </div>
+</section>

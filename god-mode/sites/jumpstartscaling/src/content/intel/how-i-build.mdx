@@ -1,0 +1,93 @@
+---
+title: "How I Build Scalable, Beautiful Web Applications"
+description: "A deep dive into my development philosophy, tech stack choices, and the systems I use to ship high-quality software fast."
+publishedAt: "2025-10-15"
+palette: "sapphire"
+category: "Engineering"
+tags: ["Astro", "React", "Architecture", "Scaling"]
+---
+
+import PullQuote from '../../components/ui/PullQuote.astro';
+import GlassCard from '../../components/ui/GlassCard.astro';
+import IconBullet from '../../components/ui/IconBullet.astro';
+import BentoGrid from '../../components/ui/BentoGrid.astro';
+
+After building dozens of production applications—from high-traffic SaaS platforms to complex admin dashboards—I've developed a system for shipping quality software quickly. This is that system.
+
+## Philosophy: Fast, Beautiful, Scalable
+
+Most developers optimize for one or two of these. I optimize for all three by making smart architectural choices upfront.
+
+<PullQuote text="The secret isn't working harder or knowing more frameworks. It's about choosing the right tools for the job and building systems that scale with you." />
+
+Here's my core philosophy:
+<IconBullet items={[
+  "Fast to develop → Use the right abstractions",
+  "Beautiful by default → Design systems, not pages",
+  "Scales automatically → Architecture that grows"
+]} />
+
+## The Tech Stack
+
+### Frontend: Astro + React
+
+Why **Astro**? Because it gives me the best of both worlds:
+- **Static-first** for instant page loads (SEO heaven)
+- **Islands architecture** for interactive components only where needed
+- **Framework agnostic** so I can use React, Vue, or vanilla JS per component
+
+I use **React** for interactivity because of its massive ecosystem and team familiarity. But I only hydrate what needs to be interactive.
+
+### Backend: FastAPI or Django
+
+For APIs, I default to **FastAPI** when I need high performance (async/await) and type safety.
+
+For complex apps with auth, admin panels, and ORM needs, **Django** wins.
+
+<GlassCard title="Real Performance Numbers">
+**Astro Static Site:**
+- First Contentful Paint: 0.3s
+- Time to Interactive: 0.8s
+- Lighthouse Score: 98/100
+
+**FastAPI Backend:**
+- Avg response time: 45ms
+- Concurrent requests: 1,000+
+- Uptime: 99.95%
+</GlassCard>
+
+### Database: PostgreSQL
+
+Not trendy. Not exciting. Just **reliable**. I've tried MongoDB, Firebase, Supabase, and others. For 90% of applications, PostgreSQL is the right choice.
+
+### Hosting: Oracle Cloud ARM64
+
+Controversial take: Oracle Cloud's ARM instances are incredible value. I run multiple production apps on a single Oracle instance with PM2 for process management.
+
+## My Development Workflow
+
+### Day 1: Architecture
+I spend 20% of project time on architecture. This saves 200% of time later.
+
+### Week 1-2: Foundation
+Build the boring stuff first: Database schema, API endpoints, Basic auth flow.
+
+### Week 3-4: Features
+Now I can move **fast** because the foundation is solid. I work in vertical slices: Pick one feature -> Build frontend -> backend -> database -> Deploy -> Test.
+
+## The Secret Weapon: MDX
+
+For content-heavy sites, MDX is a game-changer. It lets me write content in Markdown (fast, clean) while embedding React components for interactivity.
+
+## The Bottom Line
+
+Building great software isn't about knowing every framework or library. It's about:
+
+<IconBullet items={[
+  "Choosing simple, proven tools",
+  "Building great foundations",
+  "Shipping iteratively",
+  "Learning from mistakes"
+]} />
+
+The tools will change. The principles won't.

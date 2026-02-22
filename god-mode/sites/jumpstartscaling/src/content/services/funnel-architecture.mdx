@@ -1,0 +1,230 @@
+---
+title: "Funnel Architecture"
+description: "Conversion-optimized funnels engineered to turn traffic into revenue. We design, build, and optimize multi-step sales funnels that convert at 2-3x industry averages."
+palette: "gold"
+order: 2
+keyMetrics:
+  - label: "Avg Conversion Lift"
+    value: "2.7x"
+  - label: "Revenue Per Visitor"
+    value: "+185%"
+  - label: "Funnel Completion Rate"
+    value: "68%"
+---
+
+import ParallaxHero from '../../components/ui/ParallaxHero.astro';
+import Hero from '../../components/ui/Hero.astro';
+import AnimatedSection from '../../components/ui/AnimatedSection.astro';
+import GlassCard from '../../components/ui/GlassCard.astro';
+import PullQuote from '../../components/ui/PullQuote.astro';
+import InteractiveTimeline from '../../components/visuals/InteractiveTimeline.tsx';
+import ScrollRevealGrid from '../../components/ui/ScrollRevealGrid.tsx';
+import BentoGrid from '../../components/ui/BentoGrid.astro';
+import ScalingSurvey from '../../components/interactivity/ScalingSurvey.tsx';
+import CTA from '../../components/ui/CTA.astro';
+import BreakEvenCalculator from '../../components/calculators/BreakEvenCalculator.tsx';
+import EmailROICalculator from '../../components/calculators/EmailROICalculator.tsx';
+
+<section class="section dark py-20">
+  <div class="container text-center max-w-5xl mx-auto">
+    <AnimatedSection delay={100}>
+      <h1 class="text-5xl md:text-7xl font-black gradient-text mb-12 leading-tight">
+        Why Your Beautiful Website Is Quietly Killing Your Conversions...
+        <br class="hidden md:block" />
+        <span class="text-white block mt-4 text-4xl md:text-5xl">And the Proven Funnel Architecture That Turns Traffic Into Revenue at 2-3x Industry Averages</span>
+      </h1>
+      <p class="text-2xl md:text-3xl text-white/85 mb-16 max-w-4xl mx-auto leading-relaxed">
+        (Even if you're already spending $10K+/month on ads)
+      </p>
+      <div class="flex flex-col sm:flex-row justify-center gap-8">
+        <a href="/audit" class="px-12 py-6 bg-white text-black font-bold text-2xl rounded-2xl hover:scale-105 transition shadow-2xl no-underline">
+          Start Funnel Audit
+        </a>
+        <a href="#blueprint" class="px-12 py-6 border-2 border-[#E8C677] text-[#E8C677] font-bold text-2xl rounded-2xl hover:bg-[#E8C677]/10 transition no-underline">
+          See the 4-Step Blueprint →
+        </a>
+      </div>
+    </AnimatedSection>
+  </div>
+</section>
+
+{/* Problem Hook (Light - Short, Punchy) */}
+<section class="section light py-20">
+  <div class="container max-w-6xl mx-auto">
+    <AnimatedSection delay={200}>
+      <h2 class="text-5xl md:text-6xl font-black text-center mb-16 text-black">
+        **Friction Is the Silent Conversion Killer**
+      </h2>
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <div class="space-y-8 text-black prose prose-xl">
+          <p class="text-2xl font-bold">Here's the brutal truth most agencies won't tell you:</p>
+          <p class="text-xl">A beautiful website is just a brochure.</p>
+          <p class="text-xl">A funnel is a guided sales conversation.</p>
+          <p class="text-xl">Most companies dump paid traffic onto homepages full of navigation, distractions, and zero urgency.</p>
+          <p class="text-xl font-bold text-red-600">Result? 97-98% of visitors leave without buying.</p>
+          <p class="text-xl">You're paying for traffic... just to watch it vanish.</p>
+          <p class="text-xl">But what if every click moved the prospect one step closer to "take my money"?</p>
+        </div>
+        <div class="glass-card p-12">
+          <blockquote class="text-3xl md:text-4xl font-bold italic text-black leading-tight">
+            "If you confuse them, you lose them."
+          </blockquote>
+          <cite class="block mt-8 text-right text-2xl font-mono text-[#E8C677] uppercase tracking-widest">
+            — Conversion Law
+          </cite>
+        </div>
+      </div>
+    </AnimatedSection>
+  </div>
+</section>
+
+{/* Blueprint Intro (Dark) */}
+<section id="blueprint" class="section dark py-20">
+  <div class="container max-w-6xl mx-auto text-center">
+    <AnimatedSection delay={300}>
+      <h2 class="text-5xl md:text-7xl font-black gradient-text mb-12">
+        The Architecture of Conversion
+      </h2>
+      <p class="text-2xl md:text-3xl text-white/85 mb-16 max-w-4xl mx-auto">
+        Our proven 4-step blueprint engineered for high-velocity funnels that convert cold traffic at 2-3x industry averages.
+      </p>
+    </AnimatedSection>
+  </div>
+</section>
+
+{/* 4-Step Timeline (Light - Interactive) */}
+<section class="section light py-20">
+  <div class="container max-w-6xl mx-auto">
+    <AnimatedSection delay={400}>
+      <InteractiveTimeline client:load steps={[
+                 {title: "Step 1: The Offer", content: "We structure an irresistible value proposition with guarantees, bonuses, and risk-reversals."},
+                 {title: "Step 2: The Mechanism", content: "We explain exactly HOW you deliver the result — your unique mechanism that differentiates you."},
+                 {title: "Step 3: The Proof", content: "Social proof stacking: Case studies, testimonials, data visualization that overwhelm skepticism."},
+                 {title: "Step 4: The Path", content: "Reducing friction: One-click checkouts, pre-filled forms, clear visual cues."}
+              ]} />
+      
+      {/* Expanded Step Details (Short & Punchy) */}
+      <div class="grid lg:grid-cols-2 gap-12 mt-20">
+        <div class="glass-card p-12">
+          <h3 class="text-3xl font-bold mb-6 text-black">Step 1: The Offer</h3>
+          <p class="text-lg mb-6 text-black/80">We structure an irresistible value proposition with guarantees, bonuses, and risk-reversals that make saying "no" feel foolish.</p>
+          <p class="font-bold text-[#E8C677]">Result: Prospects think "This is too good to pass up."</p>
+        </div>
+        <div class="glass-card p-12">
+          <h3 class="text-3xl font-bold mb-6 text-black">Step 2: The Mechanism</h3>
+          <p class="text-lg mb-6 text-black/80">We explain exactly HOW you deliver the result — your unique mechanism that differentiates you from everything they've tried.</p>
+          <p class="font-bold text-[#E8C677]">Result: They think "This is different. This might actually work."</p>
+        </div>
+        <div class="glass-card p-12">
+          <h3 class="text-3xl font-bold mb-6 text-black">Step 3: The Proof</h3>
+          <p class="text-lg mb-6 text-black/80">Social proof stacking: Case studies, testimonials, data visualization that overwhelm skepticism.</p>
+          <p class="font-bold text-[#E8C677]">Result: They think "If it worked for them, it'll work for me."</p>
+        </div>
+        <div class="glass-card p-12">
+          <h3 class="text-3xl font-bold mb-6 text-black">Step 4: The Path</h3>
+          <p class="text-lg mb-6 text-black/80">Reducing friction: One-click checkouts, pre-filled forms, clear visual cues.</p>
+          <p class="font-bold text-[#E8C677]">Result: They think "This is easy. Why not?"</p>
+        </div>
+      </div>
+    </AnimatedSection>
+  </div>
+</section>
+
+{/* Metrics Proof (Dark) */}
+<section class="section dark py-20">
+  <div class="container max-w-6xl mx-auto">
+    <AnimatedSection delay={500}>
+      <h2 class="text-5xl md:text-6xl font-black gradient-text text-center mb-16">
+        Real Results From Engineered Funnels
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="glass-card p-12 text-center">
+          <div class="text-6xl font-black gradient-text mb-4">2.7x</div>
+          <p class="text-2xl font-bold text-white mb-2">Avg Conversion Lift</p>
+          <p class="text-white/70">From cold traffic to qualified buyers</p>
+        </div>
+        <div class="glass-card p-12 text-center">
+          <div class="text-6xl font-black gradient-text mb-4">+185%</div>
+          <p class="text-2xl font-bold text-white mb-2">Revenue Per Visitor</p>
+          <p class="text-white/70">Same traffic, dramatically more revenue</p>
+        </div>
+        <div class="glass-card p-12 text-center">
+          <div class="text-6xl font-black gradient-text mb-4">68%</div>
+          <p class="text-2xl font-bold text-white mb-2">Funnel Completion Rate</p>
+          <p class="text-white/70">Prospects actually finish the journey</p>
+        </div>
+      </div>
+    </AnimatedSection>
+  </div>
+</section>
+
+{/* RPS Economics (Light) */}
+<section class="section light py-20">
+  <div class="container max-w-6xl mx-auto">
+    <AnimatedSection delay={600}>
+      <h2 class="text-5xl md:text-6xl font-black text-center mb-16 text-black">
+        Revenue Per Session: The Ultimate Funnel Metric
+      </h2>
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <div class="prose prose-xl text-black">
+          <p class="text-2xl font-bold mb-8">The ultimate metric isn't traffic or conversions...</p>
+          <p class="text-xl mb-6">It's RPS: Revenue Per Session.</p>
+          <p class="text-xl mb-6">By optimizing conversion rate AND Average Order Value simultaneously, we routinely double RPS without adding a single extra visitor.</p>
+          <p class="text-xl mb-6">This creates the margin to outspend competitors on ads.</p>
+          <p class="text-xl font-bold text-[#E8C677] mb-8">The business that can afford to pay the most to acquire a customer wins.</p>
+          <blockquote class="text-3xl italic font-bold border-l-4 border-[#E8C677] pl-8 py-4">
+            "The business that can afford to pay the most to acquire a customer wins."
+            <cite class="block text-right text-xl font-mono text-[#E8C677] mt-4 not-italic">— Dan Kennedy</cite>
+          </blockquote>
+        </div>
+        <div>
+          <BreakEvenCalculator client:visible />
+          <p class="mt-8 text-center text-muted">See how small improvements create massive margin to dominate ad auctions.</p>
+        </div>
+      </div>
+    </AnimatedSection>
+  </div>
+</section>
+
+{/* Related Services (Dark) */}
+<section class="section dark py-20">
+  <div class="container max-w-6xl mx-auto">
+    <AnimatedSection delay={700}>
+      <h2 class="text-5xl md:text-6xl font-black gradient-text text-center mb-16">
+        Complete Your Growth Stack
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <a href="/services/paid-acquisition" class="glass-card p-12 group hover:border-[#E8C677] transition-all no-underline block">
+          <h3 class="text-3xl font-bold mb-6 text-white group-hover:text-[#E8C677] transition">Paid Acquisition</h3>
+          <p class="text-white/80 text-lg mb-8">Drive high-volume traffic to your new conversion-optimized funnel.</p>
+          <span class="text-[#E8C677] text-5xl group-hover:translate-x-4 transition-transform inline-block">→</span>
+        </a>
+        <a href="/services/authority-engine" class="glass-card p-12 group hover:border-[#E8C677] transition-all no-underline block">
+          <h3 class="text-3xl font-bold mb-6 text-white group-hover:text-[#E8C677] transition">Authority Engine</h3>
+          <p class="text-white/80 text-lg mb-8">Build trust and pre-sell prospects before they even hit your funnel.</p>
+          <span class="text-[#E8C677] text-5xl group-hover:translate-x-4 transition-transform inline-block">→</span>
+        </a>
+        <a href="/services/crm-transformation" class="glass-card p-12 group hover:border-[#E8C677] transition-all no-underline block">
+          <h3 class="text-3xl font-bold mb-6 text-white group-hover:text-[#E8C677] transition">CRM Transformation</h3>
+          <p class="text-white/80 text-lg mb-8">Nurture and convert the leads that don't buy immediately.</p>
+          <span class="text-[#E8C677] text-5xl group-hover:translate-x-4 transition-transform inline-block">→</span>
+        </a>
+      </div>
+    </AnimatedSection>
+  </div>
+</section>
+
+{/* Final CTA (Light) */}
+<section class="section light py-20">
+  <div class="container max-w-4xl mx-auto text-center">
+    <AnimatedSection delay={800}>
+      <h2 class="text-5xl md:text-6xl font-black mb-12 text-black">
+        Ready to Turn Your Traffic Into Predictable Revenue?
+      </h2>
+      <p class="text-2xl mb-16 text-black/80">
+        Get your free Funnel Audit. We'll map your biggest conversion leaks and show you exactly how to fix them.
+      </p>
+      <ScalingSurvey client:load />
+    </AnimatedSection>
+  </div>
+</section>

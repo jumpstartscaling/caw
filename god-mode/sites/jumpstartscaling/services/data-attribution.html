@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Attribution | Server-Side GTM & Profit Analytics</title>
+    <meta name="description"
+        content="The Pixel is dead. We engineer Server-Side Tracking (sGTM) infrastructure to restore 100% data accuracy in a post-iOS14 world.">
+
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Data Attribution | Server-Side GTM & Profit Analytics">
+    <meta property="og:description" content="The Pixel is dead. Restore 100% data accuracy with Server-Side Tracking.">
+
+    <style>
+        :root {
+            --color-obsidian: #050505;
+            --color-gold: #C9A961;
+            --color-cream: #FFE5A0;
+            --color-ash: #111111;
+        }
+
+        body {
+            background-color: var(--color-obsidian);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease-in;
+        }
+
+        body.loaded {
+            opacity: 1;
+        }
+
+        /* Typography */
+        .font-sans {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--color-obsidian);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--color-gold);
+        }
+
+        /* Utilities */
+        .glass-nav {
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(201, 169, 97, 0.1);
+        }
+
+        .gold-glow {
+            text-shadow: 0 0 20px rgba(201, 169, 97, 0.3);
+        }
+
+        .nav-link-active {
+            color: white !important;
+            border-bottom: 2px solid var(--color-gold);
+            text-shadow: 0 0 10px rgba(201, 169, 97, 0.4);
+        }
+
+        /* Article Styles */
+        article h2 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 2.25rem;
+            color: white;
+            margin-top: 4rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        article h3 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 1.5rem;
+            color: var(--color-cream);
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        article p {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.125rem;
+            line-height: 1.8;
+            color: #D1D5DB;
+            /* gray-300 */
+            margin-bottom: 1.5rem;
+        }
+
+        article ul {
+            list-style: none;
+            margin-bottom: 1.5rem;
+            padding-left: 1rem;
+        }
+
+        article li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #D1D5DB;
+        }
+
+        article li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--color-gold);
+        }
+
+        /* Range Slider */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+            background: var(--color-gold);
+            cursor: pointer;
+            margin-top: -10px;
+            box-shadow: 0 0 10px rgba(201, 169, 97, 0.5);
+        }
+
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #333;
+            border-radius: 2px;
+        }
+    </style>
+
+    <!-- Local Assets -->
+    <link rel="stylesheet" href="../assets/css/tailwind.min.css">
+    <script src="../assets/js/alpine.min.js" defer></script>
+
+    <!-- JSON-LD: Service Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "Data Attribution & Server-Side Tracking",
+      "provider": {
+        "@type": "Organization",
+        "name": "Jumpstart Scaling"
+      },
+      "description": "We engineer Server-Side Tracking (sGTM) infrastructure to restore 100% data accuracy.",
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Data Engineering Services",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Server-Side GTM Setup"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "BigQuery Analytics"
+            }
+          }
+        ]
+      }
+    }
+    </script>
+
+    <!-- Navigation Logic (Shared) -->
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('navLogic', () => ({
+                scrollPercent: 0,
+                isScrolled: false,
+                mobileMenuOpen: false,
+                activeLink: '05',
+
+                init() {
+                    document.body.classList.add('loaded');
+                    this.checkScroll();
+                    window.addEventListener('scroll', () => { this.checkScroll(); });
+                },
+
+                checkScroll() {
+                    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                    this.scrollPercent = (winScroll / height) * 100;
+                    this.isScrolled = winScroll > 50;
+                },
+
+                toggleMobileMenu() {
+                    this.mobileMenuOpen = !this.mobileMenuOpen;
+                    document.body.style.overflow = this.mobileMenuOpen ? 'hidden' : '';
+                }
+            }));
+
+            // Moat Audit Logic
+            Alpine.data('moatAudit', () => ({
+                step: 1, loading: false, loadingText: '> INITIALIZING DIAGNOSTIC...', score: 0,
+                formData: { friction_point: '', market_velocity: '', name: '', email: '', website: '', source_page: 'data-attribution' },
+                selectFriction(value) { this.formData.friction_point = value; this.step = 2; },
+                selectVelocity(value) { this.formData.market_velocity = value; this.runAnalysis(); },
+                async runAnalysis() {
+                    this.step = 3; this.loading = true;
+                    await new Promise(r => setTimeout(r, 1500));
+                    this.score = Math.floor(Math.random() * (38 - 14 + 1)) + 14;
+                    this.loading = false; this.step = 4;
+                },
+                submitToGravity() {
+                    fetch('https://n8n.your-vps.com/webhook/lead-capture', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(this.formData) })
+                        .then(() => alert('SYSTEM OVERRIDE: AUDIT DISPATCHED.'))
+                        .catch(() => alert('SYSTEM OVERRIDE: AUDIT DISPATCHED (Simulation)'));
+                }
+            }));
+
+            // Data Loss Simulator Logic
+            Alpine.data('dataSimulator', () => ({
+                adSpend: 50000,
+                clientSideLoss: 30, // 30% loss is standard post-iOS14
+
+                get clientSideRevenue() {
+                    // Assume 3x ROAS baseline, minus loss
+                    const rawRevenue = this.adSpend * 3;
+                    return Math.floor(rawRevenue * (1 - (this.clientSideLoss / 100)));
+                },
+
+                get serverSideRevenue() {
+                    // Server side restores near 100% fidelity
+                    return this.adSpend * 3;
+                },
+
+                get recoveredRevenue() {
+                    return this.serverSideRevenue - this.clientSideRevenue;
+                },
+
+                formatMoney(amount) {
+                    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(amount);
+                }
+            }));
+        });
+    </script>
+</head>
+
+<body x-data="navLogic" class="antialiased bg-black selection:bg-gold selection:text-black">
+
+    <!-- Global Progress Engine -->
+    <div class="fixed top-0 left-0 h-0.5 z-[100] transition-all duration-100 ease-linear"
+        :style="`width: ${scrollPercent}%; background: linear-gradient(to right, #C9A961, #FFE5A0);`"></div>
+
+    <!-- Executive Navigation Header -->
+    <nav class="fixed top-0 w-full z-50 transition-all duration-500 ease-in-out h-24 flex items-center"
+        :class="isScrolled ? 'glass-nav h-20' : 'bg-transparent border-b border-white/5'">
+        <div class="w-full max-w-[1400px] mx-auto px-6 lg:px-12 flex justify-between items-center">
+            <a href="../index.html" class="group flex items-center gap-4 focus:outline-none">
+                <svg class="w-10 h-10 text-gold transition-transform duration-500 group-hover:scale-110"
+                    viewBox="0 0 40 40" fill="none">
+                    <path d="M20 5L30 25H10L20 5Z" stroke="currentColor" stroke-width="2" />
+                    <path d="M20 15L25 25H15L20 15Z" fill="currentColor" class="opacity-50" />
+                    <rect x="18" y="30" width="4" height="4" fill="currentColor" />
+                </svg>
+                <div class="flex flex-col"><span
+                        class="font-bold text-lg tracking-tight text-white group-hover:text-gold transition-colors duration-300">JUMPSTART</span><span
+                        class="font-mono text-[10px] tracking-[0.3em] text-gold uppercase">SCALING</span></div>
+            </a>
+            <div class="hidden xl:flex items-center gap-10 font-mono text-xs tracking-widest text-gray-500">
+                <a href="paid-acquisition.html"
+                    class="nav-link py-2 border-b-2 border-transparent hover:text-white hover:scale-105 transition-all duration-300">01
+                    ACQUISITION</a>
+                <a href="funnel-architecture.html"
+                    class="nav-link py-2 border-b-2 border-transparent hover:text-white hover:scale-105 transition-all duration-300">02
+                    ARCHITECTURE</a>
+                <a href="crm-transformation.html"
+                    class="nav-link py-2 border-b-2 border-transparent hover:text-white hover:scale-105 transition-all duration-300">03
+                    AUTOMATION</a>
+                <a href="authority-engine.html"
+                    class="nav-link py-2 border-b-2 border-transparent hover:text-white hover:scale-105 transition-all duration-300">04
+                    AUTHORITY</a>
+                <a href="data-attribution.html"
+                    class="nav-link py-2 border-b-2 border-transparent hover:text-white hover:scale-105 transition-all duration-300 nav-link-active">05
+                    ANALYTICS</a>
+                <a href="growth-retainer.html"
+                    class="nav-link py-2 border-b-2 border-transparent hover:text-white hover:scale-105 transition-all duration-300">06
+                    STRATEGY</a>
+                <button onclick="document.querySelector('#moat-audit').scrollIntoView({behavior: 'smooth'})"
+                    class="ml-4 px-6 py-2 border border-gold text-gold hover:bg-gold hover:text-black font-bold transition-all duration-300 shadow-[0_0_15px_rgba(201,169,97,0.1)] hover:shadow-[0_0_25px_rgba(201,169,97,0.4)]">START
+                    AUDIT</button>
+            </div>
+            <button @click="toggleMobileMenu"
+                class="xl:hidden z-50 text-white hover:text-gold transition-colors duration-300">
+                <div class="space-y-2"><span class="block w-8 h-0.5 bg-current transition-all duration-300"
+                        :class="mobileMenuOpen ? 'rotate-45 translate-y-2.5 bg-gold' : ''"></span><span
+                        class="block w-8 h-0.5 bg-current transition-all duration-300"
+                        :class="mobileMenuOpen ? 'opacity-0' : ''"></span><span
+                        class="block w-8 h-0.5 bg-current transition-all duration-300"
+                        :class="mobileMenuOpen ? '-rotate-45 -translate-y-2.5 bg-gold' : ''"></span></div>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Content Structure -->
+    <div class="pt-32 pb-24 max-w-[1400px] mx-auto px-6 lg:px-12 flex flex-col lg:flex-row gap-16">
+
+        <!-- Sticky Sidebar -->
+        <aside class="hidden lg:block w-64 shrink-0">
+            <div class="sticky top-32">
+                <h4 class="font-mono text-xs text-gold tracking-widest mb-6">TABLE OF PROTOCOLS</h4>
+                <ul class="space-y-4 text-xs font-mono text-gray-500 border-l border-white/10 pl-4">
+                    <li><a href="#pixel-death"
+                            class="hover:text-gold block py-1 border-l-2 border-transparent hover:border-gold -ml-[17px] pl-4 transition-all">01
+                            // THE DEATH OF THE PIXEL</a></li>
+                    <li><a href="#sgtm"
+                            class="hover:text-gold block py-1 border-l-2 border-transparent hover:border-gold -ml-[17px] pl-4 transition-all">02
+                            // SERVER-SIDE GTM</a></li>
+                    <li><a href="#simulator"
+                            class="hover:text-gold block py-1 border-l-2 border-transparent hover:border-gold -ml-[17px] pl-4 transition-all">03
+                            // REVENUE SIMULATOR</a></li>
+                    <li><a href="#profit-metric"
+                            class="hover:text-gold block py-1 border-l-2 border-transparent hover:border-gold -ml-[17px] pl-4 transition-all">04
+                            // PROFIT VS ROAS</a></li>
+                    <li><a href="#bigquery"
+                            class="hover:text-gold block py-1 border-l-2 border-transparent hover:border-gold -ml-[17px] pl-4 transition-all">05
+                            // BIGQUERY ARCHITECTURE</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Article -->
+        <main class="w-full max-w-4xl">
+
+            <header class="mb-16">
+                <div
+                    class="inline-flex items-center gap-2 px-3 py-1 rounded border border-gold/30 bg-gold/5 text-gold font-mono text-xs tracking-widest mb-6">
+                    <span class="w-2 h-2 bg-gold rounded-full animate-pulse"></span>
+                    PROTOCOL 05
+                </div>
+                <h1 class="text-5xl md:text-7xl font-bold tracking-tight text-white mb-8">
+                    Data Attribution: The Mathematics of Truth.
+                </h1>
+                <p class="text-xl text-gray-400 leading-relaxed max-w-2xl">
+                    The Pixel is dead. We engineer Server-Side Tracking (sGTM) infrastructure to restore 100% data
+                    fidelity in a post-iOS14 privacy landscape.
+                </p>
+            </header>
+
+            <!-- SECTION 1: The Death of the Pixel -->
+            <article id="pixel-death" class="border-t border-white/10 pt-12">
+                <h2>The Death of the Pixel (iOS 14 & AdBlock)</h2>
+                <p>For a decade, digital marketing relied on the "Third-Party Cookie" (The Pixel). It was a simple, lazy
+                    era where Facebook and Google tracked users across the web with near-perfect accuracy. That era
+                    ended with iOS 14.5.</p>
+
+                <p>Apple's App Tracking Transparency (ATT) and the rise of Brave, Firefox, and AdBlockers have blinded
+                    client-side tracking. Today, relying on the Facebook Pixel means you are seeing only 60-70% of your
+                    actual conversions. This creates a "Signal Loss" loop: the algorithm thinks your ads are failing
+                    (when they are working), so it raises your costs and optimizes for the wrong people.</p>
+
+                <p>If you are spending $50k/month on ads and relying on browser pixels, you are essentially flying a
+                    plane with half the instrument panel blacked out.</p>
+
+                <blockquote>
+                    "You cannot scale what you cannot measure. The war for market share is now won by whoever owns the
+                    most accurate data set."
+                </blockquote>
+            </article>
+
+            <!-- SECTION 2: Server-Side GTM (sGTM) -->
+            <article id="sgtm" class="border-t border-white/10 pt-12">
+                <h2>Server-Side GTM: The First-Party Moat</h2>
+                <p>The solution is not "better ads"; it is better infrastructure. We implement <strong>Server-Side
+                        Google Tag Manager (sGTM)</strong> on a custom subdomain (e.g., `metrics.yourdomain.com`).</p>
+
+                <p>Instead of the user's browser sending data to Facebook (which gets blocked), the browser sends data
+                    to <em>your</em> secure server. Your server then "anonymizes" and enriches that data before
+                    forwarding it to the ad platforms via their Conversion APIs (CAPI). Because this happens
+                    server-to-server, AdBlockers cannot see it, and Apple cannot block it.</p>
+
+                <h3>The "Enhanced Match Quality" Lift</h3>
+                <p>By moving to Server-Side tracking, we typically see "Event Match Quality" scores on Facebook jump
+                    from 4.5/10 to 9.2/10. This feeds the algorithm high-fidelity data, lowering your CPMs and
+                    increasing your reporting accuracy by 25-30% overnight.</p>
+            </article>
+
+            <!-- SECTION 3: Data Loss Simulator (Alpine Interactive) -->
+            <article id="simulator" class="border-t border-white/10 pt-12">
+                <h2>Data Loss Simulator</h2>
+                <p>Visualize the financial impact of client-side signal loss. Use the slider to adjust your monthly ad
+                    spend and see the "Invisible Revenue" you are currently generating but failing to attribute.</p>
+
+                <!-- Interactive Simulator -->
+                <div x-data="dataSimulator"
+                    class="my-12 p-8 bg-black border border-white/10 rounded-xl relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gold/5 blur-3xl"></div>
+                    <div class="relative z-10">
+
+                        <div class="mb-8">
+                            <label class="block font-mono text-xs text-gold tracking-widest mb-4">MONTHLY AD
+                                SPEND</label>
+                            <div class="flex items-center gap-4">
+                                <span class="font-mono text-gray-500">$10k</span>
+                                <input type="range" min="10000" max="500000" step="5000" x-model="adSpend"
+                                    class="flex-1">
+                                <span class="font-mono text-gray-500">$500k</span>
+                            </div>
+                            <div class="text-center mt-2 font-bold text-2xl text-white" x-text="formatMoney(adSpend)">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <!-- Client-Side Reality -->
+                            <div class="p-6 bg-red-900/10 border border-red-500/20 rounded-lg text-center">
+                                <h4 class="text-red-400 font-bold mb-2">Client-Side Tracking</h4>
+                                <p class="text-xs text-gray-500 mb-4">(Standard Pixel Setup)</p>
+                                <div class="text-3xl font-bold text-gray-300 mb-2"
+                                    x-text="formatMoney(clientSideRevenue)"></div>
+                                <span class="text-xs font-mono text-red-500">30% DATA LOSS DETECTED</span>
+                            </div>
+
+                            <!-- Server-Side Reality -->
+                            <div
+                                class="p-6 bg-green-900/10 border border-green-500/20 rounded-lg text-center relative overflow-hidden">
+                                <div class="absolute inset-0 bg-gold/5"></div>
+                                <h4 class="text-gold font-bold mb-2">Server-Side Tracking</h4>
+                                <p class="text-xs text-gray-500 mb-4">(sGTM Infrastructure)</p>
+                                <div class="text-3xl font-bold text-white mb-2" x-text="formatMoney(serverSideRevenue)">
+                                </div>
+                                <span class="text-xs font-mono text-gold">100% FIDELITY RESTORED</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 pt-8 border-t border-white/10 text-center">
+                            <p class="font-mono text-xs text-gray-400 mb-2">REVENUE RECOVERED WITH SGTM:</p>
+                            <p class="text-4xl font-bold text-gold" x-text="formatMoney(recoveredRevenue)"></p>
+                        </div>
+
+                    </div>
+                </div>
+            </article>
+
+            <!-- SECTION 4: Profit vs. ROAS -->
+            <article id="profit-metric" class="border-t border-white/10 pt-12">
+                <h2>The New North Star: Profit vs. ROAS</h2>
+                <p>Return on Ad Spend (ROAS) is a vanity metric. It lies. You can have a 5.0 ROAS and go bankrupt if
+                    your margins are thin. You can have a 1.5 ROAS and print millions if your LTV is high.</p>
+                <p>We deprecate ROAS in favor of <strong>Contribution Margin (CM)</strong> and <strong>New Customer
+                        Profit (NCP)</strong>. By integrating your Stripe/Stripe data directly into the dashboard (Data
+                    Warehousing), we track net profit per channel. This allows you to scale based on bank account
+                    reality, not ad manager fantasy.</p>
+            </article>
+
+            <!-- SECTION 5: BigQuery Architecture -->
+            <article id="bigquery" class="border-t border-white/10 pt-12">
+                <h2>BigQuery Architecture</h2>
+                <p>For clients scaling past $10M/year, spreadsheets break. We engineer a <strong>BigQuery Data
+                        Warehouse</strong>.</p>
+                <ul>
+                    <li><strong>Ingest:</strong> FiveTran pipes data from FB, Google, TikTok, Shopify, and CRM into one
+                        SQL database.</li>
+                    <li><strong>Transform:</strong> dbt (Data Build Tool) normalizes the cost and revenue figures.</li>
+                    <li><strong>Visualize:</strong> Looker Studio displays a "Command Center" dashboard that shows
+                        real-time P&L by acquisition channel.</li>
+                </ul>
+            </article>
+
+        </main>
+    </div>
+
+    <!-- MOAT AUDIT COMPONENT (Inject) -->
+    <section class="py-24 px-6 border-t border-white/10 bg-black/50">
+        <div id="moat-audit" class="w-full max-w-4xl mx-auto" x-data="moatAudit">
+            <div class="glass-panel rounded-xl overflow-hidden relative border border-white/10 shadow-2xl">
+                <div class="px-8 py-6 border-b border-white/5 flex justify-between items-center bg-black/40">
+                    <div class="flex items-center gap-3">
+                        <div class="w-2 h-2 rounded-full bg-gold animate-pulse"></div><span
+                            class="font-mono text-xs tracking-[0.2em] text-gold/80 uppercase">PROTOCOL 00: THE MOAT
+                            DISCOVERY</span>
+                    </div>
+                    <div class="font-mono text-xs text-gray-600"><span x-text="step"></span> / 4 STEPS</div>
+                </div>
+                <!-- ... (Standard Audit Body) ... -->
+                <div class="p-8 md:p-12 min-h-[400px] flex flex-col justify-center">
+                    <div x-show="step === 1">
+                        <h2 class="text-3xl font-bold text-white mb-4">Identify Your Primary Constraint.</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
+                            <button @click="selectFriction('INBOUND_FLOW')"
+                                class="p-6 text-left border border-white/10 hover:border-gold bg-white/5"><span
+                                    class="block text-gold text-xs mb-2">01 // VOLUME</span><span
+                                    class="font-bold">INBOUND FLOW</span></button>
+                            <button @click="selectFriction('SALES_VELOCITY')"
+                                class="p-6 text-left border border-white/10 hover:border-gold bg-white/5"><span
+                                    class="block text-gold text-xs mb-2">02 // CONVERSION</span><span
+                                    class="font-bold">SALES VELOCITY</span></button>
+                            <button @click="selectFriction('SYSTEM_LIFTCYCLE')"
+                                class="p-6 text-left border border-white/10 hover:border-gold bg-white/5"><span
+                                    class="block text-gold text-xs mb-2">03 // RETENTION</span><span
+                                    class="font-bold">SYSTEM LIFECYCLE</span></button>
+                        </div>
+                    </div>
+                    <div x-show="step === 2" x-cloak>
+                        <h2 class="text-3xl font-bold text-white mb-4">Current Market Velocity.</h2>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+                            <button @click="selectVelocity('$20k - $50k')"
+                                class="py-4 border border-white/10 hover:border-gold text-gray-300 font-mono text-sm">$20k
+                                - $50k</button>
+                            <button @click="selectVelocity('$50k - $100k')"
+                                class="py-4 border border-white/10 hover:border-gold text-gray-300 font-mono text-sm">$50k
+                                - $100k</button>
+                            <button @click="selectVelocity('$100k - $500k')"
+                                class="py-4 border border-white/10 hover:border-gold text-gray-300 font-mono text-sm">$100k
+                                - $500k</button>
+                            <button @click="selectVelocity('$500k+')"
+                                class="py-4 border border-white/10 hover:border-gold text-gold font-mono text-sm">$500k+</button>
+                        </div>
+                    </div>
+                    <div x-show="step === 3" x-cloak class="text-center">
+                        <div
+                            class="inline-block w-16 h-16 border-2 border-gold rounded-full animate-spin mb-4 border-t-transparent">
+                        </div>
+                        <p class="font-mono text-gold text-sm tracking-widest animate-pulse" x-text="loadingText"></p>
+                    </div>
+                    <div x-show="step === 4" x-cloak class="flex flex-col md:flex-row gap-8">
+                        <div class="w-full md:w-1/2 p-6 bg-white/5 border border-gold/20 rounded-lg">
+                            <h3 class="text-gold font-bold mb-2">Analysis Complete.</h3>
+                            <p class="text-sm text-gray-400">Your specific authority score is <span
+                                    x-text="score"></span>%. Enter details to unlock full report.</p>
+                        </div>
+                        <div class="w-full md:w-1/2 space-y-4">
+                            <input type="text" x-model="formData.name" placeholder="Full Name"
+                                class="w-full bg-black border border-white/20 p-3 text-white text-sm font-mono focus:border-gold outline-none">
+                            <input type="email" x-model="formData.email" placeholder="Business Email"
+                                class="w-full bg-black border border-white/20 p-3 text-white text-sm font-mono focus:border-gold outline-none">
+                            <button @click="submitToGravity()"
+                                class="w-full py-4 bg-gold text-black font-bold tracking-wider hover:bg-white transition-all">EXECUTE
+                                DIAGNOSTIC</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#050505] border-t border-white/10 pt-24 pb-12 relative z-10">
+        <div class="max-w-[1400px] mx-auto px-6 lg:px-12 grid grid-cols-1 md:grid-cols-4 gap-12">
+            <div>
+                <div class="flex items-center gap-2 mb-6"><svg class="w-6 h-6 text-gold" viewBox="0 0 40 40"
+                        fill="none">
+                        <path d="M20 5L30 25H10L20 5Z" stroke="currentColor" stroke-width="2" />
+                    </svg><span class="font-bold text-white">JUMPSTART</span></div>
+                <p class="text-gray-500 text-sm leading-relaxed mb-6">The Authority Engine is the only viable moat in
+                    the AI-saturated landscape of 2026.</p>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-6 font-mono text-xs tracking-widest">PROTOCOLS</h4>
+                <div class="flex flex-col gap-3 text-sm text-gray-400">
+                    <a href="paid-acquisition.html" class="hover:text-gold">01 / Paid Acquisition</a>
+                    <a href="funnel-architecture.html" class="hover:text-gold">02 / Funnel Architecture</a>
+                    <a href="crm-transformation.html" class="hover:text-gold">03 / CRM Automation</a>
+                    <a href="authority-engine.html" class="hover:text-gold">04 / Authority Engine</a>
+                    <a href="data-attribution.html" class="hover:text-gold">05 / Data Attribution</a>
+                </div>
+            </div>
+            <!-- ... -->
+        </div>
+
+        <!-- Next Protocol Interlinking (Prompt 6 Req) -->
+        <div class="max-w-[1400px] mx-auto px-6 lg:px-12 mt-12 pt-12 border-t border-white/5 text-center">
+            <p class="text-gray-500 text-sm mb-4">GROWTH IS THE NEXT STEP.</p>
+            <a href="growth-retainer.html"
+                class="text-xl md:text-2xl font-bold text-white hover:text-gold transition-colors inline-flex items-center gap-3">
+                VIEW PROTOCOL 06: GROWTH RETAINER <span class="text-gold">→</span>
+            </a>
+        </div>
+    </footer>
+
+</body>
+
+</html>

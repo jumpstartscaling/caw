@@ -1,0 +1,120 @@
+---
+---
+
+<div class="roas-visual">
+  <h3>The Algorithm of Scale</h3>
+  <div class="chart-container">
+    <div class="bar-group">
+      <div class="bar-label">Ad Spend</div>
+      <div class="bar spend" style="height: 30%"><span>$10k</span></div>
+    </div>
+    <div class="arrow">→</div>
+    <div class="bar-group">
+      <div class="bar-label">Revenue</div>
+      <div class="bar revenue" style="height: 100%"><span>$50k</span></div>
+    </div>
+  </div>
+  <div class="metric">
+    <span class="value">5.0x</span>
+    <span class="label">Target ROAS</span>
+  </div>
+</div>
+
+<style>
+  .roas-visual {
+    background: linear-gradient(135deg, rgba(201, 169, 97, 0.1), rgba(0,0,0,0));
+    border: 1px solid rgba(201, 169, 97, 0.3);
+    padding: 2rem;
+    border-radius: 12px;
+    text-align: center;
+    max-width: 400px;
+    margin: 2rem auto;
+  }
+
+  h3 {
+    color: #C9A961;
+    font-family: 'Courier New', monospace;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+    letter-spacing: 2px;
+  }
+
+  .chart-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    height: 150px;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .bar-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    justify-content: flex-end;
+    width: 60px;
+  }
+
+  .bar {
+    width: 100%;
+    background: #333;
+    border-radius: 4px 4px 0 0;
+    position: relative;
+    transition: height 1s ease-out;
+    animation: grow 1.5s ease-out forwards;
+  }
+  
+  .revenue {
+    background: linear-gradient(0deg, #C9A961, #FFD700);
+    box-shadow: 0 0 20px rgba(201, 169, 97, 0.4);
+  }
+
+  .bar span {
+    position: absolute;
+    top: -25px;
+    width: 100%;
+    text-align: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #fff;
+  }
+
+  .bar-label {
+    margin-top: 10px;
+    font-size: 0.8rem;
+    color: #888;
+  }
+
+  .arrow {
+    font-size: 1.5rem;
+    color: #555;
+    margin-bottom: 20px;
+  }
+
+  .metric {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 1rem;
+  }
+
+  .metric .value {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1;
+  }
+
+  .metric .label {
+    font-size: 0.8rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  @keyframes grow {
+    from { height: 0; }
+  }
+</style>

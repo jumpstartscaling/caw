@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <!-- Core: Homepage -->
+    <url>
+        <loc>https://jumpstartscaling.com/</loc>
+        <lastmod>2026-02-10</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+    </url>
+    
+    <!-- Protocol 01: Paid Acquisition -->
+    <url>
+        <loc>https://jumpstartscaling.com/services/paid-acquisition.html</loc>
+        <lastmod>2026-02-10</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- Protocol 02: Funnel Architecture -->
+    <url>
+        <loc>https://jumpstartscaling.com/services/funnel-architecture.html</loc>
+        <lastmod>2026-02-10</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- Protocol 03: CRM Automation -->
+    <url>
+        <loc>https://jumpstartscaling.com/services/crm-transformation.html</loc>
+        <lastmod>2026-02-10</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- Protocol 04: Authority Engine -->
+    <url>
+        <loc>https://jumpstartscaling.com/services/authority-engine.html</loc>
+        <lastmod>2026-02-10</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- Protocol 05: Data Attribution -->
+    <url>
+        <loc>https://jumpstartscaling.com/services/data-attribution.html</loc>
+        <lastmod>2026-02-10</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- Protocol 06: Growth Retainer -->
+    <url>
+        <loc>https://jumpstartscaling.com/services/growth-retainer.html</loc>
+        <lastmod>2026-02-10</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+
+</urlset>

@@ -1,0 +1,17 @@
+{
+  "collection": "pages",
+  "exportedAt": "2025-12-13T14:49:43.379Z",
+  "recordCount": 1,
+  "data": [
+    {
+      "id": "4590c9fe-0530-43d1-9c3d-cb0adf38eba3",
+      "title": "hey",
+      "slug": "yeh",
+      "content": "hey",
+      "site_id": "01f8df35-916a-4c30-bd95-7abcb9df2e19",
+      "status": "draft",
+      "created_at": "2025-12-13T08:53:00",
+      "schema_json": null
+    }
+  ]
+}

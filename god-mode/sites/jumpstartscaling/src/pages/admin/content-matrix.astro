@@ -1,0 +1,45 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+---
+<AdminLayout title="Content Matrix">
+  <h2 class="text-xl font-bold mb-4">Content Matrix (pSEO Pages)</h2>
+  <p class="text-gray-400 mb-4">Each row = one pSEO page. <strong>Preview</strong> shows how content looks on a headless, page-speed optimized site. Use <a href="/admin/locations">Locations</a> and <a href="/admin/pseo-services">Services</a> first, then seed via <code>seed_from_exports.py</code> or add manually.</p>
+  <div id="matrix-table"><p class="text-gray-400">Loading...</p></div>
+  <p class="mt-4 text-sm text-gray-500">pSEO pages: <a href="/services/pseo/" target="_blank">/services/pseo/[slug]</a> · Preview: <a href="/api/preview/" target="_blank">/api/preview/[slug]</a> (headless, fast)</p>
+  <script>
+    async function load() {
+      try {
+        const url = (window.__ADMIN_API_BASE__ || '') + '/api/content-matrix?limit=500';
+        const r = await fetch(url);
+        const data = await r.json();
+        const rows = Array.isArray(data) ? data : [];
+        if (!r.ok) {
+          const msg = (typeof data?.detail === 'string' ? data.detail : JSON.stringify(data?.detail || data)) || r.statusText || `HTTP ${r.status}`;
+          document.getElementById('matrix-table').innerHTML = `<p class="text-red-400">API error: ${msg}</p>`;
+          return;
+        }
+        const html = `
+          <table>
+            <thead><tr><th>ID</th><th>Slug</th><th>Title</th><th>Loc</th><th>Svc</th><th>Preview</th></tr></thead>
+            <tbody>
+              ${rows.map(m => `
+                <tr>
+                  <td>${m.id}</td>
+                  <td><a href="/services/pseo/${m.slug}" target="_blank">${m.slug}</a></td>
+                  <td>${(m.title ?? '').slice(0, 50)}...</td>
+                  <td>${m.location_id ?? '-'}</td>
+                  <td>${m.service_id ?? '-'}</td>
+                  <td><a href="/api/preview/${m.slug}" target="_blank" rel="noopener">Preview</a></td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        `;
+        document.getElementById('matrix-table').innerHTML = rows.length ? html : '<p class="text-gray-400">No content matrix rows. Run seed_from_exports.py</p>';
+      } catch (e) {
+        document.getElementById('matrix-table').innerHTML = `<p class="text-red-400">Error: ${e.message}</p>`;
+      }
+    }
+    load();
+  </script>
+</AdminLayout>

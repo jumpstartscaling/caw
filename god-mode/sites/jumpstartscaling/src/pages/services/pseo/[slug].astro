@@ -1,0 +1,52 @@
+---
+// pSEO dynamic page - built from content_matrix via API at build time
+// Set PUBLIC_GOD_MODE_API_URL at build for pre-rendered pSEO pages
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import type { ContentMatrix, MatrixPermutation } from '../../../types/harris-matrix';
+
+export async function getStaticPaths() {
+  const apiBase = import.meta.env.PUBLIC_GOD_MODE_API_URL || 'https://api.jumpstartscaling.com';
+  try {
+    const res = await fetch(`${apiBase}/api/matrix/permutations`, {
+      headers: { Accept: 'application/json' },
+      // Build may run before API is up - fail gracefully
+      signal: AbortSignal.timeout(5000),
+    });
+    if (!res.ok) return [];
+    const items: MatrixPermutation[] = await res.json();
+    return items.map((item) => ({
+      params: { slug: item.slug },
+      props: { slug: item.slug },
+    }));
+  } catch {
+    return [];
+  }
+}
+
+const { slug } = Astro.props as { slug: string };
+const apiBase = import.meta.env.PUBLIC_GOD_MODE_API_URL || 'https://api.jumpstartscaling.com';
+
+let content: ContentMatrix | null = null;
+
+try {
+  const res = await fetch(`${apiBase}/api/matrix/by-slug/${slug}`, {
+    headers: { Accept: 'application/json' },
+  });
+  if (res.ok) content = await res.json();
+} catch {}
+
+if (!content) return Astro.redirect('/404');
+
+const title = content.title || `${content.slug} | Jumpstart Scaling`;
+const description = content.meta_description || `Professional scaling services from Jumpstart Scaling.`;
+const htmlContent = (content.content_json as { html?: string } | null)?.html || '<p>Content coming soon.</p>';
+---
+
+<BaseLayout title={title} description={description} palette="gold" fluid={true}>
+  <main class="min-h-screen pt-24 pb-24 px-6 max-w-4xl mx-auto">
+    <article class="prose prose-invert prose-lg max-w-none">
+      <h1 class="text-4xl font-bold mb-8">{title}</h1>
+      <div set:html={htmlContent} />
+    </article>
+  </main>
+</BaseLayout>

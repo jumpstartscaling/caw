@@ -1,0 +1,39 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+---
+<AdminLayout title="Leads">
+  <h2 class="text-xl font-bold mb-4">Leads</h2>
+  <div id="leads-table" class="overflow-x-auto">
+    <p class="text-gray-400">Loading...</p>
+  </div>
+  <script>
+    async function load() {
+      try {
+        const r = await fetch((window.__ADMIN_API_BASE__ || '') + '/api/leads?limit=500');
+        const d = await r.json();
+        const leads = d?.leads ?? [];
+        const html = `
+          <table>
+            <thead><tr><th>ID</th><th>Source</th><th>Name</th><th>Email</th><th>Phone</th><th>Date</th></tr></thead>
+            <tbody>
+              ${leads.map(l => `
+                <tr>
+                  <td>${l.id}</td>
+                  <td>${l.source ?? '-'}</td>
+                  <td>${l.name ?? '-'}</td>
+                  <td><a href="mailto:${l.email}">${l.email ?? '-'}</a></td>
+                  <td>${l.phone ?? '-'}</td>
+                  <td>${l.created_at ?? '-'}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        `;
+        document.getElementById('leads-table').innerHTML = leads.length ? html : '<p class="text-gray-400">No leads yet.</p>';
+      } catch (e) {
+        document.getElementById('leads-table').innerHTML = `<p class="text-red-400">Error: ${e.message}</p>`;
+      }
+    }
+    load();
+  </script>
+</AdminLayout>

@@ -1,0 +1,40 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+---
+<AdminLayout title="Collections">
+  <h2 class="text-xl font-bold mb-4">Collections</h2>
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="stats">
+    <a href="/jumpstart/admin/collections/page-blocks" class="bg-gray-900 rounded-lg p-4 border border-gray-800 hover:border-gold block">
+      <div class="text-2xl font-bold text-gold" id="page-blocks">-</div>
+      <div class="text-sm text-gray-400">Page Blocks</div>
+    </a>
+    <a href="/jumpstart/admin/collections/offer-blocks" class="bg-gray-900 rounded-lg p-4 border border-gray-800 hover:border-gold block">
+      <div class="text-2xl font-bold text-gold" id="offer-blocks">-</div>
+      <div class="text-sm text-gray-400">Offer Blocks</div>
+    </a>
+    <a href="/jumpstart/admin/collections/headline-inventory" class="bg-gray-900 rounded-lg p-4 border border-gray-800 hover:border-gold block">
+      <div class="text-2xl font-bold text-gold" id="headlines">-</div>
+      <div class="text-sm text-gray-400">Headlines</div>
+    </a>
+    <a href="/jumpstart/admin/collections/content-fragments" class="bg-gray-900 rounded-lg p-4 border border-gray-800 hover:border-gold block">
+      <div class="text-2xl font-bold text-gold" id="fragments">-</div>
+      <div class="text-sm text-gray-400">Fragments</div>
+    </a>
+  </div>
+  <script>
+    const base = () => window.__ADMIN_API_BASE__ || '';
+    async function load() {
+      try {
+        const r = await fetch(base() + '/api/counts');
+        const d = await r.json();
+        if (r.ok) {
+          document.getElementById('page-blocks').textContent = d.page_blocks ?? '0';
+          document.getElementById('offer-blocks').textContent = d.offer_blocks ?? '0';
+          document.getElementById('headlines').textContent = d.headline_inventory ?? '0';
+          document.getElementById('fragments').textContent = d.content_fragments ?? '0';
+        }
+      } catch (_) {}
+    }
+    load();
+  </script>
+</AdminLayout>

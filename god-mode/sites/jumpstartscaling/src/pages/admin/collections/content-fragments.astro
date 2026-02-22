@@ -1,0 +1,45 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+---
+<AdminLayout title="Content Fragments">
+  <h2 class="text-xl font-bold mb-4">Content Fragments</h2>
+  <button onclick="showAddForm()" class="mb-4">+ Add Fragment</button>
+  <div id="add-form" class="hidden mb-4 p-4 bg-gray-900 rounded border border-gray-800">
+    <input id="fragment_text" placeholder="Fragment text" class="mr-2 mb-2 w-96" />
+    <input id="fragment_type" placeholder="Type" class="mr-2 mb-2 w-32" />
+    <input id="campaign_id" placeholder="Campaign ID" class="mr-2 mb-2 w-24" type="number" />
+    <button onclick="addFragment()">Save</button>
+    <button onclick="document.getElementById('add-form').classList.add('hidden')" class="ml-2 bg-gray-600">Cancel</button>
+  </div>
+  <div id="table-wrap"><p class="text-gray-400">Loading...</p></div>
+  <script>
+    const base = () => window.__ADMIN_API_BASE__ || '';
+    async function load() {
+      try {
+        const r = await fetch(base() + '/api/content-fragments?limit=200');
+        const rows = await r.json();
+        if (!r.ok) {
+          document.getElementById('table-wrap').innerHTML = `<p class="text-red-400">API error: ${r.status}</p>`;
+          return;
+        }
+        const arr = Array.isArray(rows) ? rows : [];
+        const html = arr.length ? `<table>
+          <thead><tr><th>ID</th><th>Campaign</th><th>Type</th><th>Text</th><th></th></tr></thead>
+          <tbody>${arr.map(f => `<tr><td>${f.id}</td><td>${f.campaign_id ?? '-'}</td><td>${f.fragment_type ?? '-'}</td><td>${(f.fragment_text || '').slice(0, 50)}...</td><td><button class="danger" onclick="del(${f.id})">Delete</button></td></tr>`).join('')}</tbody>
+        </table>` : '<p class="text-gray-400">No fragments yet.</p>';
+        document.getElementById('table-wrap').innerHTML = html;
+      } catch (e) {
+        document.getElementById('table-wrap').innerHTML = `<p class="text-red-400">Error: ${e.message}</p>`;
+      }
+    }
+    function showAddForm() { document.getElementById('add-form').classList.remove('hidden'); }
+    async function addFragment() {
+      const cid = document.getElementById('campaign_id').value;
+      await fetch(base() + '/api/content-fragments', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ fragment_text: document.getElementById('fragment_text').value, fragment_type: document.getElementById('fragment_type').value, campaign_id: cid ? parseInt(cid) : null }) });
+      load();
+      document.getElementById('add-form').classList.add('hidden');
+    }
+    async function del(id) { if (confirm('Delete?')) { await fetch(base() + `/api/content-fragments/${id}`, { method: 'DELETE' }); load(); } }
+    load();
+  </script>
+</AdminLayout>

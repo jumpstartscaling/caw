@@ -1,0 +1,151 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+const apiBase = import.meta.env.PUBLIC_GOD_MODE_API_URL || '';
+---
+<AdminLayout title="Seed Wizard">
+  <h2 class="text-xl font-bold mb-4">Seed Wizard — chrisamaya.work</h2>
+  <p class="text-gray-400 mb-6">Add site, seed data, and launch campaign for chrisamaya.work.</p>
+
+  <div class="seed-wizard max-w-2xl space-y-6">
+    <div class="step rounded-lg border border-gray-700 p-4">
+      <h3 class="font-bold text-amber-400 mb-2">1. Admin Key</h3>
+      <p class="text-gray-400 text-sm mb-2">Paste ADMIN_KEY (from .env.local or Coolify env):</p>
+      <input type="password" id="admin-key" placeholder="ADMIN_KEY" class="w-full max-w-md p-2 bg-gray-900 border border-gray-600 rounded text-gray-100">
+      <button type="button" id="btn-save-key" class="ml-2 px-4 py-2 bg-amber-600 text-black rounded hover:bg-amber-500">Save (session only)</button>
+      <span id="key-status" class="ml-2 text-sm"></span>
+    </div>
+
+    <div class="step rounded-lg border border-gray-700 p-4">
+      <h3 class="font-bold text-amber-400 mb-2">2. Site</h3>
+      <p class="text-gray-300">Domain: <strong>chrisamaya.work</strong></p>
+      <p class="text-gray-300">Name: <strong>chrisamaya</strong></p>
+    </div>
+
+    <div class="step rounded-lg border border-gray-700 p-4">
+      <h3 class="font-bold text-amber-400 mb-2">3. Seed Data Summary</h3>
+      <ul class="text-gray-300 text-sm list-disc list-inside space-y-1">
+        <li>50 locations (Austin, Dallas, Houston, etc.)</li>
+        <li>35 pSEO services</li>
+        <li>22 synonym groups, 18 spintax dictionaries</li>
+        <li>72+ content fragments, 42+ headlines</li>
+        <li>18 offer blocks, geo_intelligence, content_matrix</li>
+      </ul>
+    </div>
+
+    <div class="step rounded-lg border border-gray-700 p-4">
+      <h3 class="font-bold text-amber-400 mb-2">4. Campaign</h3>
+      <label class="text-gray-400 text-sm">Target quantity (articles): <input type="number" id="target-qty" value="2000" min="10" max="10000" class="ml-2 p-1 bg-gray-900 border border-gray-600 rounded text-gray-100 w-24"></label>
+    </div>
+
+    <div class="step rounded-lg border border-gray-700 p-4">
+      <h3 class="font-bold text-amber-400 mb-2">5. Execute</h3>
+      <button type="button" id="btn-seed" class="px-4 py-2 bg-amber-600 text-black rounded hover:bg-amber-500 font-medium">Run Seed</button>
+      <button type="button" id="btn-launch" class="ml-2 px-4 py-2 bg-amber-600 text-black rounded hover:bg-amber-500 font-medium disabled:opacity-50 disabled:cursor-not-allowed" disabled>Launch Campaign</button>
+      <div id="output" class="mt-4 p-4 bg-gray-900 rounded font-mono text-sm whitespace-pre-wrap min-h-[120px]"></div>
+    </div>
+  </div>
+
+  <script define:vars={{ apiBase }}>
+    const BASE = apiBase || window.__ADMIN_API_BASE__ || '';
+    let lastResult = null;
+
+    function getKey() {
+      return sessionStorage.getItem('admin_key') || document.getElementById('admin-key').value || '';
+    }
+
+    function saveKey() {
+      const k = document.getElementById('admin-key').value.trim();
+      const statusEl = document.getElementById('key-status');
+      if (k) {
+        sessionStorage.setItem('admin_key', k);
+        statusEl.textContent = 'Saved';
+        statusEl.className = 'ml-2 text-sm text-green-400';
+      } else {
+        sessionStorage.removeItem('admin_key');
+        statusEl.textContent = 'Cleared';
+        statusEl.className = 'ml-2 text-sm text-red-400';
+      }
+    }
+
+    function log(msg, cls) {
+      const el = document.getElementById('output');
+      const span = document.createElement('span');
+      if (cls) span.className = cls;
+      span.textContent = msg + '\n';
+      el.appendChild(span);
+      el.scrollTop = el.scrollHeight;
+    }
+
+    function clearOutput() {
+      document.getElementById('output').innerHTML = '';
+    }
+
+    async function runSeed() {
+      const key = getKey();
+      if (!key) {
+        log('Paste ADMIN_KEY and save first.', 'text-red-400');
+        return;
+      }
+      clearOutput();
+      const btn = document.getElementById('btn-seed');
+      btn.disabled = true;
+      log('POST /api/seed/chrisamaya ...');
+      try {
+        const r = await fetch(BASE + '/api/seed/chrisamaya', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'X-Admin-Key': key }
+        });
+        const body = await r.json().catch(() => ({}));
+        if (r.ok) {
+          lastResult = body;
+          log('Seed OK: ' + (body.message || 'done'), 'text-green-400');
+          log('site_id: ' + body.site_id + ', campaign_id: ' + body.campaign_id);
+          if (body.counts) log('counts: ' + JSON.stringify(body.counts));
+          document.getElementById('btn-launch').disabled = false;
+        } else {
+          log('Seed failed: ' + r.status + ' ' + (body.detail || JSON.stringify(body)), 'text-red-400');
+        }
+      } catch (e) {
+        log('Error: ' + e.message, 'text-red-400');
+      }
+      btn.disabled = false;
+    }
+
+    async function runLaunch() {
+      if (!lastResult || !lastResult.site_id || !lastResult.campaign_id) {
+        log('Run seed first.', 'text-red-400');
+        return;
+      }
+      const key = getKey();
+      const qty = parseInt(document.getElementById('target-qty').value, 10) || 2000;
+      const btn = document.getElementById('btn-launch');
+      btn.disabled = true;
+      log('POST /api/generation-jobs ... target_quantity=' + qty);
+      try {
+        const r = await fetch(BASE + '/api/generation-jobs', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'X-Admin-Key': key },
+          body: JSON.stringify({
+            site_id: lastResult.site_id,
+            campaign_id: lastResult.campaign_id,
+            target_quantity: qty,
+            dry_run: false
+          })
+        });
+        const body = await r.json().catch(() => ({}));
+        if (r.ok) {
+          log('Job created: ' + (body.id || 'ok'), 'text-green-400');
+        } else {
+          log('Launch failed: ' + r.status + ' ' + JSON.stringify(body), 'text-red-400');
+        }
+      } catch (e) {
+        log('Error: ' + e.message, 'text-red-400');
+      }
+      btn.disabled = false;
+    }
+
+    document.getElementById('btn-save-key').addEventListener('click', saveKey);
+    document.getElementById('btn-seed').addEventListener('click', runSeed);
+    document.getElementById('btn-launch').addEventListener('click', runLaunch);
+  </script>
+</AdminLayout>

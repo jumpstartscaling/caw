@@ -1,0 +1,61 @@
+---
+import '../styles/global.css';
+import { getNavByGroup } from '../lib/admin-nav';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "God Mode Admin" } = Astro.props;
+const navByGroup = getNavByGroup();
+---
+<!DOCTYPE html>
+<html lang="en" class="dark admin-page">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title} | God Mode Admin</title>
+  <style is:global>
+    .admin-page body { font-family: system-ui, sans-serif; background: #111; color: #eee; }
+    .admin-page a { color: #C9A961; }
+    .admin-page a:hover { text-decoration: underline; }
+    .admin-page table { width: 100%; border-collapse: collapse; }
+    .admin-page th, .admin-page td { border: 1px solid #333; padding: 10px; text-align: left; }
+    .admin-page th { background: #222; color: #C9A961; }
+    .admin-page tr:nth-child(even) { background: #1a1a1a; }
+    .admin-page input, .admin-page select, .admin-page textarea { padding: 6px; background: #222; color: #eee; border: 1px solid #444; border-radius: 4px; }
+    .admin-page button { padding: 8px 16px; background: #C9A961; color: #000; border: none; cursor: pointer; border-radius: 4px; }
+    .admin-page button:hover { opacity: 0.9; }
+    .admin-page button.danger { background: #c33; color: #fff; }
+    .admin-sidebar { width: 220px; min-width: 220px; background: #0d0d0d; border-right: 1px solid #333; padding: 1rem 0; }
+    .admin-sidebar a { display: block; padding: 0.4rem 1rem; color: #C9A961; text-decoration: none; }
+    .admin-sidebar a:hover { background: #1a1a1a; text-decoration: none; }
+    .admin-sidebar .nav-group { margin-bottom: 1rem; }
+    .admin-sidebar .nav-group-title { padding: 0.3rem 1rem; font-size: 0.7rem; text-transform: uppercase; color: #888; }
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-main { flex: 1; padding: 1.5rem; }
+    .admin-header { margin-bottom: 1rem; }
+  </style>
+</head>
+<body class="min-h-screen">
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="admin-header px-4">
+        <h1 class="text-xl font-bold text-[#C9A961]">God Mode</h1>
+      </div>
+      {Object.entries(navByGroup).map(([group, items]) => (
+        <nav class="nav-group" aria-label={group}>
+          <div class="nav-group-title">{group}</div>
+          {items.map((item) => (
+            <a href={item.href}>{item.label}</a>
+          ))}
+        </nav>
+      ))}
+    </aside>
+    <main class="admin-main">
+      <slot />
+    </main>
+  </div>
+</body>
+</html>

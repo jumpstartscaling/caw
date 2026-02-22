@@ -1,0 +1,16 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+---
+<AdminLayout title="Preview">
+  <h2 class="text-xl font-bold mb-4">Preview Tool</h2>
+  <p class="text-gray-400">Preview assembled content. Use the <a href="/jumpstart/admin/testing/render" class="text-gold">Block Render</a> test page for quick HTML preview.</p>
+  <textarea id="input" class="w-full h-48 bg-gray-900 border border-gray-800 rounded p-2 mt-4" placeholder="Paste content to preview..."></textarea>
+  <button onclick="preview()" class="mt-2">Preview</button>
+  <div id="out" class="mt-4 p-4 bg-gray-900 rounded border border-gray-800 prose prose-invert max-w-none"></div>
+  <script>
+    function preview() {
+      const v = document.getElementById('input').value;
+      document.getElementById('out').innerHTML = v ? v.replace(/\n/g, '<br>') : '<em>Enter content</em>';
+    }
+  </script>
+</AdminLayout>

@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import MoatAudit from '../../components/interactivity/MoatAudit';
+---
+
+<BaseLayout
+  title="Moat Strength Audit | Jumpstart Scaling"
+  description="Analyze your competitive moat and identify revenue leakage caused by system friction."
+  palette="gold"
+>
+  <div class="min-h-screen flex items-center justify-center py-20 px-4">
+    <div class="w-full max-w-5xl mx-auto">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl md:text-6xl font-black text-white mb-6">
+                MOAT <span class="text-[#C9A961]">DIAGNOSTIC</span>
+            </h1>
+            <p class="text-xl text-white/60 max-w-2xl mx-auto">
+                Identify the specific friction points throttling your revenue velocity.
+            </p>
+        </div>
+        <MoatAudit client:visible />
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,23 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+---
+<AdminLayout title="Content Generator">
+  <h2 class="text-xl font-bold mb-4">Simple Content Generator</h2>
+  <p class="text-gray-400 mb-4">Create a generation job to produce content.</p>
+  <button onclick="createJob()" class="mb-4">+ Create Job</button>
+  <p id="msg" class="text-gray-400"></p>
+  <script>
+    const base = () => window.__ADMIN_API_BASE__ || '';
+    async function createJob() {
+      document.getElementById('msg').textContent = 'Creating...';
+      try {
+        const r = await fetch(base() + '/api/generation-jobs', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ target_quantity: 10 }) });
+        const d = await r.json();
+        document.getElementById('msg').textContent = r.ok ? `Job #${d.id} created. View in Factory.` : 'Error: ' + (d.detail || r.status);
+      } catch (e) {
+        document.getElementById('msg').textContent = 'Error: ' + e.message;
+      }
+    }
+  </script>
+  <p class="mt-4"><a href="/jumpstart/admin/factory" class="text-gold">Factory Kanban</a></p>
+</AdminLayout>

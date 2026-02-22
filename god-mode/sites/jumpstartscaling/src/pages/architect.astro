@@ -1,0 +1,193 @@
+---
+// src/pages/architect.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/ui/Hero.astro';
+import CTA from '../components/ui/CTA.astro';
+
+// Replicating the content from chrisamaya.work
+---
+
+<BaseLayout
+  title="The One-Stop Architect | Chris Amaya"
+  description="Stop hiring freelancers. Start building an empire. The 'Unicorn Developer' who builds full-stack applications, engineers private AI systems, and automates your entire backend."
+  palette="emerald"
+  fluid={true}
+>
+  <style>
+    .architect-section {
+      background-color: #050505;
+      color: #fff;
+    }
+    .text-architect {
+        color: #00FF94;
+    }
+    .border-architect {
+        border-color: rgba(0,255,148,0.3);
+    }
+    .bg-architect-dim {
+        background-color: rgba(0,255,148,0.05);
+    }
+    .card-custom {
+        background-color: #0F0F0F;
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 1rem;
+        padding: 2rem;
+        transition: border-color 0.3s ease;
+    }
+    .card-custom:hover {
+        border-color: rgba(0,255,148,0.5);
+    }
+    .font-mono {
+        font-family: 'JetBrains Mono', monospace;
+    }
+  </style>
+
+  <!-- HERO -->
+  <section class="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
+    <div class="container mx-auto px-6 relative z-10 text-center">
+        <span class="inline-block font-mono text-sm uppercase tracking-[0.2em] mb-6 px-4 py-2 rounded border border-architect bg-architect-dim text-architect">
+            THE ONE-STOP ARCHITECT
+        </span>
+        
+        <h1 class="text-5xl md:text-7xl font-black text-white mb-8 leading-tight">
+            STOP GLUING YOUR BUSINESS <br class="hidden md:block" />
+            TOGETHER WITH <span class="bg-clip-text text-transparent bg-gradient-to-r from-[#00FF94] to-[#00B8FF]">ZAPIER AND HOPE.</span>
+        </h1>
+
+        <p class="text-xl md:text-2xl text-white/70 max-w-4xl mx-auto mb-12">
+            I am the "Unicorn" Developer you've been looking for. I build full-stack applications, engineer private AI systems, and automate your entire backend—so you can stop playing CTO and start being the CEO.
+        </p>
+
+        <CTA label="Book Consultation" href="/contact" />
+        
+        <p class="font-mono text-xs text-white/50 mt-8">
+            WARNING: THIS IS A TECHNICAL STRATEGY SESSION. NOT A SALES CALL.
+        </p>
+    </div>
+  </section>
+
+  <!-- DIAGNOSIS -->
+  <section class="py-24 bg-[#08080A]">
+    <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div>
+                <span class="font-mono text-xs uppercase font-bold text-architect tracking-[0.2em] mb-4 block">THE DIAGNOSIS</span>
+                <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">The "Frankenstein" Problem</h2>
+                <p class="text-lg text-white/70 mb-8">
+                    You have product-market fit. You have revenue. But your backend is a tangled mess of disconnected tools that break every time an API updates.
+                </p>
+
+                <div class="bg-red-900/10 border border-red-500/20 rounded-lg p-6 mb-8">
+                    <h4 class="text-red-500 font-bold mb-2">⚠ SYSTEM CRITICAL</h4>
+                    <p class="text-red-400/80 text-sm">
+                        Your business is fragile. You are one "Zapier Error" away from losing leads.
+                    </p>
+                </div>
+
+                <ul class="space-y-4 font-mono text-sm text-white/70">
+                    <li class="flex gap-4">
+                        <span class="text-red-500 font-bold">ERROR 404:</span> The Head (WordPress site built by a ghosted freelancer).
+                    </li>
+                    <li class="flex gap-4">
+                        <span class="text-red-500 font-bold">ERROR 500:</span> The Body (A $300/mo CRM that is 10% utilized).
+                    </li>
+                    <li class="flex gap-4">
+                        <span class="text-red-500 font-bold">TIMEOUT:</span> The Veins (Zapier costs scaling faster than revenue).
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="card-custom">
+                 <div class="aspect-video bg-black rounded flex items-center justify-center">
+                    <p class="font-mono text-xs text-white/50">FIG 1.0: FRAGMENTATION VISUALIZED</p>
+                 </div>
+            </div>
+        </div>
+    </div>
+  </section>
+
+    <!-- SOLUTION -->
+  <section class="py-24 bg-black">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-16">
+            <span class="font-mono text-xs uppercase font-bold text-architect tracking-[0.2em] mb-4 block">THE ARCHITECTURE</span>
+            <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">I Don't Just Write Code.<br/>I Engineer Outcomes.</h2>
+            <p class="text-lg text-white/70 max-w-2xl mx-auto">
+                Most developers stay in their lane. It results in silos. I own the entire highway.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="card-custom">
+                <div class="text-4xl mb-4">🏗️</div>
+                <h3 class="text-xl font-bold text-white mb-3">1. Infrastructure</h3>
+                <p class="text-white/60">Stop renting expensive SaaS. I build Sovereign Assets. Self-hosted automation, custom client portals, and Docker management.</p>
+            </div>
+            <div class="card-custom">
+                <div class="text-4xl mb-4">🧠</div>
+                 <h3 class="text-xl font-bold text-white mb-3">2. Intelligence</h3>
+                <p class="text-white/60">Stop manual pasting. I build Autonomous Agents. 'Inbox Zero' auto-drafters, competitor analysis bots, and Private LLMs.</p>
+            </div>
+            <div class="card-custom">
+                <div class="text-4xl mb-4">💰</div>
+                 <h3 class="text-xl font-bold text-white mb-3">3. Revenue Physics</h3>
+                 <p class="text-white/60">Stop guessing. I engineer Bulletproof Tracking. Server-Side CAPI, funnel optimization, and real-time ROAS dashboards.</p>
+            </div>
+        </div>
+    </div>
+  </section>
+
+  <!-- DEEP DIVE -->
+  <section class="py-24">
+      <div class="container mx-auto px-6">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+              <div>
+                  <span class="font-mono text-xs uppercase font-bold text-architect tracking-[0.2em] mb-4 block">DEEP DIVE NO. 1</span>
+                  <h2 class="text-4xl font-bold text-white mb-6">The "Kill Zapier" Initiative</h2>
+                  <p class="text-white/70 mb-4">Zapier is great for prototypes. It is terrible for scale. You are punished for succeeding (more tasks = more money).</p>
+                  <p class="text-white font-bold mb-8">The Solution: Self-Hosted n8n.</p>
+                  
+                  <ul class="space-y-4 font-mono text-sm text-white">
+                      <li class="flex justify-between border-b border-white/5 pb-2">
+                          <span>COST:</span> <span class="text-architect">$20/mo (Flat)</span>
+                      </li>
+                      <li class="flex justify-between border-b border-white/5 pb-2">
+                          <span>TASKS:</span> <span class="text-architect">UNLIMITED</span>
+                      </li>
+                      <li class="flex justify-between border-b border-white/5 pb-2">
+                          <span>LOGIC:</span> <span class="text-architect">PYTHON / JS EXECUTION</span>
+                      </li>
+                  </ul>
+              </div>
+              
+              <div class="relative">
+                  <div class="absolute inset-0 bg-gradient-to-br from-[#00FF94] to-[#00B8FF] rounded-lg opacity-25 blur-lg"></div>
+                  <div class="relative card-custom bg-black p-2">
+                      <div class="aspect-video bg-[#050505] flex items-center justify-center rounded border border-white/5">
+                          <p class="font-mono text-architect">n8n Workflow</p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
+
+  <!-- DIY PROMPT -->
+  <section class="py-24 bg-[#08080A]">
+      <div class="container mx-auto px-6">
+          <div class="max-w-4xl mx-auto">
+              <div class="flex items-center gap-4 mb-6">
+                  <span class="bg-[#00FF94] text-black font-mono font-bold px-3 py-1 rounded text-sm">PROMPT</span>
+                   <h3 class="text-2xl font-bold text-white">Automation Architect</h3>
+              </div>
+              <div class="card-custom font-mono text-sm leading-relaxed relative group cursor-pointer hover:border-[#00FF94]/50">
+                  <p>"You are a Senior Backend Engineer. I need a logic flow for a lead routing system. Input: Webhook from landing page. Logic: Check if email exists in CRM. If YES -> Add tag 'Reactivation' and notify Account Manager. If NO -> Create Contact, Enroll in 'Cold Welcome' sequence, and round-robin assign to Sales Reps A, B, or C. Output: A bulleted step-by-step technical spec."</p>
+                  <div class="absolute top-4 right-4 text-[#00FF94] opacity-50 group-hover:opacity-100">📋 COPY</div>
+              </div>
+          </div>
+      </div>
+  </section>
+
+  <CTA heading="Ready to Build?" text="Technical Strategy Session. Where the chaos ends and engineering begins." label="Initiate Handshake" />
+
+</BaseLayout>

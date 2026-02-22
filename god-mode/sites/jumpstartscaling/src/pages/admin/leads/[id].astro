@@ -1,0 +1,10 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+export function getStaticPaths() {
+  return [{ params: { id: 'placeholder' } }];
+}
+const { id } = Astro.params;
+---
+<AdminLayout title={`Lead ${id}`}>
+  <p class="text-gray-400">Lead detail for {id}.</p>
+</AdminLayout>

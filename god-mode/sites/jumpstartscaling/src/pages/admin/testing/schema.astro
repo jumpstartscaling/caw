@@ -1,0 +1,22 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+---
+<AdminLayout title="Schema Validation">
+  <h2 class="text-xl font-bold mb-4">Schema Check</h2>
+  <p class="text-gray-400 mb-4">Uses /api/debug to verify config and health.</p>
+  <button onclick="check()" class="mb-4">Run Check</button>
+  <pre id="result" class="bg-gray-900 p-4 rounded text-sm overflow-auto">Click to run.</pre>
+  <script>
+    async function check() {
+      const base = window.__ADMIN_API_BASE__ || '';
+      document.getElementById('result').textContent = 'Checking...';
+      try {
+        const r = await fetch(base + '/api/debug');
+        const d = await r.json();
+        document.getElementById('result').textContent = JSON.stringify(d, null, 2);
+      } catch (e) {
+        document.getElementById('result').textContent = 'Error: ' + e.message;
+      }
+    }
+  </script>
+</AdminLayout>

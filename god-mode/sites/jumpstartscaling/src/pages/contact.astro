@@ -1,0 +1,56 @@
+---
+// src/pages/contact.astro - Updated using BaseLayout
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/ui/Hero.astro';
+import ScalingSurvey from '../components/interactivity/ScalingSurvey.tsx';
+import Breadcrumbs from '../components/ui/Breadcrumbs.astro';
+import CTA from '../components/ui/CTA.astro';
+import ContactForm from '../components/interactivity/ContactForm.tsx';
+
+const crumbs = [{ name: 'Home', url: '/' }, { name: 'Contact', url: '/contact' }];
+---
+
+<BaseLayout title="Contact Jumpstart Scaling" description="Get in touch with our growth engineering team. Book a strategy call or reach out directly." palette="gold" crumbs={crumbs}>
+  <Breadcrumbs items={crumbs} />
+
+  <Hero title="Let's Build Your Moat" subtitle="Schedule a call or send a message" variant="full" />
+
+  <section class="section dark">
+    <div class="container max-w-5xl mx-auto px-6">
+      <div class="grid md:grid-cols-2 gap-20">
+        <div>
+          <h2 class="text-4xl font-bold mb-8 gradient-text">Book a Strategy Call</h2>
+          <p class="text-xl text-white/80 mb-12">
+            The best way to explore working together is a 30-minute strategy call. We'll review your current setup and map potential paths forward.
+          </p>
+          <!-- Calendly embed or form -->
+          <div class="glass-card p-12">
+             <div class="calendly-inline-widget" data-url="https://calendly.com/YOUR_LINK" style="min-width:320px;height:630px;"></div>
+             <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+          </div>
+        </div>
+
+        <div>
+          <h2 class="text-4xl font-bold mb-8 gradient-text">Direct Contact</h2>
+          <p class="text-xl text-white/80 mb-12">
+            For general inquiries or to start a conversation.
+          </p>
+          <ContactForm client:load />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section light">
+    <div class="container mx-auto px-6 text-center">
+      <h2 class="text-3xl font-bold mb-8 text-black">Not ready to chat? Take the audit.</h2>
+      <div class="max-w-4xl mx-auto">
+        <ScalingSurvey client:visible />
+      </div>
+    </div>
+  </section>
+
+  <section class="section dark">
+      <CTA heading="Ready to Scale?" text="Join the high-growth companies building with Jumpstart." href="/audit" label="Start Free Audit" />
+  </section>
+</BaseLayout>

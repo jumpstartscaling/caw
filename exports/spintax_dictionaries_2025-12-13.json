@@ -1,0 +1,74 @@
+{
+  "collection": "spintax_dictionaries",
+  "exportedAt": "2025-12-13T14:49:43.566Z",
+  "recordCount": 6,
+  "data": [
+    {
+      "id": 1,
+      "category": "adjectives_quality",
+      "data": [
+        "Top-Rated",
+        "Premier",
+        "Elite",
+        "Exclusive",
+        "The #1",
+        "High-Performance"
+      ]
+    },
+    {
+      "id": 2,
+      "category": "adjectives_growth",
+      "data": [
+        "Scaling",
+        "Fast-Growing",
+        "Disruptive",
+        "Modern",
+        "Next-Gen"
+      ]
+    },
+    {
+      "id": 3,
+      "category": "verbs_action",
+      "data": [
+        "Dominate",
+        "Scale",
+        "Disrupt",
+        "Own",
+        "Capture"
+      ]
+    },
+    {
+      "id": 4,
+      "category": "verbs_solution",
+      "data": [
+        "Fix",
+        "Automate",
+        "Optimize",
+        "Streamline",
+        "Repair"
+      ]
+    },
+    {
+      "id": 5,
+      "category": "outcomes",
+      "data": [
+        "Revenue",
+        "ROI",
+        "Lead Flow",
+        "Patient Volume",
+        "Deal Flow"
+      ]
+    },
+    {
+      "id": 6,
+      "category": "timelines",
+      "data": [
+        "in 30 Days",
+        "This Quarter",
+        "Before Q4",
+        "Instantly",
+        "Overnight"
+      ]
+    }
+  ]
+}

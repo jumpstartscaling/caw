@@ -1,0 +1,47 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/ui/Hero.astro';
+import FormattedDate from '../../components/ui/FormattedDate.astro';
+
+const articles = await getCollection('intel');
+const sorted = articles.sort((a, b) => new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime());
+---
+
+<BaseLayout title="Intel & Insights" description="Deep-dive articles on growth engineering, paid media, CRM automation, data attribution, and market domination strategy." palette="emerald" fluid={true}>
+  <div class="bg-black min-h-screen">
+    <div class="pt-24 pb-12 border-b border-white/10">
+        <Hero title="Intel & Insights" subtitle="Data-driven strategies, frameworks, and playbooks for scaling without chaos." align="center" />
+    </div>
+
+    <section class="container mx-auto px-6 py-16 max-w-4xl">
+      <div class="space-y-12">
+        {sorted.map(a => (
+          <article class="group relative flex flex-col md:flex-row gap-8 items-start border-b border-white/5 pb-12 last:border-0">
+             <div class="md:w-1/4 pt-1">
+                <div class="text-emerald-500 font-mono text-xs uppercase tracking-widest mb-2">
+                    <FormattedDate date={a.data.publishedAt} />
+                </div>
+                <div class="text-white/40 text-sm font-mono">
+                    READ TIME: {Math.ceil(a.body.length / 1500)} MIN
+                </div>
+             </div>
+             <div class="md:w-3/4">
+                <h2 class="text-3xl font-black text-white mb-3 group-hover:text-emerald-400 transition-colors">
+                    <a href={`/intel/${a.id.replace(/\.mdx?$/, '')}`}>
+                        {a.data.title}
+                    </a>
+                </h2>
+                <p class="text-gray-400 text-lg leading-relaxed mb-4">
+                    {a.data.description}
+                </p>
+                <a href={`/intel/${a.id.replace(/\.mdx?$/, '')}`} class="inline-flex items-center text-emerald-500 font-bold uppercase tracking-wider text-sm hover:text-emerald-300 transition-colors">
+                    Read Intel <span class="ml-2">→</span>
+                </a>
+             </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  </div>
+</BaseLayout>

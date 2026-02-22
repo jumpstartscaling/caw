@@ -1,0 +1,31 @@
+---
+import { type CollectionEntry, getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FormattedDate from '../../components/ui/FormattedDate.astro';
+import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('intel');
+	return posts.map((post) => ({
+		params: { slug: post.id.replace(/\.mdx?$/, '') },
+		props: post,
+	}));
+}
+type Props = CollectionEntry<'intel'>;
+
+const post = Astro.props;
+const { Content } = await post.render();
+
+const crumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Intel', url: '/intel' },
+  { name: post.data.title, url: Astro.url.pathname }
+];
+---
+
+<BaseLayout title={post.data.title} description={post.data.description} palette="emerald">
+  <!-- Content handles its own Layout (Hero -> Sections) -->
+  <div class="intel-page-wrapper">
+    <Content />
+  </div>
+</BaseLayout>

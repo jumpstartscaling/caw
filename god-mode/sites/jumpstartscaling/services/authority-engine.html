@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authority Engine | Programmatic SEO & Founder Branding Engineering</title>
+    <meta name="description"
+        content="Turn your Founder Brand into a revenue asset. We engineer Programmatic SEO systems and high-authority LinkedIn loops for service-based founders.">
+
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Authority Engine | Programmatic SEO & Founder Branding">
+    <meta property="og:description"
+        content="Turn your Founder Brand into a revenue asset. We engineer Programmatic SEO systems and high-authority LinkedIn loops.">
+
+    <style>
+        :root {
+            --color-obsidian: #050505;
+            --color-gold: #C9A961;
+            --color-cream: #FFE5A0;
+            --color-ash: #111111;
+        }
+
+        body {
+            background-color: var(--color-obsidian);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease-in;
+        }
+
+        body.loaded {
+            opacity: 1;
+        }
+
+        /* Typography */
+        .font-sans {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--color-obsidian);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--color-gold);
+        }
+
+        /* Utilities */
+        .glass-nav {
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(201, 169, 97, 0.1);
+        }
+
+        .gold-glow {
+            text-shadow: 0 0 20px rgba(201, 169, 97, 0.3);
+        }
+
+        .nav-link-active {
+            color: white !important;
+            border-bottom: 2px solid var(--color-gold);
+            text-shadow: 0 0 10px rgba(201, 169, 97, 0.4);
+        }
+
+        /* Article Styles */
+        article h2 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 2.25rem;
+            color: white;
+            margin-top: 4rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        article h3 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 1.5rem;
+            color: var(--color-cream);
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        article p {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.125rem;
+            line-height: 1.8;
+            color: #D1D5DB;
+            /* gray-300 */
+            margin-bottom: 1.5rem;
+        }
+
+        article ul {
+            list-style: none;
+            margin-bottom: 1.5rem;
+            padding-left: 1rem;
+        }
+
+        article li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #D1D5DB;
+        }
+
+        article li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--color-gold);
+        }
+
+        article blockquote {
+            border-left: 4px solid var(--color-gold);
+            padding-left: 1.5rem;
+            font-size: 1.25rem;
+            font-style: italic;
+            color: white;
+            margin: 2rem 0;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 2rem;
+            border-radius: 0 1rem 1rem 0;
+        }
+
+        article code {
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.875em;
+            color: var(--color-gold);
+        }
+    </style>
+
+    <!-- Local Assets -->
+    <link rel="stylesheet" href="../assets/css/tailwind.min.css">
+    <script src="../assets/js/alpine.min.js" defer></script>
+
+    <!-- JSON-LD: Service Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "Authority Engine",
+      "provider": {
+        "@type": "Organization",
+        "name": "Jumpstart Scaling"
+      },
+      "description": "Programmatic SEO systems and high-authority LinkedIn loops for service-based founders.",
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Authority Engineering Services",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Programmatic SEO Architecture"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Founder Personal Branding"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "LinkedIn Authority Loop"
+            }
+          }
+        ]
+      }
+    }
+    </script>
+
+    <!-- Navigation Logic (Shared) -->
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('navLogic', () => ({
+                scrollPercent: 0,
+                isScrolled: false,
+                mobileMenuOpen: false,
+                activeLink: '04', // Hardcoded for this page
+
+                init() {
+                    document.body.classList.add('loaded');
+                    this.checkScroll();
+                    window.addEventListener('scroll', () => { this.checkScroll(); });
+                },
+
+                checkScroll() {
+                    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                    this.scrollPercent = (winScroll / height) * 100;
+                    this.isScrolled = winScroll > 50;
+                },
+
+                toggleMobileMenu() {
+                    this.mobileMenuOpen = !this.mobileMenuOpen;
+                    document.body.style.overflow = this.mobileMenuOpen ? 'hidden' : '';
+                }
+            }));
+
+            // Moat Audit Logic
+            Alpine.data('moatAudit', () => ({
+                step: 1,
+                loading: false,
+                loadingText: '> INITIALIZING DIAGNOSTIC...',
+                score: 0,
+                formData: { friction_point: '', market_velocity: '', name: '', email: '', website: '', source_page: 'authority-engine' },
+
+                selectFriction(value) { this.formData.friction_point = value; this.step = 2; },
+                selectVelocity(value) { this.formData.market_velocity = value; this.runAnalysis(); },
+
+                async runAnalysis() {
+                    this.step = 3;
+                    this.loading = true;
+                    const texts = ['> SCANNING DOMAIN AUTHORITY...', '> MAPPING COMPETITOR MOATS...', '> CALCULATING REVENUE LEAKAGE...', '> FINALIZING ENGINEERING REPORT...'];
+                    for (let i = 0; i < texts.length; i++) { this.loadingText = texts[i]; await new Promise(r => setTimeout(r, 700)); }
+                    this.score = Math.floor(Math.random() * (38 - 14 + 1)) + 14;
+                    this.loading = false; this.step = 4;
+                },
+
+                submitToGravity() {
+                    fetch('https://n8n.your-vps.com/webhook/lead-capture', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(this.formData)
+                    }).then(() => alert('SYSTEM OVERRIDE: AUDIT DISPATCHED TO ENGINEERING.')).catch(() => alert('SYSTEM OVERRIDE: AUDIT DISPATCHED (Simulation)'));
+                }
+            }));
+        });
+    </script>
+</head>
+
+<body x-data="navLogic" class="antialiased bg-black selection:bg-gold selection:text-black">
+
+    <!-- Global Progress Engine -->
+    <div class="fixed top-0 left-0 h-0.5 z-[100] transition-all duration-100 ease-linear"
+        :style="`width: ${scrollPercent}%; background: linear-gradient(to right, #C9A961, #FFE5A0);`"></div>
+
+    <!-- Executive Navigation Header -->
+    <nav class="fixed top-0 w-full z-50 transition-all duration-500 ease-in-out h-24 flex items-center"
+        :class="isScrolled ? 'glass-nav h-20' : 'bg-transparent border-b border-white/5'">
+        <div class="w-full max-w-[1400px] mx-auto px-6 lg:px-12 flex justify-between items-center">
+            <a href="../index.html" class="group flex items-center gap-4 focus:outline-none">
+                <svg class="w-10 h-10 text-gold transition-transform duration-500 group-hover:scale-110"
+                    viewBox="0 0 40 40" fill="none">
+                    <path d="M20 5L30 25H10L20 5Z" stroke="currentColor" stroke-width="2" />
+                    <path d="M20 15L25 25H15L20 15Z" fill="currentColor" class="opacity-50" />
+                    <rect x="18" y="30" width="4" height="4" fill="currentColor" />
+                </svg>
+                <div class="flex flex-col"><span
+                        class="font-bold text-lg tracking-tight text-white group-hover:text-gold transition-colors duration-300">JUMPSTART</span><span
+                        class="font-mono text-[10px] tracking-[0.3em] text-gold uppercase">SCALING</span></div>
+            </a>
+            <div class="hidden xl:flex items-center gap-10 font-mono text-xs tracking-widest text-gray-500">
+                <a href="paid-acquisition.html"
+                    class="nav-link py-2 border-b-2 border-transparent hover:text-white hover:scale-105 transition-all duration-300">01
+                    ACQUISITION</a>
+                <a href="funnel-architecture.html"
+                    class="nav-link py-2 border-b-2 border-transparent hover:text-white hover:scale-105 transition-all duration-300">02
+                    ARCHITECTURE</a>
+                <a href="crm-transformation.html"
+                    class="nav-link py-2 border-b-2 border-transparent hover:text-white hover:scale-105 transition-all duration-300">03
+                    AUTOMATION</a>
+                <a href="authority-engine.html"
+                    class="nav-link py-2 border-b-2 border-transparent hover:text-white hover:scale-105 transition-all duration-300 nav-link-active">04
+                    AUTHORITY</a>
+                <a href="data-attribution.html"
+                    class="nav-link py-2 border-b-2 border-transparent hover:text-white hover:scale-105 transition-all duration-300">05
+                    ANALYTICS</a>
+                <a href="growth-retainer.html"
+                    class="nav-link py-2 border-b-2 border-transparent hover:text-white hover:scale-105 transition-all duration-300">06
+                    STRATEGY</a>
+                <button onclick="document.querySelector('#moat-audit').scrollIntoView({behavior: 'smooth'})"
+                    class="ml-4 px-6 py-2 border border-gold text-gold hover:bg-gold hover:text-black font-bold transition-all duration-300 shadow-[0_0_15px_rgba(201,169,97,0.1)] hover:shadow-[0_0_25px_rgba(201,169,97,0.4)]">START
+                    AUDIT</button>
+            </div>
+            <button @click="toggleMobileMenu"
+                class="xl:hidden z-50 text-white hover:text-gold transition-colors duration-300">
+                <div class="space-y-2"><span class="block w-8 h-0.5 bg-current transition-all duration-300"
+                        :class="mobileMenuOpen ? 'rotate-45 translate-y-2.5 bg-gold' : ''"></span><span
+                        class="block w-8 h-0.5 bg-current transition-all duration-300"
+                        :class="mobileMenuOpen ? 'opacity-0' : ''"></span><span
+                        class="block w-8 h-0.5 bg-current transition-all duration-300"
+                        :class="mobileMenuOpen ? '-rotate-45 -translate-y-2.5 bg-gold' : ''"></span></div>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Content Structure -->
+    <div class="pt-32 pb-24 max-w-[1400px] mx-auto px-6 lg:px-12 flex flex-col lg:flex-row gap-16">
+
+        <!-- Sticky Sidebar -->
+        <aside class="hidden lg:block w-64 shrink-0">
+            <div class="sticky top-32">
+                <h4 class="font-mono text-xs text-gold tracking-widest mb-6">TABLE OF PROTOCOLS</h4>
+                <ul class="space-y-4 text-xs font-mono text-gray-500 border-l border-white/10 pl-4">
+                    <li><a href="#economics"
+                            class="hover:text-gold block py-1 border-l-2 border-transparent hover:border-gold -ml-[17px] pl-4 transition-all">01
+                            // ECONOMICS OF PSEO</a></li>
+                    <li><a href="#founder-brand"
+                            class="hover:text-gold block py-1 border-l-2 border-transparent hover:border-gold -ml-[17px] pl-4 transition-all">02
+                            // FOUNDER AS ASSET</a></li>
+                    <li><a href="#linkedin-loop"
+                            class="hover:text-gold block py-1 border-l-2 border-transparent hover:border-gold -ml-[17px] pl-4 transition-all">03
+                            // LINKEDIN AUTHORITY</a></li>
+                    <li><a href="#tech-stack"
+                            class="hover:text-gold block py-1 border-l-2 border-transparent hover:border-gold -ml-[17px] pl-4 transition-all">04
+                            // TECHNICAL STACK</a></li>
+                    <li><a href="#case-study"
+                            class="hover:text-gold block py-1 border-l-2 border-transparent hover:border-gold -ml-[17px] pl-4 transition-all">05
+                            // MARKET DOMINATION</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Article -->
+        <main class="w-full max-w-4xl">
+
+            <header class="mb-16">
+                <div
+                    class="inline-flex items-center gap-2 px-3 py-1 rounded border border-gold/30 bg-gold/5 text-gold font-mono text-xs tracking-widest mb-6">
+                    <span class="w-2 h-2 bg-gold rounded-full animate-pulse"></span>
+                    PROTOCOL 04
+                </div>
+                <h1 class="text-5xl md:text-7xl font-bold tracking-tight text-white mb-8">
+                    Authority Engine: The Algorithm of Trust.
+                </h1>
+                <p class="text-xl text-gray-400 leading-relaxed max-w-2xl">
+                    In an era of AI-commoditized content, "Authority" is the only defensible moat. We engineer
+                    Programmatic SEO systems and high-velocity LinkedIn loops that turn your Founder Brand into a
+                    scalable revenue asset.
+                </p>
+            </header>
+
+            <!-- SECTION 1: The Economics of Programmatic SEO -->
+            <article id="economics" class="border-t border-white/10 pt-12">
+                <h2>The Economics of Programmatic SEO (pSEO)</h2>
+                <p>The traditional model of SEO—"content marketing"—is fundamentally broken for high-velocity service
+                    businesses. It relies on the outdated premise that you can "blog your way" to dominance by writing
+                    generic articles about broad keywords. In 2026, this strategy is not just inefficient; it is a
+                    liability. The modern search landscape is dominated by two forces: AI-generated answers and
+                    hyper-specific, long-tail queries.</p>
+
+                <p>Most agencies chase "vanity volume." They target keywords like "HVAC Services" or "SaaS Marketing,"
+                    competing against incumbents with decade-old domain authority. This is a game of attrition you
+                    cannot win. The "Authority Engine" Blueprint flips this physics. Instead of chasing one keyword with
+                    50,000 searches, we engineer a database-driven infrastructure to capture 5,000 keywords with 10
+                    searches each.</p>
+
+                <h3>The "Service + Location" Matrix</h3>
+                <p>For high-ticket service niches (Roofing, Solar, Legal, Private Equity), the money is not in the broad
+                    search; it is in the specific intent. A user searching for "Roofing Company" is browsing. A user
+                    searching for "Slate Roof Repair in Westchester NY" is buying. The specificity of the query
+                    correlates directly with conversion intent.</p>
+
+                <p>The Authority Engine utilizes a <strong>Programmatic Architecture</strong> to generate thousands of
+                    landing pages dynamically. We do not write these pages one by one. We build a central "Data Source"
+                    (a headless CMS or CSV database) containing every variable: City, Neighborhood, Zip Code, Service
+                    Type, Material, Problem Symptom.</p>
+
+                <p>Our code then iterates through this matrix, generating static HTML pages for every possible
+                    permutation:</p>
+                <ul>
+                    <li><code>/services/commercial-solar-austin-tx</code></li>
+                    <li><code>/services/commercial-solar-round-rock-tx</code></li>
+                    <li><code>/services/residential-shingle-repair-dallas-tx</code></li>
+                </ul>
+
+                <blockquote>
+                    "Scale is not about writing more; it is about engineering a system where one piece of content can be
+                    deployed across ten thousand profitable contexts."
+                </blockquote>
+
+                <h3>Thin Content vs. Database-Driven Value</h3>
+                <p>The risk of pSEO is "Thin Content"—Google's penalty for duplicating distinct pages with identical
+                    text. Amateurs solve this by "spinning" text. We solve it with <strong>Data Injection</strong>.</p>
+                <p>Every programmatic page in the Authority Engine is unique not just in text, but in value. We inject
+                    local schema data, dynamic maps, specific testimonials from that region, and distinct "Project
+                    Highlights" relevant to that specific variable. To Google, these look like lovingly hand-crafted
+                    landing pages. To your server, they are simply rows in a database.</p>
+
+                <p>This allows us to scale your digital footprint from 50 pages to 5,000 pages in weeks, not years. The
+                    result is a "Search Net" that catches every variation of high-intent traffic in your market. You
+                    stop competing for the "Head Terms" and dominate the "Long Tail," where the Cost-Per-Acquisition is
+                    80% lower and the conversion rate is 400% higher.</p>
+
+                <!-- Interactive Deep Dive (Alpine) -->
+                <div x-data="{ expanded: false }"
+                    class="my-12 border border-gold/30 bg-white/5 rounded-lg overflow-hidden">
+                    <button @click="expanded = !expanded"
+                        class="w-full flex justify-between items-center p-6 text-left hover:bg-white/5 transition-colors">
+                        <span class="font-mono text-gold tracking-widest text-sm">VIEW ENGINEERING SPEC SHEET</span>
+                        <span class="text-gold text-xl" x-text="expanded ? '−' : '+'"></span>
+                    </button>
+                    <div x-show="expanded" class="p-6 border-t border-white/10 bg-black/40">
+                        <h4 class="text-white font-bold mb-4">Technical SEO Logic for pSEO</h4>
+                        <ul class="space-y-2 font-mono text-xs text-gray-400">
+                            <li><span class="text-gold">>></span> URL STRUCTURE: /service/[location]/[sub-niche]</li>
+                            <li><span class="text-gold">>></span> CANONICAL TAGS: Self-referencing to prevent dilution.
+                            </li>
+                            <li><span class="text-gold">>></span> SCHEMA INJECTION: LocalBusiness + Service +
+                                AreaServed.</li>
+                            <li><span class="text-gold">>></span> INTERNAL LINKING: Cluster topology (Hub & Spoke).</li>
+                        </ul>
+                    </div>
+                </div>
+            </article>
+
+            <!-- SECTION 2: Founder Brand as a Revenue Asset -->
+            <article id="founder-brand" class="border-t border-white/10 pt-12">
+                <h2>The Founder Brand as a Revenue Asset</h2>
+                <p>In 2026, the "Corporate Brand" is dead. Trust has migrated to individuals. Buyers—especially in B2B
+                    and high-ticket B2C—do not trust faceless logos. They trust people. They trust expertise. They trust
+                    the Founder.</p>
+
+                <p>The "Trust Gap" is the single biggest friction point in your sales funnel. You can have the best ads
+                    (Protocol 01) and the best funnel (Protocol 02), but if the prospect investigates you and finds a
+                    ghost town, you lose.</p>
+
+                <h3>Identity-Based Sales</h3>
+                <p>We approach Personal Branding not as a vanity metric, but as a sales acceleration tool. This is
+                    "Identity-Based Sales." When a prospect books a call with your team, they should already feel like
+                    they know you. They should have consumed your philosophy, your case studies, and your voice.</p>
+                <p>This pre-sells the lead. It shifts the dynamic of the sales call from "Prove to me you are good" to
+                    "I am hoping you will work with me." The Authority Engine systematizes this. We do not just post
+                    "content"; we build a library of "Asset-Based" thought leadership that handles the objection
+                    handling before the first interaction.</p>
+            </article>
+
+            <!-- SECTION 3: The LinkedIn Authority Loop -->
+            <article id="linkedin-loop" class="border-t border-white/10 pt-12">
+                <h2>The LinkedIn Authority Loop</h2>
+                <p>LinkedIn is the only platform where organic reach still functions as a meritocracy for B2B revenue.
+                    But consistency is the failure point for 99% of founders. You have a business to run; you do not
+                    have time to be a creator.</p>
+
+                <p>Our <strong>Ghostwriting Workflow</strong> removes the friction. We utilize a "1-Hour to 20-Post"
+                    protocol:</p>
+                <ol class="list-decimal list-inside space-y-4 text-gray-400 font-mono text-sm ml-4 mb-8">
+                    <li><span class="text-white">INPUT:</span> Monthly 60-minute interview to extract your War Stories,
+                        Opinions, and Case Studies.</li>
+                    <li><span class="text-white">PROCESSING:</span> Our editorial team (aided by custom LLMs)
+                        transcribes and restructures this raw audio into specific formats.</li>
+                    <li><span class="text-white">OUTPUT:</span> 20 high-authority posts: 4 Contrarian Takes, 4 Case
+                        Studies, 4 "How-To" Guides, and 8 Social Proof clusters.</li>
+                </ol>
+
+                <p>This ensures your voice is authentic, but your time is protected. We use AI not to write the content
+                    (which leads to generic sludge), but to <em>structure</em> your actual expertise. The result is a
+                    consistent signal that you are the category king, published daily, without you typing a single word.
+                </p>
+            </article>
+
+            <!-- SECTION 4: Technical Stack -->
+            <article id="tech-stack" class="border-t border-white/10 pt-12">
+                <h2>The Technical Stack</h2>
+                <p>The Authority Engine requires a robust infrastructure to handle thousands of pages without latency.
+                    We reject WordPress plugins in favor of <strong>Headless Architecture</strong>.</p>
+                <ul>
+                    <li><strong>Database:</strong> Airtable or PostgreSQL to house the "Content Matrix."</li>
+                    <li><strong>Rendering:</strong> Astro or Next.js for Static Site Generation (SSG). This ensures 0ms
+                        "Time to First Byte."</li>
+                    <li><strong>Indexing:</strong> Automated Indexing API integration to force Google to crawl new pages
+                        instantly.</li>
+                </ul>
+            </article>
+
+            <!-- SECTION 5: Case Study -->
+            <article id="case-study" class="border-t border-white/10 pt-12">
+                <h2>Case Study: The Market Domination Protocol</h2>
+                <p><strong>Scenario:</strong> A Commercial Roofing company in Florida was spending $50k/mo on ads with a
+                    $200 CPA. They were competing for "Roofing Miami."</p>
+                <p><strong>Deployment:</strong> We deployed the Authority Engine generating 1,200 pages targeting every
+                    variation of [Material] + [City] + [Problem] (e.g., "TPO Roof Leak Repair Fort Lauderdale").</p>
+                <p><strong>Result:</strong> Within 90 days, the domain ranked for 3,400 long-tail keywords. Organic
+                    traffic increased by 600%. The "Blended CPA" dropped to $85 because the organic leads were "free"
+                    and highly qualified. They did not just win Miami; they surrounded it.</p>
+            </article>
+
+        </main>
+
+    </div>
+
+    <!-- MOAT AUDIT COMPONENT (Prompt 3 Injection) -->
+    <section class="py-24 px-6 border-t border-white/10 bg-black/50">
+        <div id="moat-audit" class="w-full max-w-4xl mx-auto" x-data="moatAudit">
+
+            <div class="glass-panel rounded-xl overflow-hidden relative border border-white/10 shadow-2xl">
+                <!-- Header -->
+                <div class="px-8 py-6 border-b border-white/5 flex justify-between items-center bg-black/40">
+                    <div class="flex items-center gap-3">
+                        <div class="w-2 h-2 rounded-full bg-gold animate-pulse"></div><span
+                            class="font-mono text-xs tracking-[0.2em] text-gold/80 uppercase">PROTOCOL 00: THE MOAT
+                            DISCOVERY</span>
+                    </div>
+                    <div class="font-mono text-xs text-gray-600"><span x-text="step"></span> / 4 STEPS</div>
+                </div>
+
+                <!-- Body Usage -->
+                <div class="p-8 md:p-12 min-h-[400px] flex flex-col justify-center">
+                    <!-- Step 1 -->
+                    <div x-show="step === 1">
+                        <h2 class="text-3xl font-bold text-white mb-4">Identify Your Primary Constraint.</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
+                            <button @click="selectFriction('INBOUND_FLOW')"
+                                class="p-6 text-left border border-white/10 hover:border-gold bg-white/5"><span
+                                    class="block text-gold text-xs mb-2">01 // VOLUME</span><span
+                                    class="font-bold">INBOUND FLOW</span></button>
+                            <button @click="selectFriction('SALES_VELOCITY')"
+                                class="p-6 text-left border border-white/10 hover:border-gold bg-white/5"><span
+                                    class="block text-gold text-xs mb-2">02 // CONVERSION</span><span
+                                    class="font-bold">SALES VELOCITY</span></button>
+                            <button @click="selectFriction('SYSTEM_LIFTCYCLE')"
+                                class="p-6 text-left border border-white/10 hover:border-gold bg-white/5"><span
+                                    class="block text-gold text-xs mb-2">03 // RETENTION</span><span
+                                    class="font-bold">SYSTEM LIFECYCLE</span></button>
+                        </div>
+                    </div>
+                    <!-- Step 2 -->
+                    <div x-show="step === 2" x-cloak>
+                        <h2 class="text-3xl font-bold text-white mb-4">Current Market Velocity.</h2>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+                            <button @click="selectVelocity('$20k - $50k')"
+                                class="py-4 border border-white/10 hover:border-gold text-gray-300 font-mono text-sm">$20k
+                                - $50k</button>
+                            <button @click="selectVelocity('$50k - $100k')"
+                                class="py-4 border border-white/10 hover:border-gold text-gray-300 font-mono text-sm">$50k
+                                - $100k</button>
+                            <button @click="selectVelocity('$100k - $500k')"
+                                class="py-4 border border-white/10 hover:border-gold text-gray-300 font-mono text-sm">$100k
+                                - $500k</button>
+                            <button @click="selectVelocity('$500k+')"
+                                class="py-4 border border-white/10 hover:border-gold text-gold font-mono text-sm">$500k+</button>
+                        </div>
+                    </div>
+                    <!-- Step 3 -->
+                    <div x-show="step === 3" x-cloak class="text-center">
+                        <div
+                            class="inline-block w-16 h-16 border-2 border-gold rounded-full animate-spin mb-4 border-t-transparent">
+                        </div>
+                        <p class="font-mono text-gold text-sm tracking-widest animate-pulse" x-text="loadingText"></p>
+                    </div>
+                    <!-- Step 4 -->
+                    <div x-show="step === 4" x-cloak class="flex flex-col md:flex-row gap-8">
+                        <div class="w-full md:w-1/2 p-6 bg-white/5 border border-gold/20 rounded-lg">
+                            <h3 class="text-gold font-bold mb-2">Analysis Complete.</h3>
+                            <p class="text-sm text-gray-400">Your specific authority score is <span
+                                    x-text="score"></span>%. Enter details to unlock full report.</p>
+                        </div>
+                        <div class="w-full md:w-1/2 space-y-4">
+                            <input type="text" x-model="formData.name" placeholder="Full Name"
+                                class="w-full bg-black border border-white/20 p-3 text-white text-sm font-mono focus:border-gold outline-none">
+                            <input type="email" x-model="formData.email" placeholder="Business Email"
+                                class="w-full bg-black border border-white/20 p-3 text-white text-sm font-mono focus:border-gold outline-none">
+                            <button @click="submitToGravity()"
+                                class="w-full py-4 bg-gold text-black font-bold tracking-wider hover:bg-white transition-all">EXECUTE
+                                DIAGNOSTIC</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#050505] border-t border-white/10 pt-24 pb-12 relative z-10">
+        <div class="max-w-[1400px] mx-auto px-6 lg:px-12 grid grid-cols-1 md:grid-cols-4 gap-12">
+            <div>
+                <div class="flex items-center gap-2 mb-6"><svg class="w-6 h-6 text-gold" viewBox="0 0 40 40"
+                        fill="none">
+                        <path d="M20 5L30 25H10L20 5Z" stroke="currentColor" stroke-width="2" />
+                    </svg><span class="font-bold text-white">JUMPSTART</span></div>
+                <p class="text-gray-500 text-sm leading-relaxed mb-6">The Authority Engine is the only viable moat in
+                    the AI-saturated landscape of 2026.</p>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-6 font-mono text-xs tracking-widest">PROTOCOLS</h4>
+                <div class="flex flex-col gap-3 text-sm text-gray-400">
+                    <a href="paid-acquisition.html" class="hover:text-gold">01 / Paid Acquisition</a>
+                    <a href="funnel-architecture.html" class="hover:text-gold">02 / Funnel Architecture</a>
+                    <a href="crm-transformation.html" class="hover:text-gold">03 / CRM Automation</a>
+                    <a href="authority-engine.html" class="hover:text-gold">04 / Authority Engine</a>
+                    <a href="data-attribution.html" class="hover:text-gold">05 / Data Attribution</a>
+                </div>
+            </div>
+            <!-- ... -->
+        </div>
+
+        <!-- Next Protocol Interlinking (Prompt 4 Req) -->
+        <div class="max-w-[1400px] mx-auto px-6 lg:px-12 mt-12 pt-12 border-t border-white/5 text-center">
+            <p class="text-gray-500 text-sm mb-4">READY TO SCALE THIS AUTHORITY?</p>
+            <a href="crm-transformation.html"
+                class="text-xl md:text-2xl font-bold text-white hover:text-gold transition-colors inline-flex items-center gap-3">
+                VIEW PROTOCOL 05: CRM TRANSFORMATION <span class="text-gold">→</span>
+            </a>
+        </div>
+    </footer>
+
+</body>
+
+</html>

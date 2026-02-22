@@ -1,0 +1,348 @@
+---
+layout: ../../layouts/ArticleLayout.astro
+title: "How I Build Scalable, Beautiful Web Applications"
+description: "A deep dive into my development philosophy, tech stack choices, and the systems I use to ship high-quality software fast."
+---
+
+import ReadingProgress from '../../components/ui/ReadingProgress';
+import FloatingTech from '../../components/3d/FloatingTech';
+import ScrollReveal from '../../components/text/ScrollReveal';
+import SmartHighlight from '../../components/text/SmartHighlight';
+import DeepDiveCard from '../../components/ui/DeepDiveCard';
+import PartyButton from '../../components/ui/PartyButton';
+
+{/* Global UI */}
+<ReadingProgress client:load />
+
+<div className="min-h-screen px-4 py-20">
+  <article className="prose mx-auto">
+
+<div className="mb-16">
+  <FloatingTech client:only="react" />
+</div>
+
+# How I Build Scalable, Beautiful Web Applications
+
+**By Chris Amaya** • 12 min read
+
+After building dozens of production applications—from high-traffic SaaS platforms to complex admin dashboards—I've developed a system for shipping quality software quickly. This is that system.
+
+## Philosophy: Fast, Beautiful, Scalable
+
+Most developers optimize for one or two of these. I optimize for all three by making smart architectural choices upfront.
+
+<ScrollReveal 
+  client:visible 
+  text="The secret isn't working harder or knowing more frameworks. It's about choosing the right tools for the job and building systems that scale with you." 
+/>
+
+Here's my core philosophy:
+- **Fast to develop** → Use the right abstractions
+- **Beautiful by default** → Design systems, not pages
+- **Scales automatically** → Architecture that grows
+
+## The Tech Stack
+
+### Frontend: Astro + React
+
+Why <SmartHighlight text="Astro" color="#FF5D01" />? Because it gives me the best of both worlds:
+- **Static-first** for instant page loads (SEO heaven)
+- **Islands architecture** for interactive components only where needed
+- **Framework agnostic** so I can use React, Vue, or vanilla JS per component
+
+I use **React** for interactivity because:
+✅ Massive ecosystem  
+✅ Incredible component libraries  
+✅ Team familiarity  
+
+But I only hydrate what needs to be interactive. A marketing page doesn't need 200KB of JavaScript.
+
+### Backend: FastAPI or Django
+
+For APIs, I default to **FastAPI** when I need:
+- High performance (async/await)
+- Auto-generated docs
+- Type safety with Pydantic
+- WebSocket support
+
+For complex apps with auth, admin panels, and ORM needs, **Django** wins:
+- Battle-tested
+- Built-in admin
+- Mature ecosystem
+- Django REST Framework
+
+<DeepDiveCard client:visible title="Real Performance Numbers">
+
+**Astro Static Site:**
+- First Contentful Paint: 0.3s
+- Time to Interactive: 0.8s
+- Lighthouse Score: 98/100
+
+**FastAPI Backend:**
+- Avg response time: 45ms
+- Concurrent requests: 1,000+
+- Uptime: 99.95%
+
+</DeepDiveCard>
+
+### Database: PostgreSQL
+
+Not trendy. Not exciting. Just **reliable**.
+
+I've tried MongoDB, Firebase, Supabase, and others. For 90% of applications, PostgreSQL is the right choice:
+- ACID compliance
+- Incredible performance
+- JSON support when you need flexibility
+- Proven at massive scale
+
+### Hosting: Oracle Cloud ARM64
+
+Controversial take: Oracle Cloud's ARM instances are incredible value.
+
+**Cost comparison for 4 ARM cores, 24GB RAM:**
+- AWS: ~$140/month
+- Oracle: **$0** (Always Free tier)
+
+I run multiple production apps on a single Oracle instance with PM2 for process management.
+
+## The Component Library Strategy
+
+Every project starts with a component library. Not a design system with 50 pages of documentation—a **practical component library** I can actually use.
+
+### The Core Components
+
+**1. Layout Components**
+- `<Container />` - Consistent max-width and padding
+- `<Section />` - Vertical spacing system
+- `<Grid />` - Responsive grid layouts
+
+**2. Interactive Components**
+- Progress bars (like the one on this page)
+- Modals and drawers
+- Tabs and accordions
+
+**3. Visual Components**
+- 3D scenes (React Three Fiber)
+- Charts (Recharts)
+- Animations (Framer Motion)
+
+The key: **Build once, reuse everywhere**.
+
+## My Development Workflow
+
+Here's exactly how I go from idea to production:
+
+### Day 1: Architecture
+
+I spend 20% of project time on architecture. This saves 200% of time later.
+
+Questions I answer:
+- What are the core data models?
+- What needs to be real-time vs static?
+- Where will state live?
+- How will authentication work?
+- What's the caching strategy?
+
+### Week 1-2: Foundation
+
+Build the boring stuff first:
+- Database schema
+- API endpoints (without complex logic)
+- Basic auth flow
+- Component library
+- Design tokens (colors, spacing, typography)
+
+### Week 3-4: Features
+
+Now I can move **fast** because the foundation is solid.
+
+I work in vertical slices:
+- Pick one feature
+- Build frontend → backend → database
+- Deploy to staging
+- Test
+- Repeat
+
+No "frontend phase" then "backend phase." That's how things get out of sync.
+
+## The Secret Weapon: MDX
+
+For content-heavy sites, <SmartHighlight text="MDX is a game-changer" color="#8B5CF6" type="circle" />.
+
+It lets me write content in Markdown (fast, clean) while embedding React components for interactivity.
+
+**Example:**
+
+```mdx
+# My Article
+
+Regular markdown text here...
+
+<InteractiveDemo />
+
+More text...
+
+<CallToAction />
+```
+
+The writer gets simplicity. The reader gets richness.
+
+## Performance Optimization
+
+I optimize in this specific order:
+
+**1. Architecture** (biggest impact)
+- Use static generation where possible
+- Lazy load heavy components
+- Code split by route
+
+**2. Assets**
+- Optimize images (WebP, proper sizing)
+- Remove unused CSS
+- Tree-shake JavaScript
+
+**3. Caching**
+- CDN for static assets
+- Redis for API responses
+- Browser caching headers
+
+**4. Micro-optimizations**
+- Debounce expensive operations
+- Virtual scrolling for long lists
+- Web Workers for heavy computation
+
+Most developers start at #4. That's backwards.
+
+## Deployment & DevOps
+
+My deployment pipeline is simple:
+
+**Local → GitHub → Production**
+
+No complex CI/CD. For most projects, it's overkill.
+
+I use:
+- **GitHub** for code
+- **rsync** or **git pull** for deployment
+- **PM2** for process management
+- **Cloudflare** for CDN and SSL
+
+For the Astro sites:
+```bash
+# Local
+npm run build
+
+# Sync to server
+rsync -avz dist/ server:/var/www/site/
+
+# Restart
+ssh server "pm2 restart site"
+```
+
+Fast. Reliable. No vendor lock-in.
+
+## The Mistakes I Made
+
+Let me save you some pain:
+
+**Mistake #1: Over-engineering**
+I built a complex microservices architecture for a project with 100 users. Monolith would've been fine.
+
+**Mistake #2: Wrong database**
+Used MongoDB for relational data because it was "modern." Spent weeks fighting with complex queries. PostgreSQL would've been trivial.
+
+**Mistake #3: No component library**
+Built 5 different button variants across a project. Consistency nightmare.
+
+**Mistake #4: Premature optimization**
+Spent days optimizing code that ran once per hour. Should've focused on the hot path.
+
+## What I'd Tell My Younger Self
+
+If I could go back 5 years, here's what I'd say:
+
+**1. Master the fundamentals**
+JavaScript, HTML, CSS, HTTP, databases. Frameworks change. Fundamentals don't.
+
+**2. Build in public**
+Share your work. Blog about what you learn. Future you will thank you.
+
+**3. Read other people's code**
+The best way to level up is seeing how experts solve problems.
+
+**4. Don't chase trends**
+React Server Components are cool. But do you actually need them?
+
+**5. Ship more**
+Perfect code that never ships helps nobody. Ship, learn, iterate.
+
+## The Stack I'd Choose Today
+
+If I were starting a new project today, here's what I'd use:
+
+**Marketing Site:**
+- Astro + Tailwind
+- Cloudflare Pages
+- No backend needed
+
+**SaaS Application:**
+- Astro + React (frontend)
+- FastAPI (backend)
+- PostgreSQL (database)
+- Oracle Cloud (hosting)
+- Cloudflare (CDN)
+
+**Admin Dashboard:**
+- React + Vite
+- Django REST Framework
+- PostgreSQL
+- Redis (caching)
+
+**Content Platform:**
+- Astro + MDX
+- PostgreSQL
+- Static hosting
+
+Simple. Proven. Scalable.
+
+## Resources I Actually Use
+
+**Learning:**
+- MDN Web Docs (for reference)
+- JavaScript.info (deep dives)
+- Three.js Journey (3D graphics)
+
+**Tools:**
+- VS Code + extensions
+- Postman (API testing)
+- Figma (design)
+- Linear (project management)
+
+**Communities:**
+- GitHub Discussions
+- Discord servers for specific tools
+- Twitter for staying current
+
+## The Bottom Line
+
+Building great software isn't about knowing every framework or library. It's about:
+
+✅ Choosing simple, proven tools  
+✅ Building great foundations  
+✅ Shipping iteratively  
+✅ Learning from mistakes  
+
+The tools will change. The principles won't.
+
+<div className="text-center my-16">
+  <h2 className="text-3xl font-bold mb-6">Want to Work Together?</h2>
+  <p className="text-xl text-gray-400 mb-8">I occasionally take on select projects</p>
+  <PartyButton text="Get in Touch 📧" client:load />
+</div>
+
+---
+
+*This article is part of my development series. More at [chrisamaya.work](https://chrisamaya.work)*
+
+  </article>
+</div>

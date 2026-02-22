@@ -1,0 +1,60 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+---
+<AdminLayout title="Debug">
+  <h2 class="text-xl font-bold mb-4">Debug</h2>
+  <div id="debug"><p class="text-gray-400">Loading...</p></div>
+  <script>
+    async function load() {
+      try {
+        const r = await fetch((window.__ADMIN_API_BASE__ || '') + '/api/debug');
+        const data = await r.json();
+
+        let logsHtml = '';
+        if (data.api_logs?.length && !data.api_logs[0]?.error) {
+          logsHtml = `
+            <h3 class="font-bold mt-6 mb-2">Recent API Logs (last 50)</h3>
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm border border-gray-700">
+                <thead><tr class="bg-gray-800 text-amber-500">
+                  <th class="p-2 text-left">ID</th>
+                  <th class="p-2 text-left">Endpoint</th>
+                  <th class="p-2 text-left">Method</th>
+                  <th class="p-2 text-left">Status</th>
+                  <th class="p-2 text-left">Created</th>
+                </tr></thead>
+                <tbody>
+                  ${data.api_logs.map(r => `
+                    <tr class="border-t border-gray-700">
+                      <td class="p-2">${r.id}</td>
+                      <td class="p-2 font-mono">${r.endpoint || ''}</td>
+                      <td class="p-2">${r.method || ''}</td>
+                      <td class="p-2">${r.status || ''}</td>
+                      <td class="p-2 text-gray-400">${r.created_at || ''}</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          `;
+        } else {
+          logsHtml = `<p class="text-gray-500 mt-4">No logs yet. Enable LOG_REQUESTS in API env to record requests.</p>`;
+        }
+
+        document.getElementById('debug').innerHTML = `
+          <h3 class="font-bold mt-4">Config (safe)</h3>
+          <pre class="p-4 bg-gray-900 rounded overflow-x-auto text-xs">${JSON.stringify(data.config || {}, null, 2)}</pre>
+          <h3 class="font-bold mt-6">Health</h3>
+          <p class="text-gray-300">${data.health || 'ok'}</p>
+          ${logsHtml}
+        `;
+      } catch (e) {
+        document.getElementById('debug').innerHTML = `
+          <p class="text-red-400">Error: ${e.message}</p>
+          <p class="text-gray-500 mt-2 text-sm">Ensure GOD_MODE_API_URL is set and the API is running.</p>
+        `;
+      }
+    }
+    load();
+  </script>
+</AdminLayout>

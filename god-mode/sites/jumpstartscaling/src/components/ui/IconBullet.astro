@@ -1,0 +1,20 @@
+---
+export interface Props { items: string[] }
+const { items } = Astro.props
+const icons = ['🎯','🚀','🔍','📈','🛡️','✉️','📊','🏆','♻️','💎']
+---
+
+<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 my-16">
+  {items.map((item, i) => (
+    <div class="flex items-start gap-6 p-8 glass-card border-white/5 hover:border-[#E8C677]/20 transition-all group">
+      <div class="w-14 h-14 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-center text-3xl group-hover:scale-110 group-hover:bg-[#E8C677]/10 transition-all">
+        {icons[i % icons.length]}
+      </div>
+      <div class="flex-1">
+        <p class="text-lg md:text-xl text-white/90 font-medium leading-relaxed pt-2">
+          {item}
+        </p>
+      </div>
+    </div>
+  ))}
+</div>

@@ -1,0 +1,232 @@
+---
+title: "CRM Transformation"
+description: "Transform your CRM from a contact database into a revenue-generating machine. We engineer automated workflows, lead scoring, and pipeline optimization that turn every lead into a measurable revenue opportunity."
+palette: "gold"
+order: 3
+keyMetrics:
+  - label: "Lead Response Time"
+    value: "<60s"
+  - label: "Pipeline Velocity"
+    value: "+220%"
+  - label: "Close Rate Lift"
+    value: "38%"
+---
+
+import RelatedServices from '../../components/ui/RelatedServices.astro';
+import ParallaxHero from '../../components/ui/ParallaxHero.astro';
+import Hero from '../../components/ui/Hero.astro';
+import AnimatedSection from '../../components/ui/AnimatedSection.astro';
+import GlassCard from '../../components/ui/GlassCard.astro';
+import PullQuote from '../../components/ui/PullQuote.astro';
+import InteractiveTimeline from '../../components/visuals/InteractiveTimeline.tsx';
+import ScrollRevealGrid from '../../components/ui/ScrollRevealGrid.tsx';
+import ScalingSurvey from '../../components/interactivity/ScalingSurvey.tsx';
+import CTA from '../../components/ui/CTA.astro';
+import ImagePlaceholder from '../../components/ui/ImagePlaceholder.tsx';
+import ChurnCalculator from '../../components/calculators/ChurnCalculator.tsx';
+import LTVCalculator from '../../components/calculators/LTVCalculator.tsx';
+import MRRForecastCalculator from '../../components/calculators/MRRForecastCalculator.tsx';
+import CLVRetentionCalculator from '../../components/calculators/CLVRetentionCalculator.tsx';
+
+<section class="section dark py-20">
+  <div class="container text-center max-w-5xl mx-auto">
+    <AnimatedSection delay={100}>
+      <h1 class="text-5xl md:text-7xl font-black gradient-text mb-12 leading-tight">
+        The Silent CRM Killer That's Quietly Draining 23% of Your Revenue Every Year... 
+        <br class="hidden md:block" />
+        <span class="text-white block mt-4 text-4xl md:text-5xl">And the 90-Day "Transformation Protocol" That Turns Your Dead Database Into a Predictable Revenue Machine</span>
+      </h1>
+      <p class="text-2xl md:text-3xl text-white/85 mb-16 max-w-4xl mx-auto leading-relaxed">
+        (Even if you're using HubSpot, ClickFunnels, WordPress, or a custom mess)
+      </p>
+      
+      <div class="prose prose-2xl prose-invert max-w-4xl mx-auto text-left">
+        <p>Picture this: It's Monday morning. You log into your CRM expecting to see a clear picture of your business...</p>
+        <p>Instead, you get chaos. Duplicate contacts. Leads with no follow-up. Sales reps chasing ghosts. Customers slipping away silently.</p>
+        <p>Sound familiar? You're not alone. 91% of companies have CRMs that are expensive graveyards — full of data but producing zero revenue.</p>
+        <p>I used to be there. Spending $10K+/year on tools like HubSpot and ClickFunnels, hiring "experts" who delivered nothing but pretty dashboards.</p>
+        <p>Then I discovered the truth: It's not the tool. It's the infrastructure.</p>
+        <p>Most CRMs are static databases. We turn them into dynamic revenue engines.</p>
+        <p>The Transformation Protocol is our battle-tested 3-phase system that works with ANY platform — GoHighLevel (our #1 recommendation), HubSpot, ClickFunnels, or even WordPress/custom builds.</p>
+        <p>In 90 days, we clean the mess, automate the follow-up, and add predictive intelligence that turns your CRM from a cost center into your highest-ROI asset.</p>
+        <p>No more hoping leads convert. No more guessing which campaigns work. Just predictable, scalable revenue.</p>
+        <p>Keep reading to see exactly how it works... and why companies using this protocol are outgrowing competitors by 3-5x.</p>
+      </div>
+      <div class="mt-16">
+        <a href="#protocol" class="px-12 py-6 bg-[#E8C677] text-black font-bold text-2xl rounded-2xl hover:scale-105 transition shadow-2xl inline-block no-underline">
+          See the 3-Phase Protocol →
+        </a>
+      </div>
+    </AnimatedSection>
+  </div>
+</section>
+
+<section class="section light">
+  <div class="container mx-auto px-6 max-w-6xl">
+    <AnimatedSection delay={200}>
+      <div class="grid md:grid-cols-2 gap-12 items-center mb-24">
+        <div class="p-8 md:p-12">
+            <h2 class="text-3xl md:text-4xl font-black text-black mb-6">The Silent Revenue Killer</h2>
+            <h3 class="text-xl text-black/60 font-medium mb-6">Why 70% of your leads are wasted.</h3>
+            
+            <div class="prose prose-lg text-black/80 leading-relaxed">
+                <p>Most companies treat their CRM as a storage locker for contacts rather than an active revenue engine. Leads come in, get one or two follow-ups, and then sit dormant forever. This is the silent killer of growth.</p>
+                <p>You are paying full price for every lead, but only monetizing the 3% who are ready to buy immediately. The other 97%—the future buyers—are ignored until they buy from a competitor.</p>
+                <p class="font-bold border-l-4 border-black pl-4 italic">"Your CRM should be your most profitable employee, working 24/7."</p>
+            </div>
+        </div>
+
+        <ImagePlaceholder 
+            client:visible
+            minHeight="400px"
+            suggestion="Lifecycle Logic"
+            description="Visual showing leads entering funnel, leaking out without follow-up vs getting nurtured automatically."
+            videoSrc="/assets/lifecycle.mp4"
+        />
+      </div>
+
+      <div class="mb-16 text-center">
+        <h2 class="text-5xl md:text-6xl font-black text-black mb-8">
+          Why Your CRM Is Quietly Sabotaging Your Growth
+        </h2>
+        <p class="text-xl text-black/60 max-w-3xl mx-auto">And Costing You Millions</p>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-16 items-start">
+        <div class="prose prose-xl text-black">
+          <p>Let's pull back the curtain on the #1 growth killer hiding in plain sight...</p>
+          <p>You're spending thousands on ads. Your sales team is "busy." Your CRM is "full of leads."</p>
+          <p>But revenue is flat. Or worse — unpredictable.</p>
+          <p>Here's why: Your CRM isn't a revenue engine. It's a digital filing cabinet.</p>
+          <p>9 out of 10 clients we audit have the same fatal flaws:</p>
+          <ul class="space-y-6 text-lg">
+            <li><strong>Leads vanish into black holes</strong> — no automated follow-up sequences mean 80% of leads never hear from you again after the first contact.</li>
+            <li><strong>Sales chases ghosts</strong> — no lead scoring means reps waste time on unqualified prospects while hot buyers cool off.</li>
+            <li><strong>Marketing & sales play the blame game</strong> — no proper attribution means nobody knows which campaigns actually make money.</li>
+            <li><strong>Customers churn silently</strong> — no re-engagement triggers mean you're losing 15-30% of revenue annually without realizing it.</li>
+            <li><strong>Data is a disaster</strong> — duplicates, stale info, disconnected tools create "garbage in, garbage out" automation that fails spectacularly.</li>
+          </ul>
+          <p>The result? You're leaving 23-47% of potential revenue on the table every year.</p>
+        </div>
+        <div>
+          <a href="/resources/calculators#churn-calculator" class="group block p-8 bg-white border border-black/10 rounded-2xl shadow-2xl hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-center no-underline">
+            <div class="text-5xl mb-6 p-4 bg-black/5 w-fit mx-auto rounded-2xl group-hover:bg-[#E8C677] group-hover:text-black transition-colors">📉</div>
+            <h3 class="text-2xl font-bold mb-4 text-black">See Your Hidden Churn Cost</h3>
+            <p class="text-black/60 mb-8">Average client reduces churn from 8% to 2.8% — adding millions in retained revenue.</p>
+            <span class="inline-block px-6 py-3 bg-black text-white rounded-full font-bold group-hover:bg-[#E8C677] group-hover:text-black transition-colors">
+                Open Churn Calculator →
+            </span>
+          </a>
+        </div>
+      </div>
+    </AnimatedSection>
+  </div>
+</section>
+
+<section id="protocol" class="section dark py-20">
+  <div class="container max-w-6xl mx-auto">
+    <AnimatedSection delay={300}>
+      <h2 class="text-5xl md:text-7xl font-black gradient-text text-center mb-16">
+        The Transformation Protocol: Your 90-Day Path to a Revenue-Generating CRM
+      </h2>
+      <p class="text-2xl text-white/85 text-center max-w-4xl mx-auto mb-20">
+        Our proven 3-phase system works with GoHighLevel (recommended), HubSpot, ClickFunnels, or any platform. No rip-and-replace required.
+      </p>
+      
+      <div class="max-w-4xl mx-auto mb-20">
+        <InteractiveTimeline client:load steps={[
+           {title: "Phase 1: Hygiene & Architecture", content: "Full data audit, deduplication, standardized tagging taxonomy, unified data sources into a single source of truth."},
+           {title: "Phase 2: Lifecycle Automation", content: "Deploy behavioral trigger sequences. Lead scoring models that surface high-intent prospects. Re-engagement campaigns for dormant leads."},
+           {title: "Phase 3: Predictive Intelligence", content: "AI-driven churn prediction. Next-best-action recommendations for sales teams. Revenue forecasting based on pipeline velocity."}
+        ]} />
+      </div>
+
+      <div class="mt-20 grid lg:grid-cols-2 gap-16">
+        <GlassCard class="p-12">
+          <h3 class="text-4xl font-bold gradient-text mb-8">Phase 1: Hygiene & Architecture (Weeks 1-4)</h3>
+          <div class="prose prose-invert prose-xl">
+            <p><strong>Who needs this most:</strong> Companies with messy data, duplicates, and disconnected tools (WordPress sites feeding into separate CRMs, etc.).</p>
+            <p><strong>What we do:</strong> Full data audit, deduplication, standardized tagging taxonomy, unified data sources into a single source of truth.</p>
+            <p><strong>Why it matters:</strong> Automation on dirty data creates chaos. Clean data is the foundation — without it, everything else fails.</p>
+            <p><strong>How we do it:</strong> 30-day deep dive → identify all data sources → clean and merge → implement GHL's unified database (or HubSpot if enterprise) → create tagging system that makes every contact actionable.</p>
+            <p><strong>Proof:</strong> Average client reduces duplicate contacts by 40% and uncovers 15-25% more qualified leads hiding in their database.</p>
+          </div>
+        </GlassCard>
+        
+        <a href="/resources/calculators#ltv-calculator" class="group block p-12 glass-card hover:-translate-y-1 transition-all duration-300 text-center no-underline h-fit">
+          <div class="text-5xl mb-6 p-4 bg-white/10 w-fit mx-auto rounded-2xl group-hover:bg-[#E8C677] group-hover:text-black transition-colors">💎</div>
+          <h3 class="text-3xl font-bold mb-4 text-white">Calculate Your LTV Potential</h3>
+          <p class="text-white/60 mb-8">See how small retention improvements multiply your customer lifetime value.</p>
+          <span class="inline-block px-8 py-4 bg-white/10 text-white border border-white/20 rounded-full font-bold group-hover:bg-[#E8C677] group-hover:border-[#E8C677] group-hover:text-black transition-colors">
+              Launch LTV Calculator →
+          </span>
+        </a>
+      </div>
+    </AnimatedSection>
+  </div>
+</section>
+
+<section class="section light py-20">
+  <div class="container max-w-6xl mx-auto">
+    <AnimatedSection delay={400}>
+      <h2 class="text-5xl md:text-6xl font-black text-center mb-16 text-black">
+        The Math That Makes This a No-Brainer Investment
+      </h2>
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <div class="prose prose-xl text-black">
+          <p class="text-2xl font-bold mb-4">Let's run your numbers...</p>
+          <p>Take a typical client: $100K MRR, 8% monthly churn, $150 ARPU, 70% margin.</p>
+          <p>Current LTV: ~$4,200 per customer.</p>
+          <p class="bg-black/5 p-4 rounded-lg border-l-4 border-[#E8C677]">After Protocol: 2.8% churn → LTV jumps to $12,857.</p>
+          <p>At 100 new customers/month: Additional $1M+ annual profit from retention alone.</p>
+          <p>Imagine: No more frantic ad scaling. No more "where did that lead go?" panic. Just smooth, predictable growth.</p>
+          <p>Your sales team knows exactly who to call today. Marketing knows exactly which campaigns to double down on. Customers stay longer and buy more.</p>
+          <p>This is what engineered growth feels like.</p>
+        </div>
+        <div class="space-y-6">
+            <a href="/resources/calculators#mrr-forecast" class="group block p-8 bg-white border border-black/10 rounded-2xl shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex items-center gap-6 no-underline">
+               <div class="text-4xl p-3 bg-black/5 rounded-xl group-hover:bg-[#E8C677] group-hover:text-black transition-colors">📊</div>
+               <div class="text-left">
+                 <h4 class="text-xl font-bold mb-1 text-black">MRR Growth Forecast</h4>
+                 <p class="text-sm text-black/60">Project 12-month revenue growth →</p>
+               </div>
+            </a>
+
+            <a href="/resources/calculators#clv-calculator" class="group block p-8 bg-white border border-black/10 rounded-2xl shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex items-center gap-6 no-underline">
+               <div class="text-4xl p-3 bg-black/5 rounded-xl group-hover:bg-[#E8C677] group-hover:text-black transition-colors">💰</div>
+               <div class="text-left">
+                 <h4 class="text-xl font-bold mb-1 text-black">Profit-Adjusted CLV</h4>
+                 <p class="text-sm text-black/60">See true profit potential per lead →</p>
+               </div>
+            </a>
+        </div>
+      </div>
+    </AnimatedSection>
+  </div>
+</section>
+
+<section class="section dark">
+  <div class="container mx-auto px-6 text-center">
+    <AnimatedSection delay={500}>
+      <div class="my-32">
+        <h2 class="text-4xl md:text-5xl font-bold mb-8 gradient-text">Ready to Transform Your CRM?</h2>
+        <div class="max-w-3xl mx-auto">
+          <ScalingSurvey client:load />
+        </div>
+      </div>
+    </AnimatedSection>
+  </div>
+</section>
+
+<section class="section dark pt-0 pb-20">
+  <div class="container mx-auto px-6">
+      <div class="my-32">
+        <h2 class="text-3xl font-bold text-center mb-12">Related Services & Reading</h2>
+        <RelatedServices items={[
+          {title: "Funnel Architecture", desc: "Feed your CRM with high-intent leads.", link: "/services/funnel-architecture"},
+          {title: "Data Attribution", desc: "Close the loop between ad spend and CRM revenue.", link: "/services/data-attribution"},
+          {title: "Paid Acquisition", desc: "Scale the volume of leads entering your new engine.", link: "/services/paid-acquisition"}
+        ]} />
+      </div>
+  </div>
+</section>

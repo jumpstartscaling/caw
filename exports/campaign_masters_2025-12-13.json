@@ -1,0 +1,35 @@
+{
+  "collection": "campaign_masters",
+  "exportedAt": "2025-12-13T14:49:42.207Z",
+  "recordCount": 2,
+  "data": [
+    {
+      "id": "22180037-e8b4-430d-aa76-3679aec04362",
+      "site_id": null,
+      "name": "Master Content Library",
+      "headline_spintax_root": "Master Library",
+      "niche_variables": null,
+      "location_mode": "none",
+      "location_target": null,
+      "batch_count": 0,
+      "status": "active",
+      "date_created": "2025-12-13T05:13:20",
+      "target_word_count": 1500,
+      "article_template": null
+    },
+    {
+      "id": "2351fc97-0f1f-4ad0-adaf-570e235c8e54",
+      "site_id": null,
+      "name": "Master Content Library",
+      "headline_spintax_root": "Master Library",
+      "niche_variables": null,
+      "location_mode": "none",
+      "location_target": null,
+      "batch_count": 0,
+      "status": "active",
+      "date_created": "2025-12-13T05:12:33",
+      "target_word_count": 1500,
+      "article_template": null
+    }
+  ]
+}

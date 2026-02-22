@@ -1,0 +1,26 @@
+---
+export interface Props { text: string; author?: string; }
+const { text, author } = Astro.props
+---
+
+<div class="quote-container my-24 relative max-w-5xl mx-auto px-6">
+  <div class="absolute -top-12 -left-4 text-9xl font-serif text-[#E8C677]/10 pointer-events-none select-none">“</div>
+  <blockquote class="relative z-10">
+    <p class="text-3xl md:text-4xl font-bold text-white leading-tight mb-8 tracking-tight italic">
+      {text}
+    </p>
+    {author && (
+      <footer class="flex items-center gap-4">
+        <div class="w-12 h-[1px] bg-[#E8C677]"></div>
+        <cite class="text-lg font-mono text-[#E8C677] uppercase tracking-widest not-italic">{author}</cite>
+      </footer>
+    )}
+  </blockquote>
+  <div class="absolute -bottom-16 -right-4 text-9xl font-serif text-[#E8C677]/10 pointer-events-none select-none translate-y-8">”</div>
+</div>
+
+<style>
+  .quote-container {
+    background: radial-gradient(circle at center, rgba(232, 198, 119, 0.03) 0%, transparent 70%);
+  }
+</style>

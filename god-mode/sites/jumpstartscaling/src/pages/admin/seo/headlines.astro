@@ -1,0 +1,21 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+---
+<AdminLayout title="Headlines">
+  <p class="text-gray-400 mb-4">Headline inventory. <a href="/jumpstart/admin/collections/headline-inventory" class="text-gold">Manage headlines</a>.</p>
+  <div id="table-wrap"><p class="text-gray-400">Loading...</p></div>
+  <script>
+    const base = () => window.__ADMIN_API_BASE__ || '';
+    async function load() {
+      try {
+        const r = await fetch(base() + '/api/headline-inventory?limit=200');
+        const rows = await r.json();
+        if (!r.ok) { document.getElementById('table-wrap').innerHTML = `<p class="text-red-400">API error</p>`; return; }
+        const arr = Array.isArray(rows) ? rows : [];
+        const html = arr.length ? `<table><thead><tr><th>ID</th><th>Campaign</th><th>Headline</th><th>Used</th></tr></thead><tbody>${arr.map(h => `<tr><td>${h.id}</td><td>${h.campaign_id ?? '-'}</td><td>${(h.headline_text || '').slice(0, 80)}...</td><td>${h.is_used ? 'Yes' : 'No'}</td></tr>`).join('')}</tbody></table>` : '<p class="text-gray-400">No headlines yet.</p>';
+        document.getElementById('table-wrap').innerHTML = html;
+      } catch (e) { document.getElementById('table-wrap').innerHTML = `<p class="text-red-400">Error: ${e.message}</p>`; }
+    }
+    load();
+  </script>
+</AdminLayout>

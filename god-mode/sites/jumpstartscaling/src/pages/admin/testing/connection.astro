@@ -1,0 +1,21 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+---
+<AdminLayout title="Connection Test">
+  <h2 class="text-xl font-bold mb-4">API Connection</h2>
+  <button onclick="test()" class="mb-4">Ping API</button>
+  <pre id="result" class="bg-gray-900 p-4 rounded text-sm overflow-auto">Click to test.</pre>
+  <script>
+    async function test() {
+      const base = window.__ADMIN_API_BASE__ || '';
+      document.getElementById('result').textContent = 'Pinging ' + (base || '(same origin)') + '/api/health...';
+      try {
+        const r = await fetch(base + '/api/health');
+        const d = await r.json();
+        document.getElementById('result').textContent = JSON.stringify({ status: r.status, data: d }, null, 2);
+      } catch (e) {
+        document.getElementById('result').textContent = 'Error: ' + e.message;
+      }
+    }
+  </script>
+</AdminLayout>

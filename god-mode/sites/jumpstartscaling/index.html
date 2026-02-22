@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jumpstart Scaling | Revenue Engineering Command Center</title>
+    <meta name="description"
+        content="The Command Center for high-velocity founders. We engineer revenue systems that scale without chaos.">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Jumpstart Scaling | Revenue Engineering">
+    <meta property="og:description" content="Scale or Die. The Agency Model is Broken. We Fix It.">
+
+    <style>
+        :root {
+            --color-obsidian: #050505;
+            --color-gold: #C9A961;
+            --color-cream: #FFE5A0;
+            --color-ash: #111111;
+        }
+
+        body {
+            background-color: var(--color-obsidian);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease-in;
+        }
+
+        body.loaded {
+            opacity: 1;
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .glass-nav {
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(201, 169, 97, 0.1);
+        }
+
+        /* Grid Background */
+        .grid-bg {
+            background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+    </style>
+
+    <!-- Local Assets -->
+    <link rel="stylesheet" href="assets/css/tailwind.min.css">
+    <script src="assets/js/alpine.min.js" defer></script>
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('homeLogic', () => ({
+                isScrolled: false,
+                mobileMenuOpen: false,
+                status: 'OPEN',
+                statusColor: 'text-green-500',
+
+                init() {
+                    document.body.classList.add('loaded');
+                    window.addEventListener('scroll', () => { this.isScrolled = window.scrollY > 50; });
+
+                    // Simple Status Simulation
+                    const hour = new Date().getHours();
+                    if (hour > 9 && hour < 18) {
+                        this.status = 'OPERATIONAL';
+                        this.statusColor = 'text-green-500';
+                    } else {
+                        this.status = 'LOW LATENCY';
+                        this.statusColor = 'text-gold';
+                    }
+                },
+
+                toggleMobileMenu() {
+                    this.mobileMenuOpen = !this.mobileMenuOpen;
+                }
+            }));
+        });
+    </script>
+</head>
+
+<body x-data="homeLogic" class="antialiased bg-black selection:bg-gold selection:text-black grid-bg">
+
+    <!-- Header -->
+    <nav class="fixed top-0 w-full z-50 transition-all duration-500 ease-in-out h-24 flex items-center"
+        :class="isScrolled ? 'glass-nav h-20' : 'bg-transparent border-b border-white/5'">
+        <div class="w-full max-w-[1400px] mx-auto px-6 lg:px-12 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-4">
+                <svg class="w-10 h-10 text-gold" viewBox="0 0 40 40" fill="none">
+                    <path d="M20 5L30 25H10L20 5Z" stroke="currentColor" stroke-width="2" />
+                    <path d="M20 15L25 25H15L20 15Z" fill="currentColor" class="opacity-50" />
+                    <rect x="18" y="30" width="4" height="4" fill="currentColor" />
+                </svg>
+                <div class="flex flex-col"><span
+                        class="font-bold text-lg tracking-tight text-white">JUMPSTART</span><span
+                        class="font-mono text-[10px] tracking-[0.3em] text-gold uppercase">SCALING</span></div>
+            </a>
+
+            <div class="hidden xl:flex items-center gap-8 font-mono text-xs tracking-widest text-gray-500">
+                <div class="flex items-center gap-2 px-4 py-2 border border-white/10 rounded bg-white/5">
+                    <div class="w-2 h-2 rounded-full animate-pulse bg-green-500"></div>
+                    <span x-text="status" :class="statusColor"></span>
+                </div>
+                <button onclick="document.querySelector('#protocols').scrollIntoView({behavior: 'smooth'})"
+                    class="hover:text-white transition-colors">PROTOCOLS</button>
+                <button onclick="document.querySelector('#data-room').scrollIntoView({behavior: 'smooth'})"
+                    class="hover:text-white transition-colors">DATA ROOM</button>
+                <a href="#audit"
+                    class="ml-4 px-6 py-2 border border-gold text-gold hover:bg-gold hover:text-black font-bold transition-all duration-300">SYSTEM
+                    ACCESS</a>
+            </div>
+            <button @click="toggleMobileMenu" class="xl:hidden z-50 text-white hover:text-gold">
+                <div class="space-y-2"><span class="block w-8 h-0.5 bg-current"></span><span
+                        class="block w-8 h-0.5 bg-current"></span><span class="block w-8 h-0.5 bg-current"></span></div>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section: Command Center -->
+    <section class="min-h-screen flex flex-col justify-center items-center relative pt-20 overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-[#050505]"></div>
+
+        <div class="relative z-10 text-center max-w-5xl px-6">
+            <div
+                class="inline-flex items-center gap-2 px-3 py-1 rounded border border-gold/30 bg-gold/5 text-gold font-mono text-xs tracking-widest mb-8 animate-pulse">
+                SYSTEM INITIALIZED: V.2.0.4
+            </div>
+
+            <h1
+                class="text-7xl md:text-9xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-800 mb-8 leading-none">
+                SCALE OR DIE.
+            </h1>
+
+            <p class="text-xl md:text-2xl text-gray-400 max-w-2xl mx-auto leading-relaxed mb-12">
+                The Agency Model is Broken. We replace "Hope Marketing" with <span class="text-gold">Revenue
+                    Engineering</span>.
+            </p>
+
+            <div class="flex flex-col md:flex-row justify-center gap-6">
+                <a href="#protocols"
+                    class="px-10 py-4 bg-gold text-black font-bold tracking-wider hover:bg-white transition-all transform hover:scale-105">
+                    INITIATE PROTOCOLS
+                </a>
+                <a href="#data-room"
+                    class="px-10 py-4 border border-white/20 text-white font-mono hover:border-gold hover:text-gold transition-all">
+                    VIEW DATA ROOM
+                </a>
+            </div>
+        </div>
+
+        <!-- Decoration -->
+        <div class="absolute bottom-0 w-full h-32 bg-gradient-to-t from-[#050505] to-transparent"></div>
+    </section>
+
+    <!-- The Problem -->
+    <section class="py-32 bg-[#050505] relative border-t border-white/10">
+        <div class="max-w-[1400px] mx-auto px-6 lg:px-12 grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
+            <div>
+                <h2 class="text-5xl font-bold text-white mb-8">The "Black Box" Problem.</h2>
+                <div class="space-y-6 text-gray-400 text-lg leading-relaxed">
+                    <p>Founders are tired of "Magic." Agencies sell you a black box—they take your money, hide the work,
+                        and deliver excuses.</p>
+                    <p>We build <strong class="text-white">Glass Boxes</strong>. You see the code. You own the assets.
+                        You control the data. We are not a service provider; we are fractional architects who build the
+                        machine, hand you the keys, and teach you how to drive.</p>
+                </div>
+            </div>
+            <div class="relative">
+                <div class="absolute inset-0 bg-gold/10 blur-3xl"></div>
+                <div class="relative border border-white/10 bg-white/5 p-8 rounded-xl backdrop-blur-sm">
+                    <div class="flex justify-between items-center border-b border-white/10 pb-4 mb-4">
+                        <span class="font-mono text-xs text-red-500">TRADITIONAL AGENCY</span>
+                        <span class="font-mono text-xs text-red-500">(-40% EFFICIENCY)</span>
+                    </div>
+                    <div class="space-y-4 font-mono text-sm text-gray-500">
+                        <div class="flex justify-between"><span>Retainer Cost</span> <span>$10,000/mo</span></div>
+                        <div class="flex justify-between"><span>Asset Ownership</span> <span>Zero</span></div>
+                        <div class="flex justify-between"><span>Data Transparency</span> <span>Opaque</span></div>
+                    </div>
+
+                    <div class="mt-8 pt-4 border-t border-gold/20 flex justify-between items-center">
+                        <span class="font-mono text-xs text-gold">JUMPSTART SCALING</span>
+                        <span class="font-mono text-xs text-gold">(+400% VELOCITY)</span>
+                    </div>
+                    <div class="space-y-4 font-mono text-sm text-gray-300 mt-4">
+                        <div class="flex justify-between"><span>Investment</span> <span>Performance</span></div>
+                        <div class="flex justify-between"><span>Asset Ownership</span> <span>100% Client</span></div>
+                        <div class="flex justify-between"><span>Data Transparency</span> <span>Absolute</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Protocol Matrix (The Solution) -->
+    <section id="protocols" class="py-32 bg-[#050505] relative">
+        <div class="max-w-[1400px] mx-auto px-6 lg:px-12">
+            <div class="text-center mb-24">
+                <span class="font-mono text-gold text-xs tracking-[0.3em]">SYSTEM ARCHITECTURE</span>
+                <h2 class="text-5xl md:text-6xl font-bold text-white mt-4 mb-6">The 6 Scaling Protocols</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">A sequential framework to engineer 8-figure valuation.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Card 01 -->
+                <a href="services/paid-acquisition.html"
+                    class="group relative p-8 border border-white/10 bg-white/5 hover:border-gold/50 transition-all hover:-translate-y-1">
+                    <div class="absolute top-0 right-0 p-4 font-mono text-xs text-gray-600 group-hover:text-gold">01
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4 group-hover:text-gold">Acquisition</h3>
+                    <p class="text-gray-400 text-sm mb-8">High-velocity media buying focused on Unit Economics and
+                        Contribution Margin.</p>
+                    <span class="font-mono text-xs text-gold flex items-center gap-2">DEPLOY PROTOCOL <span
+                            class="group-hover:translate-x-1 transition-transform">→</span></span>
+                </a>
+
+                <!-- Card 02 -->
+                <a href="services/funnel-architecture.html"
+                    class="group relative p-8 border border-white/10 bg-white/5 hover:border-gold/50 transition-all hover:-translate-y-1">
+                    <div class="absolute top-0 right-0 p-4 font-mono text-xs text-gray-600 group-hover:text-gold">02
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4 group-hover:text-gold">Architecture</h3>
+                    <p class="text-gray-400 text-sm mb-8">Engineering "Consumption Environments" to leverage the 7-Hour
+                        Rule.</p>
+                    <span class="font-mono text-xs text-gold flex items-center gap-2">DEPLOY PROTOCOL <span
+                            class="group-hover:translate-x-1 transition-transform">→</span></span>
+                </a>
+
+                <!-- Card 03 -->
+                <a href="services/crm-transformation.html"
+                    class="group relative p-8 border border-white/10 bg-white/5 hover:border-gold/50 transition-all hover:-translate-y-1">
+                    <div class="absolute top-0 right-0 p-4 font-mono text-xs text-gray-600 group-hover:text-gold">03
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4 group-hover:text-gold">Automation</h3>
+                    <p class="text-gray-400 text-sm mb-8">Autonomous AI Sales Agents and self-hosted n8n infrastructure.
+                    </p>
+                    <span class="font-mono text-xs text-gold flex items-center gap-2">DEPLOY PROTOCOL <span
+                            class="group-hover:translate-x-1 transition-transform">→</span></span>
+                </a>
+
+                <!-- Card 04 -->
+                <a href="services/authority-engine.html"
+                    class="group relative p-8 border border-white/10 bg-white/5 hover:border-gold/50 transition-all hover:-translate-y-1">
+                    <div class="absolute top-0 right-0 p-4 font-mono text-xs text-gray-600 group-hover:text-gold">04
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4 group-hover:text-gold">Authority</h3>
+                    <p class="text-gray-400 text-sm mb-8">The only defensible moat. Founder branding and pSEO
+                        ecosystems.</p>
+                    <span class="font-mono text-xs text-gold flex items-center gap-2">DEPLOY PROTOCOL <span
+                            class="group-hover:translate-x-1 transition-transform">→</span></span>
+                </a>
+
+                <!-- Card 05 -->
+                <a href="services/data-attribution.html"
+                    class="group relative p-8 border border-white/10 bg-white/5 hover:border-gold/50 transition-all hover:-translate-y-1">
+                    <div class="absolute top-0 right-0 p-4 font-mono text-xs text-gray-600 group-hover:text-gold">05
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4 group-hover:text-gold">Analytics</h3>
+                    <p class="text-gray-400 text-sm mb-8">Server-side tracking (sGTM) to solve the iOS 14 data loss
+                        crisis.</p>
+                    <span class="font-mono text-xs text-gold flex items-center gap-2">DEPLOY PROTOCOL <span
+                            class="group-hover:translate-x-1 transition-transform">→</span></span>
+                </a>
+
+                <!-- Card 06 -->
+                <a href="services/growth-retainer.html"
+                    class="group relative p-8 border border-white/10 bg-white/5 hover:border-gold/50 transition-all hover:-translate-y-1">
+                    <div class="absolute top-0 right-0 p-4 font-mono text-xs text-gray-600 group-hover:text-gold">06
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4 group-hover:text-gold">Strategy</h3>
+                    <p class="text-gray-400 text-sm mb-8">Fractional CMO and Sprint-based iterative optimization loops.
+                    </p>
+                    <span class="font-mono text-xs text-gold flex items-center gap-2">DEPLOY PROTOCOL <span
+                            class="group-hover:translate-x-1 transition-transform">→</span></span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Data Room (Visual Proof) -->
+    <section id="data-room" class="py-32 bg-gradient-to-b from-[#050505] to-[#0a0a0a] border-t border-white/10">
+        <div class="max-w-[1400px] mx-auto px-6 lg:px-12">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16">
+                <div>
+                    <span class="font-mono text-gold text-xs tracking-[0.3em]">THE DATA ROOM</span>
+                    <h2 class="text-4xl font-bold text-white mt-4">System Performance.</h2>
+                </div>
+                <div class="font-mono text-xs text-gray-500 mt-4 md:mt-0">LIVE METRICS // UPDATED 14M AGO</div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Chart 1: Revenue Velocity -->
+                <div class="p-8 border border-white/10 bg-black rounded-xl">
+                    <h4 class="text-gray-400 text-sm font-mono mb-4">REVENUE VELOCITY (YOY)</h4>
+                    <div class="h-64 flex items-end justify-between gap-2">
+                        <div class="w-full bg-white/10 hover:bg-gold/50 transition-colors h-[20%] rounded-t"></div>
+                        <div class="w-full bg-white/10 hover:bg-gold/50 transition-colors h-[35%] rounded-t"></div>
+                        <div class="w-full bg-white/10 hover:bg-gold/50 transition-colors h-[45%] rounded-t"></div>
+                        <div class="w-full bg-white/10 hover:bg-gold/50 transition-colors h-[60%] rounded-t"></div>
+                        <div class="w-full bg-white/10 hover:bg-gold/50 transition-colors h-[55%] rounded-t"></div>
+                        <div class="w-full bg-gold hover:bg-white transition-colors h-[85%] rounded-t relative group">
+                            <div
+                                class="absolute -top-8 left-1/2 -translate-x-1/2 bg-white text-black text-xs font-bold px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
+                                +245%
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex justify-between mt-4 text-xs font-mono text-gray-600">
+                        <span>Q1</span><span>Q2</span><span>Q3</span><span>Q4</span><span>Q1</span><span>Q2 (NOW)</span>
+                    </div>
+                </div>
+
+                <!-- Chart 2: Cost Per Acquisition -->
+                <div class="p-8 border border-white/10 bg-black rounded-xl">
+                    <h4 class="text-gray-400 text-sm font-mono mb-4">COST PER ACQUISITION (CPA)</h4>
+                    <div class="h-64 flex items-end justify-between gap-2 relative">
+                        <!-- Trend Line (Simulated with div scaling) -->
+                        <div class="absolute bottom-0 left-0 w-full h-full pointer-events-none">
+                            <svg class="w-full h-full" overflow="visible">
+                                <path d="M0 20 L50 40 L100 35 L150 80 L200 120 L250 150 L300 200" fill="none"
+                                    stroke="#C9A961" stroke-width="2" vector-effect="non-scaling-stroke" />
+                            </svg>
+                        </div>
+                        <div
+                            class="w-full h-[90%] bg-red-500/10 rounded-t border-t border-red-500/30 flex items-start justify-center pt-2 text-[10px] text-red-500 font-mono">
+                            MARKET AUGUST</div>
+                        <div
+                            class="w-full h-[30%] bg-green-500/10 rounded-t border-t border-green-500/30 flex items-start justify-center pt-2 text-[10px] text-green-500 font-mono">
+                            SYSTEM CA</div>
+                    </div>
+                    <p class="mt-4 text-xs text-gray-400 leading-relaxed">System implementation typically results in a
+                        <span class="text-white font-bold">45% reduction in CPA</span> by month 3 via sGTM accuracy and
+                        creative iteration.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#050505] border-t border-white/10 pt-24 pb-12 relative z-10">
+        <div class="max-w-[1400px] mx-auto px-6 lg:px-12 flex flex-col items-center text-center">
+
+            <a href="index.html" class="flex items-center gap-3 mb-8">
+                <svg class="w-10 h-10 text-gold" viewBox="0 0 40 40" fill="none">
+                    <path d="M20 5L30 25H10L20 5Z" stroke="currentColor" stroke-width="2" />
+                </svg>
+            </a>
+
+            <h2 class="text-3xl font-bold text-white mb-6">Ready to Engineer Your Exit?</h2>
+
+            <button onclick="document.querySelector('#audit').scrollIntoView()"
+                class="px-10 py-4 bg-gold text-black font-bold mb-12 hover:bg-white transition-colors">
+                START MARKET GAP AUDIT
+            </button>
+
+            <div class="text-xs text-gray-700 font-mono">
+                &copy; 2026 JUMPSTART SCALING. ALL SYSTEMS NOMINAL.
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

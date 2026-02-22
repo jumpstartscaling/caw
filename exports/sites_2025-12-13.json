@@ -1,0 +1,37 @@
+{
+  "collection": "sites",
+  "exportedAt": "2025-12-13T14:49:43.501Z",
+  "recordCount": 3,
+  "data": [
+    {
+      "id": "01f8df35-916a-4c30-bd95-7abcb9df2e19",
+      "name": "chrisamaya.work",
+      "url": "https://chrisamaya.work",
+      "wp_username": "gatekeeper",
+      "wp_app_password": "Idk@2025",
+      "status": "active",
+      "created_at": "2025-12-13T13:50:20",
+      "updated_at": "2025-12-13T13:50:20"
+    },
+    {
+      "id": "2010f1f4-3ab3-48f5-91c2-1cfbf82f4238",
+      "name": "chrisamaya.work",
+      "url": "https://chrisamaya.work",
+      "wp_username": null,
+      "wp_app_password": null,
+      "status": "active",
+      "created_at": "2025-12-13T13:49:24",
+      "updated_at": "2025-12-13T13:49:24"
+    },
+    {
+      "id": "5dc49b3a-28e3-4d6d-828e-d7ca85942bde",
+      "name": "Test Site",
+      "url": "https://example.com",
+      "wp_username": null,
+      "wp_app_password": null,
+      "status": "active",
+      "created_at": "2025-12-13T03:00:48",
+      "updated_at": "2025-12-13T03:00:48"
+    }
+  ]
+}

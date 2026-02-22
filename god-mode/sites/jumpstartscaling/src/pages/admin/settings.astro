@@ -1,0 +1,11 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+---
+<AdminLayout title="Settings">
+  <h2 class="text-xl font-bold mb-4">Platform Configuration</h2>
+  <p class="text-gray-400">Key configuration is set via environment variables (Coolify, .env). API base: <code id="apiBase" class="text-gold">-</code></p>
+  <script>
+    document.getElementById('apiBase').textContent = window.__ADMIN_API_BASE__ || '(same origin)';
+  </script>
+  <p class="mt-4"><a href="/jumpstart/admin/debug" class="text-gold">Debug</a> — View config and logs.</p>
+</AdminLayout>

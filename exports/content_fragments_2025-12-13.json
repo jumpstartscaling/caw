@@ -1,0 +1,1207 @@
+{
+  "collection": "content_fragments",
+  "exportedAt": "2025-12-13T14:49:42.501Z",
+  "recordCount": 150,
+  "data": [
+    {
+      "id": "00053215-f7af-4807-a592-931377cd4a4d",
+      "campaign_id": null,
+      "fragment_type": "feature_benefit_meaning",
+      "content_body": "<div class='fbm-block'><p><strong>Feature:</strong> Private Community Access.<br><strong>Benefit:</strong> So you can network with other successful {Avatar}s in {City}.<br><strong>Meaning:</strong> Which means you are surrounded by winners who pull you up to their level.</p></div>",
+      "word_count": 41,
+      "date_created": "2025-12-13T05:13:22"
+    },
+    {
+      "id": "00548961-be43-42e1-be97-f53d87a83829",
+      "campaign_id": null,
+      "fragment_type": "brunson_bullets",
+      "content_body": "<ul class='features-list'><li><strong>The 'Influencer' Hack:</strong> Get big names to promote your {Niche} for free.</li><li><strong>Speed Wealth:</strong> Why slow and steady is the wrong path to {Benefit}.</li><li><strong>Crush {Fear}:</strong> A 10-second mental exercise that changes everything.</li></ul>",
+      "word_count": 46,
+      "date_created": "2025-12-13T05:13:21"
+    },
+    {
+      "id": "00a29f4b-a480-4f02-826e-7bf17899f683",
+      "campaign_id": null,
+      "fragment_type": "how_to_scripts",
+      "content_body": "<div class='how-to'><h3>How To Outsource</h3><p>You can't do it all. Use our Rolodex of vetted VAs. Hand off the grunt work. Focus on strategy and {Benefit}.</p></div>",
+      "word_count": 42,
+      "date_created": "2025-12-13T05:13:27"
+    },
+    {
+      "id": "0216fe3e-5c6e-4637-b7fb-4cb2adbf7da0",
+      "campaign_id": null,
+      "fragment_type": "feature_benefit_meaning",
+      "content_body": "<div class='fbm-block'><p><strong>Feature:</strong> Drag-and-Drop Editor.<br><strong>Benefit:</strong> So you can customize your {Niche} assets easily.<br><strong>Meaning:</strong> Which means your business looks professional without the design cost.</p></div>",
+      "word_count": 37,
+      "date_created": "2025-12-13T05:13:23"
+    },
+    {
+      "id": "05f6c0ae-5f44-469f-b00d-d5b23a092fb2",
+      "campaign_id": null,
+      "fragment_type": "framework_teaching",
+      "content_body": "<div class='framework'><h3>The 5-Step {Niche} Ladder</h3><p>Imagine a ladder. Rung 1: Understanding the basics. Rung 2: Setting up {Product}. Rung 3: Generating Traffic. Rung 4: Converting leads. Rung 5: Enjoying {Benefit}. Most people skip steps and fall. We hold the ladder for you.</p></div>",
+      "word_count": 55,
+      "date_created": "2025-12-13T05:13:24"
+    },
+    {
+      "id": "0735b7d8-3bf1-41eb-818d-71a26e8665d2",
+      "campaign_id": null,
+      "fragment_type": "bio_section",
+      "content_body": "<div class='bio'><h3>The Vision</h3><p>My vision is a world where no {Avatar} has to fear {Pain_Point}. We are building that world one success story at a time. Be the next one.</p></div>",
+      "word_count": 45,
+      "date_created": "2025-12-13T05:13:28"
+    },
+    {
+      "id": "07dc3001-7605-4264-920c-e516b5cda8d4",
+      "campaign_id": null,
+      "fragment_type": "sales_letter_core",
+      "content_body": "<div class='sales-core'><h3>Attention {Avatar}: The Game Has Changed</h3><p>If you have been struggling to get {Result}, I have bad news and good news. The bad news is that everything you thought you knew about {Niche} is wrong. The 'gurus' have been feeding you outdated strategies that only work for them, not for regular people in {City}. But here is the good news: I have developed a proprietary system called {Product} that levels the playing field. It allows you to bypass the hard work and jump straight to the {Benefit} without ever having to deal with {Fear}. Let me explain how...</p></div>",
+      "word_count": 110,
+      "date_created": "2025-12-13T05:13:20"
+    },
+    {
+      "id": "08220560-8b0b-484d-9633-c7d576e41bc3",
+      "campaign_id": null,
+      "fragment_type": "bio_section",
+      "content_body": "<div class='bio'><h3>Your Guide</h3><p>Think of me as your Sherpa. I have climbed the mountain of {Niche} many times. I know the crevices are. Follow my footsteps to the top.</p></div>",
+      "word_count": 44,
+      "date_created": "2025-12-13T05:13:28"
+    },
+    {
+      "id": "0fb66dab-ab57-45ae-8e08-0175a45bb33e",
+      "campaign_id": null,
+      "fragment_type": "feature_benefit_meaning",
+      "content_body": "<div class='fbm-block'><p><strong>Feature:</strong> Pre-Built Templates.<br><strong>Benefit:</strong> So you don't have to create anything from scratch.<br><strong>Meaning:</strong> Which means you save hundreds of hours and get to {Benefit} faster.</p></div>",
+      "word_count": 39,
+      "date_created": "2025-12-13T05:13:22"
+    },
+    {
+      "id": "106e8227-f2cc-44d1-b31a-cf3ce1933173",
+      "campaign_id": null,
+      "fragment_type": "offer_stack",
+      "content_body": "<div class='offer-stack'><h3>The 'Enterprise' Edition</h3><p>For serious players. Includes source code, white-label rights, and bulk licenses. Dominate {City} with this package. Price: $997.</p></div>",
+      "word_count": 40,
+      "date_created": "2025-12-13T05:13:28"
+    },
+    {
+      "id": "113b430f-a878-46b8-a915-95e4ecf020e5",
+      "campaign_id": null,
+      "fragment_type": "feature_benefit_meaning",
+      "content_body": "<div class='fbm-block'><p><strong>Feature:</strong> Automated Follow-Up.<br><strong>Benefit:</strong> So no lead ever falls through the cracks.<br><strong>Meaning:</strong> Which means you maximize every opportunity for {Benefit}.</p></div>",
+      "word_count": 35,
+      "date_created": "2025-12-13T05:13:23"
+    },
+    {
+      "id": "12fbdbaa-b06b-4102-a2d4-65811eb98003",
+      "campaign_id": null,
+      "fragment_type": "bio_section",
+      "content_body": "<div class='bio'><h3>The Man Behind The Method</h3><p>{Author} has been featured in major publications for his innovative approach to {Niche}. He is on a mission to help 1 million {Avatar}s get {Result}.</p></div>",
+      "word_count": 44,
+      "date_created": "2025-12-13T05:13:27"
+    },
+    {
+      "id": "14605c30-48dd-492e-9161-085e8b335d00",
+      "campaign_id": null,
+      "fragment_type": "feature_benefit_meaning",
+      "content_body": "<div class='fbm-block'><p><strong>Feature:</strong> Mobile App Integration.<br><strong>Benefit:</strong> So you receive notifications whenever you get {Result}.<br><strong>Meaning:</strong> Which means you get a dopamine hit of success right on your phone.</p></div>",
+      "word_count": 39,
+      "date_created": "2025-12-13T05:13:23"
+    },
+    {
+      "id": "1e136088-1485-45a3-bbd4-7986b968fc6e",
+      "campaign_id": null,
+      "fragment_type": "sales_letter_core",
+      "content_body": "<div class='sales-core'><h3>The Secret Weapon of Top {Avatar}s</h3><p>Ever wonder how the top 1% in {Niche} make it look so easy? It's not because they are smarter than you. It's because they have a system. They have automation. They have {Product}. While you are struggling with {Fear}, they are leveraging tools to get {Benefit} on autopilot. It is time you joined them. We are opening the doors to our exclusive program for a limited time in {City}. This is your chance to steal their secrets.</p></div>",
+      "word_count": 100,
+      "date_created": "2025-12-13T05:13:21"
+    },
+    {
+      "id": "1f9f6323-cc78-47a3-9770-12f5199e8802",
+      "campaign_id": null,
+      "fragment_type": "framework_teaching",
+      "content_body": "<div class='framework'><h3>The 80/20 Rule for {Avatar}s</h3><p>20% of your activities produce 80% of your {Result}. We identify that 20% and automate it. The other 80%? We eliminate it. This is extreme efficiency for {City}.</p></div>",
+      "word_count": 51,
+      "date_created": "2025-12-13T05:13:24"
+    },
+    {
+      "id": "2222a846-6b9f-493d-9217-8502256ee802",
+      "campaign_id": null,
+      "fragment_type": "framework_teaching",
+      "content_body": "<div class='framework'><h3>The 'Circle of Safety'</h3><p>In {Niche}, you need protection. Our framework builds a 'Circle of Safety' around your business. Inside the circle, you get {Result}. Outside the circle is chaos and {Fear}. Stay inside the circle with {Product}.</p></div>",
+      "word_count": 53,
+      "date_created": "2025-12-13T05:13:24"
+    },
+    {
+      "id": "245c7d86-77a2-45ef-85e5-98354f54f51a",
+      "campaign_id": null,
+      "fragment_type": "brunson_bullets",
+      "content_body": "<ul class='features-list'><li><strong>Stealth Mode:</strong> How to launch your {Product} without anyone knowing until it is too late for competitors.</li><li><strong>The 'Morning Coffee' Routine:</strong> Get {Result} before you finish your first cup.</li><li><strong>Avoid The Money Pit:</strong> Why spending on ads is destroying your {Benefit}.</li></ul>",
+      "word_count": 52,
+      "date_created": "2025-12-13T05:13:21"
+    },
+    {
+      "id": "27616c1e-23c5-415c-bf36-fc65f6cdd234",
+      "campaign_id": null,
+      "fragment_type": "sales_letter_core",
+      "content_body": "<div class='sales-core'><h3>A Personal Letter To My Fellow {Avatar}s</h3><p>Dear Friend, I wrote this because I am tired of seeing good people get chewed up by the {Niche} industry. You deserve better. You deserve a system that actually works. That is why I spent the last 5 years perfecting {Product}. It is not just a course; it is a movement. A movement of people who refuse to settle for {Fear} and instead demand {Benefit}. Join us inside and let's change your life together.</p></div>",
+      "word_count": 95,
+      "date_created": "2025-12-13T05:13:20"
+    },
+    {
+      "id": "2eb1a341-1774-4deb-aa1c-0ee51ad20b91",
+      "campaign_id": null,
+      "fragment_type": "how_to_scripts",
+      "content_body": "<div class='how-to'><h3>How To Fix {Pain_Point} Forever</h3><ol><li>Identify the root cause (we help you do this).</li><li>Apply the {Niche} patch.</li><li>Monitor results.</li></ol><p>Most problems in {City} are solved in these three steps.</p></div>",
+      "word_count": 48,
+      "date_created": "2025-12-13T05:13:26"
+    },
+    {
+      "id": "2ebaea2d-2b2e-4672-94f1-47071448879f",
+      "campaign_id": null,
+      "fragment_type": "avatar_engagement",
+      "content_body": "<div class='engagement'><h3>Confession Time</h3><p>Admit it: you are intimidated by {Niche}. That is okay. {Product} is designed to turn that intimidation into confidence.</p></div>",
+      "word_count": 33,
+      "date_created": "2025-12-13T05:13:23"
+    },
+    {
+      "id": "32fff748-3f00-4813-8d6b-92dcb8e3e985",
+      "campaign_id": null,
+      "fragment_type": "offer_stack",
+      "content_body": "<div class='offer-stack'><h3>One Time Offer</h3><p>This page is the only time you will see this price. If you leave, it goes up to $197. Lock in your discount now.</p></div>",
+      "word_count": 44,
+      "date_created": "2025-12-13T05:13:28"
+    },
+    {
+      "id": "373afb0a-1529-4e78-878d-dc29edd190d1",
+      "campaign_id": null,
+      "fragment_type": "offer_stack",
+      "content_body": "<div class='offer-stack'><h3>The 'Done For You' Service</h3><p>We build your funnel. We write your ads. We set up {Product}. You just handle the leads. Limited spots available in {City}.</p></div>",
+      "word_count": 44,
+      "date_created": "2025-12-13T05:13:28"
+    },
+    {
+      "id": "377e56ab-5932-448b-8e99-ef61266aa192",
+      "campaign_id": null,
+      "fragment_type": "how_to_scripts",
+      "content_body": "<div class='how-to'><h3>How To Start In 24 Hours</h3><p>Step 1: Download {Product}. Step 2: Watch the 'Fast Start' video. Step 3: Launch your first campaign. It is designed to be fast because speed kills fear.</p></div>",
+      "word_count": 45,
+      "date_created": "2025-12-13T05:13:26"
+    },
+    {
+      "id": "37889c37-10be-4755-b715-8019dd1c68f4",
+      "campaign_id": null,
+      "fragment_type": "feature_benefit_meaning",
+      "content_body": "<div class='fbm-block'><p><strong>Feature:</strong> Lifetime Updates.<br><strong>Benefit:</strong> So you always have the latest strategies for {Niche}.<br><strong>Meaning:</strong> Which means your investment never expires and keeps paying dividends.</p></div>",
+      "word_count": 37,
+      "date_created": "2025-12-13T05:13:22"
+    },
+    {
+      "id": "3800402e-30d6-4136-9f4c-39aa4448f38b",
+      "campaign_id": null,
+      "fragment_type": "content_headlines",
+      "content_body": "<h2>Stop Ignoring {Niche} Trends</h2>",
+      "word_count": 5,
+      "date_created": "2025-12-13T05:13:25"
+    },
+    {
+      "id": "3867019b-e42e-4992-8a06-239d2e7d6f8c",
+      "campaign_id": null,
+      "fragment_type": "how_to_scripts",
+      "content_body": "<div class='how-to'><h3>How To Manage Time</h3><p>Use the Pomodoro technique. 25 minutes of focus on {Niche}. 5 minutes break. Repeat. You will be amazed at how much {Result} you get.</p></div>",
+      "word_count": 44,
+      "date_created": "2025-12-13T05:13:27"
+    },
+    {
+      "id": "3ba24764-95fc-4186-8cab-9adb2df24e62",
+      "campaign_id": null,
+      "fragment_type": "feature_benefit_meaning",
+      "content_body": "<div class='fbm-block'><p><strong>Feature:</strong> The {Product} Algorithm.<br><strong>Benefit:</strong> So the system does the hard thinking for you.<br><strong>Meaning:</strong> Which means you can avoid {Fear} and focus on spending your {Benefit}.</p></div>",
+      "word_count": 39,
+      "date_created": "2025-12-13T05:13:22"
+    },
+    {
+      "id": "3bbe6a6f-b4c9-4259-b567-1e63a5c8d230",
+      "campaign_id": null,
+      "fragment_type": "content_headlines",
+      "content_body": "<h2>Why {City} Loves This</h2>",
+      "word_count": 5,
+      "date_created": "2025-12-13T05:13:25"
+    },
+    {
+      "id": "3d90ed88-fef9-459a-b688-bd2fd695cbe5",
+      "campaign_id": null,
+      "fragment_type": "avatar_engagement",
+      "content_body": "<div class='engagement'><h3>Hey {Avatar}, Quick Question...</h3><p>When was the last time you felt truly in control of your {Niche} journey? If you can't remember, we need to talk.</p></div>",
+      "word_count": 35,
+      "date_created": "2025-12-13T05:13:23"
+    },
+    {
+      "id": "3d949353-b29e-485d-b1ae-cc9df22b7214",
+      "campaign_id": null,
+      "fragment_type": "bio_section",
+      "content_body": "<div class='bio'><h3>Open Door Policy</h3><p>I am active in our community. I answer questions. I am real. You are not buying a faceless corporation; you are partnering with {Author}.</p></div>",
+      "word_count": 43,
+      "date_created": "2025-12-13T05:13:28"
+    },
+    {
+      "id": "3e2791eb-4168-434b-bd23-52421647972a",
+      "campaign_id": null,
+      "fragment_type": "headline_variations",
+      "content_body": "<h1>The {Product} Phenomenon Sweeping {City}</h1>",
+      "word_count": 6,
+      "date_created": "2025-12-13T05:13:26"
+    },
+    {
+      "id": "425dfd5d-eb92-471d-ac75-8663b72aaf7c",
+      "campaign_id": null,
+      "fragment_type": "framework_teaching",
+      "content_body": "<div class='framework'><h3>The 'Domino' Strategy</h3><p>You have a big goal: {Result}. But it seems far away. We line up small dominoes. Knock over the first one (sign up), and the rest fall automatically, leading straight to the big {Result}.</p></div>",
+      "word_count": 52,
+      "date_created": "2025-12-13T05:13:24"
+    },
+    {
+      "id": "43696c58-2cf6-411d-8575-2165c0dde57d",
+      "campaign_id": null,
+      "fragment_type": "headline_variations",
+      "content_body": "<h1>The 'Lazy' Man's Way To {Result} In {Niche}</h1>",
+      "word_count": 10,
+      "date_created": "2025-12-13T05:13:26"
+    },
+    {
+      "id": "43c762e2-8ffa-4c43-93a9-fcf6e06a94dd",
+      "campaign_id": null,
+      "fragment_type": "bio_section",
+      "content_body": "<div class='bio'><h3>Final Word</h3><p>You have two choices: go it alone and risk failure, or join {Author} and guarantee success. Choose wisely.</p></div>",
+      "word_count": 40,
+      "date_created": "2025-12-13T05:13:28"
+    },
+    {
+      "id": "446fd282-e60c-49d6-99d1-0d13ded7c225",
+      "campaign_id": null,
+      "fragment_type": "content_headlines",
+      "content_body": "<h2>The Million Dollar Tweak</h2>",
+      "word_count": 4,
+      "date_created": "2025-12-13T05:13:25"
+    },
+    {
+      "id": "448ab883-397f-4319-9052-3d7ecbe5e5c8",
+      "campaign_id": null,
+      "fragment_type": "brunson_bullets",
+      "content_body": "<ul class='features-list'><li><strong>The 'Reverse' Funnel:</strong> Flip the script and get paid to generate leads.</li><li><strong>Zero Rejection:</strong> How to get {Result} without ever hearing 'No'.</li><li><strong>The {Product} Guarantee:</strong> Why this method is safer than a savings account.</li></ul>",
+      "word_count": 47,
+      "date_created": "2025-12-13T05:13:21"
+    },
+    {
+      "id": "468e6cb9-9a69-4e35-b76b-8d027064eadd",
+      "campaign_id": null,
+      "fragment_type": "framework_teaching",
+      "content_body": "<div class='framework'><h3>The 'Oxygen Mask' Principle</h3><p>Secure your own {Benefit} first before helping others. Once you are successful with {Product}, you can help everyone around you. But you have to succeed first.</p></div>",
+      "word_count": 49,
+      "date_created": "2025-12-13T05:13:25"
+    },
+    {
+      "id": "47e6d31b-832e-4725-bd44-ba60ea311afc",
+      "campaign_id": null,
+      "fragment_type": "feature_benefit_meaning",
+      "content_body": "<div class='fbm-block'><p><strong>Feature:</strong> One-Click Installation.<br><strong>Benefit:</strong> So you don't need to hire expensive tech guys.<br><strong>Meaning:</strong> Which means you keep more money in your pocket while getting {Result}.</p></div>",
+      "word_count": 40,
+      "date_created": "2025-12-13T05:13:22"
+    },
+    {
+      "id": "47edbba5-ab74-4e79-9dc4-de570102795d",
+      "campaign_id": null,
+      "fragment_type": "how_to_scripts",
+      "content_body": "<div class='how-to'><h3>How To Close The Deal</h3><p>Don't be pushy. Be helpful. Use our 'Consultative Selling' script. It works like magic on {Avatar}s in {City}.</p></div>",
+      "word_count": 40,
+      "date_created": "2025-12-13T05:13:27"
+    },
+    {
+      "id": "48890610-8a2d-44b7-ae14-826de9354550",
+      "campaign_id": null,
+      "fragment_type": "headline_variations",
+      "content_body": "<h1>Give Me 5 Minutes And I Will Give You {Benefit}</h1>",
+      "word_count": 11,
+      "date_created": "2025-12-13T05:13:26"
+    },
+    {
+      "id": "48d7adaa-34c8-4a2a-b862-811b59a3ab44",
+      "campaign_id": null,
+      "fragment_type": "content_headlines",
+      "content_body": "<h2>The Roadmap To {Benefit}</h2>",
+      "word_count": 5,
+      "date_created": "2025-12-13T05:13:25"
+    },
+    {
+      "id": "48d8b470-0bcd-4e49-86ff-86c8d9148e15",
+      "campaign_id": null,
+      "fragment_type": "sales_letter_core",
+      "content_body": "<div class='sales-core'><h3>The 3 Lies You Have Been Told About {Niche}</h3><p>Lie #1: You need a lot of money to start. Lie #2: It takes years to master. Lie #3: You have to be a tech wizard. These lies are keeping you stuck in {Pain_Point}. The truth is, with the {Product}, you can start today with zero experience and very little capital. We have stripped away the complexity to give you a straight path to {Result}. Imagine waking up tomorrow knowing exactly what to do to get {Benefit}. That is the power of this system.</p></div>",
+      "word_count": 118,
+      "date_created": "2025-12-13T05:13:20"
+    },
+    {
+      "id": "4a473558-aeab-4f35-98b1-345e9745fc44",
+      "campaign_id": null,
+      "fragment_type": "avatar_engagement",
+      "content_body": "<div class='engagement'><h3>Let's Get Real About {Niche}</h3><p>It is hard. But it is harder if you don't have a map. We have the map to {Result}.</p></div>",
+      "word_count": 34,
+      "date_created": "2025-12-13T05:13:23"
+    },
+    {
+      "id": "4cbc46c2-9c96-4e93-9aca-e157777d3c0c",
+      "campaign_id": null,
+      "fragment_type": "content_headlines",
+      "content_body": "<h2>Mastering {Result} Made Easy</h2>",
+      "word_count": 5,
+      "date_created": "2025-12-13T05:13:25"
+    },
+    {
+      "id": "4e0dd661-f48e-4313-8bd8-f5c35e8c26f7",
+      "campaign_id": null,
+      "fragment_type": "brunson_bullets",
+      "content_body": "<ul class='features-list'><li><strong>The 'Snowball' Effect:</strong> Start small and watch your {Result} compound.</li><li><strong>Legacy Builder:</strong> Create something in {Niche} that lasts for generations.</li><li><strong>Claim Your {Benefit}:</strong> It is waiting for you. Take it.</li></ul>",
+      "word_count": 37,
+      "date_created": "2025-12-13T05:13:22"
+    },
+    {
+      "id": "4e120c82-4291-4b4a-9c07-02c2660286c7",
+      "campaign_id": null,
+      "fragment_type": "sales_letter_core",
+      "content_body": "<div class='sales-core'><h3>Imagine Your Life 30 Days From Now</h3><p>Close your eyes. Imagine waking up without the weight of {Pain_Point} on your shoulders. Imagine logging into your account and seeing {Benefit}. Imagine telling your friends and family that you finally cracked the code to {Niche}. This feeling is priceless, but the cost to get there is incredibly low. {Product} is the bridge. Walk across it and claim your new life. You have nothing to lose and a world of {Result} to gain.</p></div>",
+      "word_count": 97,
+      "date_created": "2025-12-13T05:13:21"
+    },
+    {
+      "id": "4e8ae6e5-16fa-47dc-959f-cee32615e6fa",
+      "campaign_id": null,
+      "fragment_type": "avatar_engagement",
+      "content_body": "<div class='engagement'><h3>To The {Avatar} In {City}...</h3><p>I see you working late. I see you stressing over {Fear}. I am here to tell you there is a better way.</p></div>",
+      "word_count": 35,
+      "date_created": "2025-12-13T05:13:23"
+    },
+    {
+      "id": "4f83decf-90b2-4b3b-8071-c4f618589528",
+      "campaign_id": null,
+      "fragment_type": "avatar_engagement",
+      "content_body": "<div class='engagement'><h3>Stop The Madness</h3><p>Stop doing the same thing and expecting different results. That is insanity. Try the {Niche} method that works.</p></div>",
+      "word_count": 33,
+      "date_created": "2025-12-13T05:13:24"
+    },
+    {
+      "id": "518b29ef-7c24-4d00-acf2-b115155375da",
+      "campaign_id": null,
+      "fragment_type": "how_to_scripts",
+      "content_body": "<div class='how-to'><h3>How To Deal With Haters</h3><p>If you get {Result}, people will hate on you. Ignore them. Or better yet, send them a link to {Product} and make an affiliate commission.</p></div>",
+      "word_count": 46,
+      "date_created": "2025-12-13T05:13:27"
+    },
+    {
+      "id": "5303d041-119a-4c2b-8db1-f9fdb87aa457",
+      "campaign_id": null,
+      "fragment_type": "sales_letter_core",
+      "content_body": "<div class='sales-core'><h3>Is {Pain_Point} Ruining Your Life?</h3><p>It sounds dramatic, but it is true. Stress kills. And the stress of failing in {Niche} is enough to bring anyone down. But imagine a life where that stress is gone. Replaced by the confidence of knowing you can {Result} whenever you want. That is not a pipe dream. It is the reality for hundreds of our students. They used {Product} to break free from the chains of {Fear} and finally claim the {Benefit} they deserve.</p></div>",
+      "word_count": 102,
+      "date_created": "2025-12-13T05:13:21"
+    },
+    {
+      "id": "5587bf7a-c164-465f-a173-59f5ffd5faa3",
+      "campaign_id": null,
+      "fragment_type": "avatar_engagement",
+      "content_body": "<div class='engagement'><h3>For The Skeptics</h3><p>I know you doubt this. But check the testimonials. Real {Avatar}s getting real {Result}. You can be next.</p></div>",
+      "word_count": 33,
+      "date_created": "2025-12-13T05:13:24"
+    },
+    {
+      "id": "58680195-2c6d-4c32-a881-eb3255648601",
+      "campaign_id": null,
+      "fragment_type": "offer_stack",
+      "content_body": "<div class='offer-stack'><h3>The 'Results' Guarantee</h3><p>If you don't make your money back in 30 days, we refund you + $50 for your time. That is how confident we are.</p></div>",
+      "word_count": 45,
+      "date_created": "2025-12-13T05:13:29"
+    },
+    {
+      "id": "59ad0c8a-2f55-4066-8500-2db8d40c50f5",
+      "campaign_id": null,
+      "fragment_type": "framework_teaching",
+      "content_body": "<div class='framework'><h3>The 'Flywheel' Concept</h3><p>Getting started in {Niche} is hard. Like pushing a heavy flywheel. But once it spins, its own momentum keeps it going. {Product} provides the initial push so you can enjoy the momentum of {Benefit}.</p></div>",
+      "word_count": 54,
+      "date_created": "2025-12-13T05:13:24"
+    },
+    {
+      "id": "5c8002d0-6b30-4897-b972-489821155ca8",
+      "campaign_id": null,
+      "fragment_type": "how_to_scripts",
+      "content_body": "<div class='how-to'><h3>How To Recover From Failure</h3><p>Did you mess up? Good. Dust yourself off. Open {Product} module 4. Follow the recovery protocol. You will be back to generating {Benefit} in no time.</p></div>",
+      "word_count": 47,
+      "date_created": "2025-12-13T05:13:27"
+    },
+    {
+      "id": "5ea501ea-a901-4f3f-8c9d-17065ead3d3c",
+      "campaign_id": null,
+      "fragment_type": "feature_benefit_meaning",
+      "content_body": "<div class='fbm-block'><p><strong>Feature:</strong> Advanced Analytics.<br><strong>Benefit:</strong> So you can spot trends in {City} before anyone else.<br><strong>Meaning:</strong> Which means you stay ahead of the curve and dominate your market.</p></div>",
+      "word_count": 38,
+      "date_created": "2025-12-13T05:13:23"
+    },
+    {
+      "id": "63ee7def-0f37-45e3-84ef-950821db9916",
+      "campaign_id": null,
+      "fragment_type": "feature_benefit_meaning",
+      "content_body": "<div class='fbm-block'><p><strong>Feature:</strong> Step-by-Step Video Training.<br><strong>Benefit:</strong> So you can watch over my shoulder and see exactly how to {Result}.<br><strong>Meaning:</strong> Which means you will never be confused or unsure of your next move.</p></div>",
+      "word_count": 42,
+      "date_created": "2025-12-13T05:13:22"
+    },
+    {
+      "id": "6612f229-1848-4ab1-8231-f318896a6b20",
+      "campaign_id": null,
+      "fragment_type": "sales_letter_core",
+      "content_body": "<div class='sales-core'><h3>Do Not Buy Another Course Until You Read This</h3><p>Seriously. Put your wallet away. Most courses are filled with fluff and theory. You don't need theory; you need action. You need a step-by-step implementation plan for {Result}. That is what {Product} is. It is a tactical manual for dominating {Niche}. We don't just tell you 'what' to do; we show you 'how' to do it, specifically for the {City} market. If you want real {Benefit}, you need real instruction.</p></div>",
+      "word_count": 99,
+      "date_created": "2025-12-13T05:13:21"
+    },
+    {
+      "id": "673e8481-f150-478f-91a7-0ef8f7dd2ad6",
+      "campaign_id": null,
+      "fragment_type": "brunson_bullets",
+      "content_body": "<ul class='features-list'><li><strong>The '3-Click' Rule:</strong> If it takes more than 3 clicks to {Result}, you are doing it wrong.</li><li><strong>Banish {Fear}:</strong> The psychological trick to eliminate anxiety instantly.</li><li><strong>The {Niche} Loophole:</strong> A legally grey area that generates massive {Benefit} (ethical, but powerful).</li></ul>",
+      "word_count": 50,
+      "date_created": "2025-12-13T05:13:21"
+    },
+    {
+      "id": "676d1373-03f8-4cab-807d-24203f13ba5e",
+      "campaign_id": null,
+      "fragment_type": "feature_benefit_meaning",
+      "content_body": "<div class='fbm-block'><p><strong>Feature:</strong> 60-Day Money Back Guarantee.<br><strong>Benefit:</strong> So you can try it completely risk-free.<br><strong>Meaning:</strong> Which means the pressure is on us to deliver {Result}, not on you.</p></div>",
+      "word_count": 38,
+      "date_created": "2025-12-13T05:13:22"
+    },
+    {
+      "id": "67caf26d-b8f8-4b01-8932-1557e27c3fb9",
+      "campaign_id": null,
+      "fragment_type": "how_to_scripts",
+      "content_body": "<div class='how-to'><h3>How To Use Social Media</h3><p>Don't post aimlessly. Use our content calendar. Post with purpose. Drive traffic to your {Niche} funnel. Get {Result}.</p></div>",
+      "word_count": 40,
+      "date_created": "2025-12-13T05:13:27"
+    },
+    {
+      "id": "68893cad-5168-4747-96e3-89f90cac4d70",
+      "campaign_id": null,
+      "fragment_type": "brunson_bullets",
+      "content_body": "<ul class='features-list'><li><strong>The 'Black Box' Method:</strong> Put $1 in, get $2 out. Repeat.</li><li><strong>Sleep Well:</strong> How to automate {Niche} so it grows while you dream.</li><li><strong>Escape {Pain_Point}:</strong> The exit strategy you have been looking for.</li></ul>",
+      "word_count": 43,
+      "date_created": "2025-12-13T05:13:22"
+    },
+    {
+      "id": "68bf1cdf-72cb-49f9-8b83-092ca843f752",
+      "campaign_id": null,
+      "fragment_type": "brunson_bullets",
+      "content_body": "<ul class='features-list'><li><strong>The 'Invisible' Selling System:</strong> Sell without being salesy.</li><li><strong>Triple Your {Result}:</strong> A small change in your headline that yields 300% more {Benefit}.</li><li><strong>The {City} Advantage:</strong> Why your location is actually your biggest asset.</li></ul>",
+      "word_count": 44,
+      "date_created": "2025-12-13T05:13:21"
+    },
+    {
+      "id": "698bc698-4422-44b7-98a1-818da83e7e8d",
+      "campaign_id": null,
+      "fragment_type": "feature_benefit_meaning",
+      "content_body": "<div class='fbm-block'><p><strong>Feature:</strong> Cloud-Based Access.<br><strong>Benefit:</strong> So you can access your {Niche} data from any device, anywhere.<br><strong>Meaning:</strong> Which means you are never tied to a desk and can enjoy true freedom.</p></div>",
+      "word_count": 40,
+      "date_created": "2025-12-13T05:13:22"
+    },
+    {
+      "id": "6b2f5ba5-4993-4952-b1e8-d90b2267e12b",
+      "campaign_id": null,
+      "fragment_type": "framework_teaching",
+      "content_body": "<div class='framework'><h3>The 'Bridge' Visualization</h3><p>You are on Island A (Pain). You want to go to Island B (Pleasure). The water is full of sharks ({Fear}). {Product} is the bridge. Don't swim. Walk across the bridge to get {Result}.</p></div>",
+      "word_count": 52,
+      "date_created": "2025-12-13T05:13:24"
+    },
+    {
+      "id": "6e10feb7-95b0-4962-97c2-0eca930e4dde",
+      "campaign_id": null,
+      "fragment_type": "content_headlines",
+      "content_body": "<h2>Unlocking Massive {Benefit}</h2>",
+      "word_count": 4,
+      "date_created": "2025-12-13T05:13:25"
+    },
+    {
+      "id": "6e484eba-beec-4f48-b692-b38ac30eeaa6",
+      "campaign_id": null,
+      "fragment_type": "avatar_engagement",
+      "content_body": "<div class='engagement'><h3>Don't Be A Statistic</h3><p>Most {Avatar}s fail. Be the outlier. Be the success story in {City} that everyone talks about.</p></div>",
+      "word_count": 32,
+      "date_created": "2025-12-13T05:13:23"
+    },
+    {
+      "id": "7687c406-d1af-4ba2-880a-f13148cd378f",
+      "campaign_id": null,
+      "fragment_type": "bio_section",
+      "content_body": "<div class='bio'><h3>My 'Why'</h3><p>Why do I do this? Because I hate seeing people struggle with {Pain_Point}. I have the solution in {Product}, and it feels selfish not to share it.</p></div>",
+      "word_count": 45,
+      "date_created": "2025-12-13T05:13:27"
+    },
+    {
+      "id": "77d40cbc-8310-4d11-85d4-aeb1d2ad6f02",
+      "campaign_id": null,
+      "fragment_type": "how_to_scripts",
+      "content_body": "<div class='how-to'><h3>How To Track Progress</h3><p>If you don't measure it, you can't improve it. Use our Dashboard. Watch the green line go up. That green line is your {Benefit}.</p></div>",
+      "word_count": 45,
+      "date_created": "2025-12-13T05:13:27"
+    },
+    {
+      "id": "77f0e802-8109-45cf-9c5c-4f52d084dd7b",
+      "campaign_id": null,
+      "fragment_type": "framework_teaching",
+      "content_body": "<div class='framework'><h3>Phase 1: Diagnosis</h3><p>We look at your current situation in {City}.</p><h3>Phase 2: Prescription</h3><p>We prescribe the exact {Product} module you need.</p><h3>Phase 3: Cure</h3><p>You implement the fix and cure your lack of {Benefit}. This medical approach ensures health in your business.</p></div>",
+      "word_count": 60,
+      "date_created": "2025-12-13T05:13:24"
+    },
+    {
+      "id": "798a47ac-f342-412e-8fc4-e1204537257a",
+      "campaign_id": null,
+      "fragment_type": "offer_stack",
+      "content_body": "<div class='offer-stack'><h3>Upgrade Option</h3><p>Already bought the book? Upgrade to the video course for just $37. Learn faster and get {Result} easier.</p></div>",
+      "word_count": 41,
+      "date_created": "2025-12-13T05:13:29"
+    },
+    {
+      "id": "7c83a671-197d-4787-aa58-e164bd7cfe93",
+      "campaign_id": null,
+      "fragment_type": "headline_variations",
+      "content_body": "<h1>If You Can Point And Click, You Can {Result}</h1>",
+      "word_count": 10,
+      "date_created": "2025-12-13T05:13:26"
+    },
+    {
+      "id": "7da12c0e-af6f-4109-a71c-4dd3aad57b0c",
+      "campaign_id": null,
+      "fragment_type": "avatar_engagement",
+      "content_body": "<div class='engagement'><h3>Attention: Busy {Avatar}s</h3><p>No time? No problem. Our system is built for the busy {Avatar} who needs {Benefit} on the go.</p></div>",
+      "word_count": 33,
+      "date_created": "2025-12-13T05:13:23"
+    },
+    {
+      "id": "80cbc9d8-911e-42f8-ae3f-e8667bce3f05",
+      "campaign_id": null,
+      "fragment_type": "content_headlines",
+      "content_body": "<h2>The Last Guide You Need</h2>",
+      "word_count": 5,
+      "date_created": "2025-12-13T05:13:25"
+    },
+    {
+      "id": "863cd11c-c1f4-4799-9d04-35ae73c105a9",
+      "campaign_id": null,
+      "fragment_type": "sales_letter_core",
+      "content_body": "<div class='sales-core'><h3>Why Most {Avatar}s Fail (And How To Avoid It)</h3><p>Did you know that 90% of people in {Niche} give up within the first year? It is tragic. They give up because they hit the 'Wall of {Pain_Point}'. I hit that wall too. I was ready to quit. I was broke, frustrated, and embarrassed. But then I discovered a little-known secret about {Result}. It wasn't about working harder; it was about changing the mechanism. Once I applied this change, I saw {Benefit} almost overnight. Now, I am handing you the keys to that same kingdom.</p></div>",
+      "word_count": 115,
+      "date_created": "2025-12-13T05:13:20"
+    },
+    {
+      "id": "86846e49-9502-4556-8307-81001686c5de",
+      "campaign_id": null,
+      "fragment_type": "feature_benefit_meaning",
+      "content_body": "<div class='fbm-block'><p><strong>Feature:</strong> Competitor Analysis Tool.<br><strong>Benefit:</strong> So you can spy on what works in {Niche}.<br><strong>Meaning:</strong> Which means you never have to guess; you just execute what works.</p></div>",
+      "word_count": 38,
+      "date_created": "2025-12-13T05:13:23"
+    },
+    {
+      "id": "86d076ea-784e-4b88-82d2-902f20a92ca0",
+      "campaign_id": null,
+      "fragment_type": "brunson_bullets",
+      "content_body": "<ul class='features-list'><li><strong>The 'Copy/Paste' Business:</strong> Literally copy our template and paste it for {Result}.</li><li><strong>Secret Source:</strong> Where to find unlimited {Niche} leads for pennies.</li><li><strong>Destroy {Fear}:</strong> How knowledge eliminates the fear of failure.</li></ul>",
+      "word_count": 41,
+      "date_created": "2025-12-13T05:13:22"
+    },
+    {
+      "id": "8702bd35-0ce3-4eb1-9d04-93c957992b37",
+      "campaign_id": null,
+      "fragment_type": "brunson_bullets",
+      "content_body": "<ul class='features-list'><li><strong>The 'Underdog' Victory:</strong> How small players are beating giants in {City}.</li><li><strong>Simple Math:</strong> Why {Product} + You = {Result}.</li><li><strong>No Experience Needed:</strong> We train you from scratch to master {Niche}.</li></ul>",
+      "word_count": 39,
+      "date_created": "2025-12-13T05:13:22"
+    },
+    {
+      "id": "89583d50-9e2d-468d-b39f-c10bf1551b55",
+      "campaign_id": null,
+      "fragment_type": "avatar_engagement",
+      "content_body": "<div class='engagement'><h3>Who Wants {Benefit}?</h3><p>If you want {Benefit}, say 'I Do'. Now, let's make it happen with the proven strategies inside {Product}.</p></div>",
+      "word_count": 31,
+      "date_created": "2025-12-13T05:13:23"
+    },
+    {
+      "id": "89bd4833-876f-4679-840c-966cf81835bf",
+      "campaign_id": null,
+      "fragment_type": "brunson_bullets",
+      "content_body": "<ul class='features-list'><li><strong>The 'One Page' Wonder:</strong> Generate {Result} with a single sheet of paper.</li><li><strong>Recession Proof:</strong> Why {Niche} works even when the economy crashes.</li><li><strong>Get {Benefit} Now:</strong> No waiting periods, no delays. Instant gratification.</li></ul>",
+      "word_count": 42,
+      "date_created": "2025-12-13T05:13:22"
+    },
+    {
+      "id": "89cb232c-22d6-49cc-9d25-fc29915ab703",
+      "campaign_id": null,
+      "fragment_type": "avatar_engagement",
+      "content_body": "<div class='engagement'><h3>Last Chance for {Avatar}s</h3><p>We are closing the doors soon. If you want to master {Niche}, this is your moment.</p></div>",
+      "word_count": 31,
+      "date_created": "2025-12-13T05:13:24"
+    },
+    {
+      "id": "8b274fe6-d324-4f5d-8cbf-1278ab3c62e2",
+      "campaign_id": null,
+      "fragment_type": "bio_section",
+      "content_body": "<div class='bio'><h3>The {City} Native</h3><p>Born and raised in {City}, I know the local market better than anyone. I have tailored {Product} to work specifically in this environment.</p></div>",
+      "word_count": 43,
+      "date_created": "2025-12-13T05:13:28"
+    },
+    {
+      "id": "8c7e355c-d900-438b-a1b0-fcac574d3dc9",
+      "campaign_id": null,
+      "fragment_type": "feature_benefit_meaning",
+      "content_body": "<div class='fbm-block'><p><strong>Feature:</strong> Fast-Track Modules.<br><strong>Benefit:</strong> So you can skip the basics if you are advanced.<br><strong>Meaning:</strong> Which means you respect your own time and get to {Result} faster.</p></div>",
+      "word_count": 39,
+      "date_created": "2025-12-13T05:13:23"
+    },
+    {
+      "id": "90bc51ea-0a41-4e9a-a4aa-48ff9185deab",
+      "campaign_id": null,
+      "fragment_type": "headline_variations",
+      "content_body": "<h1>Can You Really {Result} Without Hard Work? Yes.</h1>",
+      "word_count": 9,
+      "date_created": "2025-12-13T05:13:26"
+    },
+    {
+      "id": "92099547-5a48-4c06-9b8e-c7f0213a2d92",
+      "campaign_id": null,
+      "fragment_type": "headline_variations",
+      "content_body": "<h1>The Ultimate Guide To {Niche} Domination</h1>",
+      "word_count": 7,
+      "date_created": "2025-12-13T05:13:26"
+    },
+    {
+      "id": "928aa61e-ff6c-4bef-8711-fd66587472f7",
+      "campaign_id": null,
+      "fragment_type": "content_headlines",
+      "content_body": "<h2>The Death of Old {Niche}</h2>",
+      "word_count": 6,
+      "date_created": "2025-12-13T05:13:25"
+    },
+    {
+      "id": "93525578-2996-442f-af78-0ebd9139429c",
+      "campaign_id": null,
+      "fragment_type": "avatar_engagement",
+      "content_body": "<div class='engagement'><h3>Pop Quiz for {Avatar}s</h3><p>What is the #1 killer of success in {Niche}? Answer: {Fear}. We have the antidote.</p></div>",
+      "word_count": 30,
+      "date_created": "2025-12-13T05:13:23"
+    },
+    {
+      "id": "936e8032-c1ac-4aa3-90bf-316ee2aaf816",
+      "campaign_id": null,
+      "fragment_type": "avatar_engagement",
+      "content_body": "<div class='engagement'><h3>One Decision</h3><p>You are one decision away from a completely different life in {City}. Choose {Product}. Choose {Benefit}.</p></div>",
+      "word_count": 32,
+      "date_created": "2025-12-13T05:13:23"
+    },
+    {
+      "id": "965635ee-31df-477b-88cf-e2b0dad114f4",
+      "campaign_id": null,
+      "fragment_type": "headline_variations",
+      "content_body": "<h1>How To Explode Your {Result} In A Weekend</h1>",
+      "word_count": 9,
+      "date_created": "2025-12-13T05:13:26"
+    },
+    {
+      "id": "97b60042-ac59-4863-82e4-92d32906fe08",
+      "campaign_id": null,
+      "fragment_type": "brunson_bullets",
+      "content_body": "<ul class='features-list'><li><strong>The 'Golden Ticket':</strong> How to get VIP access to {Benefit} without paying a dime.</li><li><strong>Spy on Competitors:</strong> See exactly how others in {City} are getting {Result} and copy them.</li><li><strong>Automation Domination:</strong> Set it and forget it technology for {Niche}.</li></ul>",
+      "word_count": 49,
+      "date_created": "2025-12-13T05:13:21"
+    },
+    {
+      "id": "998e6bb7-207b-4061-be3e-6440b685923d",
+      "campaign_id": null,
+      "fragment_type": "headline_variations",
+      "content_body": "<h1>Don't Envy The Rich. Join Them With {Product}</h1>",
+      "word_count": 9,
+      "date_created": "2025-12-13T05:13:26"
+    },
+    {
+      "id": "9ba4f61a-e1bd-4c09-8fd3-ba254d322a69",
+      "campaign_id": null,
+      "fragment_type": "offer_stack",
+      "content_body": "<div class='offer-stack'><h3>The 'Toolkit' Box</h3><p>Physical copy shipped to your door. Workbook, DVD set, and {Product} flash drive. For those who like to hold their {Benefit} in their hands.</p></div>",
+      "word_count": 46,
+      "date_created": "2025-12-13T05:13:29"
+    },
+    {
+      "id": "9baf70b0-d2da-4e89-923f-3ca242330420",
+      "campaign_id": null,
+      "fragment_type": "headline_variations",
+      "content_body": "<h1>WARNING: Do Not Attempt {Niche} Without This Blueprint</h1>",
+      "word_count": 9,
+      "date_created": "2025-12-13T05:13:25"
+    },
+    {
+      "id": "9ca05fc0-5f4b-4305-b802-dcb215706746",
+      "campaign_id": null,
+      "fragment_type": "avatar_engagement",
+      "content_body": "<div class='engagement'><h3>Raise Your Hand If...</h3><p>Raise your hand if you are sick of {Pain_Point}. Put your hand down and click the button below to fix it forever.</p></div>",
+      "word_count": 36,
+      "date_created": "2025-12-13T05:13:23"
+    },
+    {
+      "id": "9d7449d2-17c7-4cae-9fbe-dd0271be901a",
+      "campaign_id": null,
+      "fragment_type": "offer_stack",
+      "content_body": "<div class='offer-stack'><h3>Early Bird Access</h3><p>Be the first in {City} to get {Product}. Pre-order now and save 40%. Launching next week.</p></div>",
+      "word_count": 39,
+      "date_created": "2025-12-13T05:13:29"
+    },
+    {
+      "id": "a0cf1ac2-e10e-4c60-8c12-4dad8478fa04",
+      "campaign_id": null,
+      "fragment_type": "how_to_scripts",
+      "content_body": "<div class='how-to'><h3>How To Price Your Services</h3><p>Don't guess. Use our {Niche} pricing calculator. It tells you exactly what to charge in {City} to maximize profit and {Benefit}.</p></div>",
+      "word_count": 43,
+      "date_created": "2025-12-13T05:13:27"
+    },
+    {
+      "id": "a15e5d5b-d9ba-4c63-a392-15d3f9e7eefc",
+      "campaign_id": null,
+      "fragment_type": "framework_teaching",
+      "content_body": "<div class='framework'><h3>The 'Pipeline' Metaphor</h3><p>Think of your {Niche} business like a pipeline. If it is clogged with {Pain_Point}, nothing flows. We act as the plumber. We unclog the pipes so {Result} can flow freely into your life. It is plumbing, not magic.</p></div>",
+      "word_count": 56,
+      "date_created": "2025-12-13T05:13:24"
+    },
+    {
+      "id": "a20f6f64-37b4-4b4b-be61-f49dec97d6ae",
+      "campaign_id": null,
+      "fragment_type": "headline_variations",
+      "content_body": "<h1>The {City} {Niche} Summit: Digital Access</h1>",
+      "word_count": 7,
+      "date_created": "2025-12-13T05:13:26"
+    },
+    {
+      "id": "a2ff09c7-95ab-4722-8c09-28fe40d8a611",
+      "campaign_id": null,
+      "fragment_type": "sales_letter_core",
+      "content_body": "<div class='sales-core'><h3>From {Fear} to {Result}: My Story</h3><p>I remember staring at my bank account and feeling a pit in my stomach. I had tried everything to succeed in {Niche}. I bought the courses, I attended the seminars in {City}, but nothing stuck. I felt like a failure. But then, I met a mentor who asked me one simple question: 'Why are you trying to do it the hard way?' He showed me the {Product} method. It was so simple, I almost didn't believe it. But I tried it. And within 30 days, I had achieved {Benefit}. Now, I want to do the same for you.</p></div>",
+      "word_count": 120,
+      "date_created": "2025-12-13T05:13:20"
+    },
+    {
+      "id": "a46ff9a1-015b-458d-b1eb-3e230a37cbba",
+      "campaign_id": null,
+      "fragment_type": "avatar_engagement",
+      "content_body": "<div class='engagement'><h3>Your Future Self Is Calling</h3><p>Your future self is begging you to take action today. Don't let them down. Secure your {Result} now.</p></div>",
+      "word_count": 33,
+      "date_created": "2025-12-13T05:13:23"
+    },
+    {
+      "id": "a681c22e-f365-437b-a2ea-7902f8f5d802",
+      "campaign_id": null,
+      "fragment_type": "brunson_bullets",
+      "content_body": "<ul class='features-list'><li><strong>The 'No-Tech' Solution:</strong> You don't need a website to {Result}. Seriously.</li><li><strong>Viral Multiplier:</strong> Turn 1 visitor into 10 with this simple tweak.</li><li><strong>Forget {Pain_Point}:</strong> The permanent fix for your biggest headache in {Niche}.</li></ul>",
+      "word_count": 45,
+      "date_created": "2025-12-13T05:13:21"
+    },
+    {
+      "id": "a843de63-d0a0-40ea-9777-2cde7451e622",
+      "campaign_id": null,
+      "fragment_type": "offer_stack",
+      "content_body": "<div class='offer-stack'><h3>The 'All In' Package</h3><ul><li>Everything in the Standard Plan</li><li>PLUS: 1-on-1 Coaching Call</li><li>PLUS: Website Audit</li></ul><p>For the {Avatar} who wants guaranteed {Result}.</p></div>",
+      "word_count": 42,
+      "date_created": "2025-12-13T05:13:28"
+    },
+    {
+      "id": "a8b9121b-3825-462c-96ba-d79e1e415a5e",
+      "campaign_id": null,
+      "fragment_type": "bio_section",
+      "content_body": "<div class='bio'><h3>Real Talk</h3><p>I am not going to sugarcoat it. {Niche} is tough. But with me in your corner, it is beatable. I am your coach, your mentor, and your biggest fan.</p></div>",
+      "word_count": 47,
+      "date_created": "2025-12-13T05:13:27"
+    },
+    {
+      "id": "a90338cf-e7c1-47f7-b357-530105e6a1cb",
+      "campaign_id": null,
+      "fragment_type": "offer_stack",
+      "content_body": "<div class='offer-stack'><h3>Membership Special</h3><p>Join the {Niche} Club. $1 trial for 14 days. Then just $47/month. Cancel anytime. Get new {Result} strategies every month.</p></div>",
+      "word_count": 43,
+      "date_created": "2025-12-13T05:13:28"
+    },
+    {
+      "id": "aa90e9e1-9d63-4810-b557-f5fd5ae5cdfa",
+      "campaign_id": null,
+      "fragment_type": "content_headlines",
+      "content_body": "<h2>The {Avatar} Advantage</h2>",
+      "word_count": 4,
+      "date_created": "2025-12-13T05:13:25"
+    },
+    {
+      "id": "acc7a496-d394-40b3-b25c-9b6804431e22",
+      "campaign_id": null,
+      "fragment_type": "framework_teaching",
+      "content_body": "<div class='framework'><h3>The 'Compound Interest' of Skills</h3><p>Learn one skill in {Product} today. Learn another tomorrow. They stack. Soon, you have an exponential advantage over every other {Avatar} in {City}.</p></div>",
+      "word_count": 48,
+      "date_created": "2025-12-13T05:13:24"
+    },
+    {
+      "id": "aea42341-83ef-4d66-8920-b6d6272cb15c",
+      "campaign_id": null,
+      "fragment_type": "headline_variations",
+      "content_body": "<h1>The End Of {Pain_Point} Is Finally Here</h1>",
+      "word_count": 8,
+      "date_created": "2025-12-13T05:13:26"
+    },
+    {
+      "id": "af307a38-fa2f-4509-9369-4a51a0803a25",
+      "campaign_id": null,
+      "fragment_type": "offer_stack",
+      "content_body": "<div class='offer-stack'><h3>Flash Sale Alert</h3><p>Get {Product} for 80% off. This offer expires when the timer hits zero. Don't let {Benefit} slip through your fingers. Buy now!</p></div>",
+      "word_count": 41,
+      "date_created": "2025-12-13T05:13:28"
+    },
+    {
+      "id": "affddbf8-659d-430c-bea4-e806f96eea27",
+      "campaign_id": null,
+      "fragment_type": "headline_variations",
+      "content_body": "<h1>Stop Dreaming About {Benefit} And Start Living It</h1>",
+      "word_count": 9,
+      "date_created": "2025-12-13T05:13:26"
+    },
+    {
+      "id": "b05d363f-bb79-4df4-85cc-f3b292600a0e",
+      "campaign_id": null,
+      "fragment_type": "bio_section",
+      "content_body": "<div class='bio'><h3>Credentials That Matter</h3><p>I don't have a PhD. I have results. Millions in sales. Thousands of students. Verified {Benefit}. That is the only credential you should care about.</p></div>",
+      "word_count": 42,
+      "date_created": "2025-12-13T05:13:27"
+    },
+    {
+      "id": "b2b75843-f239-450c-a0e3-56a7589e1c30",
+      "campaign_id": null,
+      "fragment_type": "content_headlines",
+      "content_body": "<h2>30 Days To Glory</h2>",
+      "word_count": 4,
+      "date_created": "2025-12-13T05:13:25"
+    },
+    {
+      "id": "b2df3c94-9879-4773-9672-7813ded0e338",
+      "campaign_id": null,
+      "fragment_type": "how_to_scripts",
+      "content_body": "<div class='how-to'><h3>How To Get Leads Cheap</h3><p>Stop paying premium prices. Use the 'Backdoor' method inside {Product} to get leads for pennies. This is the secret to high margin {Benefit}.</p></div>",
+      "word_count": 44,
+      "date_created": "2025-12-13T05:13:27"
+    },
+    {
+      "id": "b86be57e-ef0e-4a03-9138-7f5e4caddf43",
+      "campaign_id": null,
+      "fragment_type": "sales_letter_core",
+      "content_body": "<div class='sales-core'><h3>Stop Letting {Fear} Control Your Life</h3><p>Every day you wait is a day you miss out on {Benefit}. I know it is scary to try something new. I know you are skeptical. You should be! There is a lot of junk out there. But ask yourself: can you afford to stay where you are? Can you afford another year of {Pain_Point}? If the answer is no, then you need {Product}. It is the only solution in {City} designed specifically for {Avatar}s who are serious about {Result}. Take the leap.</p></div>",
+      "word_count": 105,
+      "date_created": "2025-12-13T05:13:20"
+    },
+    {
+      "id": "bde5c9b7-fad5-4baf-a9d7-4b62ea520b71",
+      "campaign_id": null,
+      "fragment_type": "sales_letter_core",
+      "content_body": "<div class='sales-core'><h3>The Math of Success in {Niche}</h3><p>Let's look at the numbers. To get {Benefit}, you need X amount of traffic and Y amount of conversions. Most {Avatar}s mess this up. They focus on the wrong metrics. {Product} simplifies the math. We give you the calculator. We give you the formula. All you have to do is plug in your numbers and watch the {Result} pour out. It is scientific, predictable, and repeatable in any {City} market.</p></div>",
+      "word_count": 94,
+      "date_created": "2025-12-13T05:13:21"
+    },
+    {
+      "id": "c0552dd3-a2bb-4753-9619-dc4f46b92c7c",
+      "campaign_id": null,
+      "fragment_type": "sales_letter_core",
+      "content_body": "<div class='sales-core'><h3>The {Niche} Revolution Is Here</h3><p>The old gatekeepers are gone. The internet has democratized success, but only if you know how to navigate it. {Product} is your GPS. It guides you through the noise and straight to the money. Whether you are a beginner or a pro, this system will help you {Result} faster. Don't be left behind while other {Avatar}s scoop up all the {Benefit}. The window of opportunity is open, but it won't stay open forever.</p></div>",
+      "word_count": 96,
+      "date_created": "2025-12-13T05:13:21"
+    },
+    {
+      "id": "c0a4f289-0cf5-4d0e-96b3-aaf3ae54e627",
+      "campaign_id": null,
+      "fragment_type": "content_headlines",
+      "content_body": "<h2>The Truth About {Fear}</h2>",
+      "word_count": 5,
+      "date_created": "2025-12-13T05:13:25"
+    },
+    {
+      "id": "c0df20d0-b8c0-42d2-b415-916a27f39fdb",
+      "campaign_id": null,
+      "fragment_type": "avatar_engagement",
+      "content_body": "<div class='engagement'><h3>Are You A Real {Avatar}?</h3><p>Real {Avatar}s don't make excuses; they make progress. Are you ready to stop making excuses and start getting {Result}?</p></div>",
+      "word_count": 34,
+      "date_created": "2025-12-13T05:13:23"
+    },
+    {
+      "id": "c15da89d-8793-410c-b5a4-7a5e92e948a0",
+      "campaign_id": null,
+      "fragment_type": "content_headlines",
+      "content_body": "<h2>Inside The {Product} System</h2>",
+      "word_count": 5,
+      "date_created": "2025-12-13T05:13:25"
+    },
+    {
+      "id": "c34b213a-b988-4e34-bc7f-5dc6c45b63c5",
+      "campaign_id": null,
+      "fragment_type": "how_to_scripts",
+      "content_body": "<div class='how-to'><h3>How To Stay Motivated</h3><p>Motivation fades. Discipline lasts. But results fuel both. Use {Product} to get a quick win. That win will motivate you to get the next {Result}.</p></div>",
+      "word_count": 46,
+      "date_created": "2025-12-13T05:13:27"
+    },
+    {
+      "id": "ccaced76-9273-4353-a67e-2609717e56ac",
+      "campaign_id": null,
+      "fragment_type": "how_to_scripts",
+      "content_body": "<div class='how-to'><h3>How To Scale To 6-Figures</h3><p>Once you have {Result}, do not stop. Double down. Reinvest your profits into {Product} upgrades. Scaling is just doing more of what already works.</p></div>",
+      "word_count": 44,
+      "date_created": "2025-12-13T05:13:26"
+    },
+    {
+      "id": "d093d562-0404-41c2-8047-00ed682c33fc",
+      "campaign_id": null,
+      "fragment_type": "content_headlines",
+      "content_body": "<h2>Automating Your Success</h2>",
+      "word_count": 3,
+      "date_created": "2025-12-13T05:13:25"
+    },
+    {
+      "id": "d10ebe1a-6808-49e8-b510-a9e308dd5020",
+      "campaign_id": null,
+      "fragment_type": "bio_section",
+      "content_body": "<div class='bio'><h3>Join Me</h3><p>I can't do it for you, but I can do it with you. Take my hand. Let's conquer {Niche} together.</p></div>",
+      "word_count": 40,
+      "date_created": "2025-12-13T05:13:28"
+    },
+    {
+      "id": "d126739e-30ba-452a-b6b8-0ebfa9bb4619",
+      "campaign_id": null,
+      "fragment_type": "bio_section",
+      "content_body": "<div class='bio'><h3>Trust The Process</h3><p>I have refined this process over 10 years. It is not a guess. It is a machine. Trust {Product}, and it will take care of you.</p></div>",
+      "word_count": 43,
+      "date_created": "2025-12-13T05:13:28"
+    },
+    {
+      "id": "d689f297-7f6e-464a-bd56-69291cae7434",
+      "campaign_id": null,
+      "fragment_type": "how_to_scripts",
+      "content_body": "<div class='how-to'><h3>How To Automate The Boring Stuff</h3><p>Use our 'Robot' tool. Set the rules. Let it run. You should only be doing high-value work in {Niche}. Let the bots do the rest.</p></div>",
+      "word_count": 46,
+      "date_created": "2025-12-13T05:13:27"
+    },
+    {
+      "id": "d7868296-c9cd-4f4c-a672-4dbcf59f18db",
+      "campaign_id": null,
+      "fragment_type": "sales_letter_core",
+      "content_body": "<div class='sales-core'><h3>What If You Could {Result} In Half The Time?</h3><p>Time is our most valuable asset. Yet, most {Avatar}s waste hundreds of hours trying to figure out {Niche} on their own. Why reinvent the wheel? We have already done the heavy lifting. We have made the mistakes so you don't have to. With {Product}, you are essentially buying speed. You are buying a shortcut to {Benefit} that bypasses all the frustration of {Pain_Point}. Don't spend another second guessing. Get the blueprint today.</p></div>",
+      "word_count": 98,
+      "date_created": "2025-12-13T05:13:21"
+    },
+    {
+      "id": "da092217-64a4-472e-a47f-4f02a6e80957",
+      "campaign_id": null,
+      "fragment_type": "headline_variations",
+      "content_body": "<h1>Why 10,000 {Avatar}s Trust This System</h1>",
+      "word_count": 7,
+      "date_created": "2025-12-13T05:13:26"
+    },
+    {
+      "id": "da25ff86-2d46-4a97-b904-1095ae33c3dd",
+      "campaign_id": null,
+      "fragment_type": "sales_letter_core",
+      "content_body": "<div class='sales-core'><h3>How To {Result} Even If You Have Failed Before</h3><p>Failure is not the end; it is feedback. If you have failed in {Niche} before, it wasn't your fault. You were given a broken system. You were trying to drive a car with no wheels. {Product} is the Ferrari of the industry. It is engineered for speed and performance. When you switch to our method, your past failures become irrelevant. All that matters is your future {Benefit}. Let's build it together.</p></div>",
+      "word_count": 98,
+      "date_created": "2025-12-13T05:13:21"
+    },
+    {
+      "id": "dd4afcf0-3974-4ae6-bb33-be4fcbb2d3fa",
+      "campaign_id": null,
+      "fragment_type": "offer_stack",
+      "content_body": "<div class='offer-stack'><h3>Bonus Blowout</h3><p>Order today and we add: 1. The Traffic Masterclass. 2. The Conversion Bible. 3. The Email Swipes. These bonuses alone are worth more than the cost of {Product}.</p></div>",
+      "word_count": 47,
+      "date_created": "2025-12-13T05:13:28"
+    },
+    {
+      "id": "df224ef2-6b39-4e4c-a1be-3ed3a9f93305",
+      "campaign_id": null,
+      "fragment_type": "offer_stack",
+      "content_body": "<div class='offer-stack'><h3>Partner Program</h3><p>Buy {Product} and get approved as an affiliate instantly. Sell it to 2 friends and yours is free. The ultimate win-win.</p></div>",
+      "word_count": 43,
+      "date_created": "2025-12-13T05:13:29"
+    },
+    {
+      "id": "e134b87e-c984-4c7b-9dec-bbe43c37daaf",
+      "campaign_id": null,
+      "fragment_type": "bio_section",
+      "content_body": "<div class='bio'><h3>Results Over Hype</h3><p>I don't drive a Lambo. I don't rent mansions for videos. I just deliver {Result}. If you want hype, go elsewhere. If you want {Benefit}, stay here.</p></div>",
+      "word_count": 45,
+      "date_created": "2025-12-13T05:13:28"
+    },
+    {
+      "id": "e1d8af19-6e81-4489-b1ab-2bbd1cc97b8a",
+      "campaign_id": null,
+      "fragment_type": "brunson_bullets",
+      "content_body": "<ul class='features-list'><li><strong>The 'Weekend' Warrior:</strong> How to build your {Niche} empire on Saturdays.</li><li><strong>Family First:</strong> Build a business that gives you time for what matters.</li><li><strong>Unlock {Benefit}:</strong> The key that opens the door to financial freedom.</li></ul>",
+      "word_count": 40,
+      "date_created": "2025-12-13T05:13:22"
+    },
+    {
+      "id": "e303e82f-5514-48bd-ad22-6473e81ea6cd",
+      "campaign_id": null,
+      "fragment_type": "sales_letter_core",
+      "content_body": "<div class='sales-core'><h3>Warning: This Is Not For Everyone</h3><p>If you are looking for a 'get rich quick' scheme, please close this page. We don't want you. But if you are a dedicated {Avatar} willing to put in a little effort to build a real business in {Niche}, then welcome home. {Product} works, but it requires you to follow the steps. If you can follow instructions, you can {Result}. We have removed the risk of {Fear} so you can focus entirely on growth.</p></div>",
+      "word_count": 101,
+      "date_created": "2025-12-13T05:13:21"
+    },
+    {
+      "id": "e49ed9e4-db41-4e64-8c7c-a22a190a21cb",
+      "campaign_id": null,
+      "fragment_type": "content_headlines",
+      "content_body": "<h2>Escape The {Pain_Point} Trap</h2>",
+      "word_count": 5,
+      "date_created": "2025-12-13T05:13:25"
+    },
+    {
+      "id": "e81a7d57-bf4e-499e-940c-950c554f9f0a",
+      "campaign_id": null,
+      "fragment_type": "bio_section",
+      "content_body": "<div class='bio'><h3>A Note From The Founder</h3><p>Building {Product} was a labor of love. It took blood, sweat, and tears. But seeing you get {Result} makes it all worth it. Welcome to the family.</p></div>",
+      "word_count": 45,
+      "date_created": "2025-12-13T05:13:27"
+    },
+    {
+      "id": "e8832e2b-6b39-463c-90b3-c82ddbc5340c",
+      "campaign_id": null,
+      "fragment_type": "how_to_scripts",
+      "content_body": "<div class='how-to'><h3>How To Network In {City}</h3><p>Don't be a ghost. Use our templates to reach out to influencers. Offer value first. Then ask for help. This is how you build a {Niche} empire.</p></div>",
+      "word_count": 48,
+      "date_created": "2025-12-13T05:13:27"
+    },
+    {
+      "id": "e8867f1e-bce1-46b2-8d11-5d4780b68391",
+      "campaign_id": null,
+      "fragment_type": "brunson_bullets",
+      "content_body": "<ul class='features-list'><li><strong>The 'Lazy' {Avatar} Secret:</strong> How to work 1 hour a day and earn full-time {Benefit}.</li><li><strong>Cheat Sheet Included:</strong> The exact script to use when {Fear} strikes.</li><li><strong>Instant Authority:</strong> How to become the go-to expert in {City} overnight.</li></ul>",
+      "word_count": 48,
+      "date_created": "2025-12-13T05:13:21"
+    },
+    {
+      "id": "ead95a20-4ec1-44b8-86e8-b8ab3eaed50f",
+      "campaign_id": null,
+      "fragment_type": "framework_teaching",
+      "content_body": "<div class='framework'><h3>The 4 Seasons of {Niche}</h3><p>Winter: Planning. Spring: Planting seeds with {Product}. Summer: Growing. Autumn: Harvesting {Benefit}. Don't try to harvest in Winter. Follow the seasons and you will succeed.</p></div>",
+      "word_count": 50,
+      "date_created": "2025-12-13T05:13:24"
+    },
+    {
+      "id": "ed68e9cd-9f78-4cc0-8798-82a15874688f",
+      "campaign_id": null,
+      "fragment_type": "bio_section",
+      "content_body": "<div class='bio'><h3>Legacy</h3><p>I want to be remembered as the person who helped you break free. That is my legacy. Your {Benefit} is my trophy.</p></div>",
+      "word_count": 41,
+      "date_created": "2025-12-13T05:13:28"
+    },
+    {
+      "id": "ed976885-afd4-4a41-b8c9-657cb2550f36",
+      "campaign_id": null,
+      "fragment_type": "framework_teaching",
+      "content_body": "<div class='framework'><h3>The 'Pilot' Checklist</h3><p>Pilots don't fly without a checklist. Why do you run your business without one? We give you the Pre-Flight Checklist for {Result}. Check the boxes, take off, and land safely in {Benefit}.</p></div>",
+      "word_count": 53,
+      "date_created": "2025-12-13T05:13:24"
+    },
+    {
+      "id": "ef6dfa31-191c-4adc-afda-b21aaecc3cea",
+      "campaign_id": null,
+      "fragment_type": "framework_teaching",
+      "content_body": "<div class='framework'><h3>The 'Key and Lock' Analogy</h3><p>{Niche} is a locked door. You have been using a hammer to try and open it. {Product} is the key. It slides in effortlessly and unlocks {Benefit}. Stop banging on the door.</p></div>",
+      "word_count": 51,
+      "date_created": "2025-12-13T05:13:24"
+    },
+    {
+      "id": "f2494110-d9c3-476b-92a8-404e96c9bc78",
+      "campaign_id": null,
+      "fragment_type": "offer_stack",
+      "content_body": "<div class='offer-stack'><h3>The 'Starter' Kit</h3><p>Perfect for beginners. Includes the eBook, the Checklist, and the Video Intro. Everything you need to dip your toes into {Niche}. Only $27.</p></div>",
+      "word_count": 43,
+      "date_created": "2025-12-13T05:13:28"
+    },
+    {
+      "id": "f3867032-a62a-458c-8d99-dee66d62da2a",
+      "campaign_id": null,
+      "fragment_type": "content_headlines",
+      "content_body": "<h2>Your New Secret Weapon</h2>",
+      "word_count": 4,
+      "date_created": "2025-12-13T05:13:25"
+    },
+    {
+      "id": "f3adf579-d447-4fe8-8fb4-2efa88af0c3b",
+      "campaign_id": null,
+      "fragment_type": "offer_stack",
+      "content_body": "<div class='offer-stack'><h3>Student Discount</h3><p>Are you a student? Email us for 50% off. We believe education should be affordable. Learn {Niche} without the debt.</p></div>",
+      "word_count": 41,
+      "date_created": "2025-12-13T05:13:29"
+    },
+    {
+      "id": "f3f851cb-bcfe-4a1e-a900-e63b50ab582f",
+      "campaign_id": null,
+      "fragment_type": "feature_benefit_meaning",
+      "content_body": "<div class='fbm-block'><p><strong>Feature:</strong> Weekly Coaching Calls.<br><strong>Benefit:</strong> So you can get your specific {Niche} questions answered live.<br><strong>Meaning:</strong> Which means you have a safety net preventing you from failing.</p></div>",
+      "word_count": 38,
+      "date_created": "2025-12-13T05:13:22"
+    },
+    {
+      "id": "f4947236-1bdd-44c4-9d54-213a15e16fa5",
+      "campaign_id": null,
+      "fragment_type": "bio_section",
+      "content_body": "<div class='bio'><h3>Who Is {Author}?</h3><p>I am just a regular guy from {City} who stumbled upon a goldmine. I didn't go to Ivy League schools. I learned {Niche} the hard way. Now, I teach it the easy way.</p></div>",
+      "word_count": 46,
+      "date_created": "2025-12-13T05:13:27"
+    },
+    {
+      "id": "f5977a00-85f7-4f12-a1b2-018d606a7d66",
+      "campaign_id": null,
+      "fragment_type": "headline_variations",
+      "content_body": "<h1>Revealed: The #1 Secret To Avoiding {Fear}</h1>",
+      "word_count": 8,
+      "date_created": "2025-12-13T05:13:26"
+    },
+    {
+      "id": "f626238e-fed3-4a37-9470-6e1ef7c2d287",
+      "campaign_id": null,
+      "fragment_type": "framework_teaching",
+      "content_body": "<div class='framework'><h3>The A.B.C. Method</h3><p>A = Action. B = Belief. C = Consistency. Most {Avatar}s have the Action but lack the Belief. Or they have Belief but lack Consistency. {Product} automates the Consistency so you just need Action and Belief to get {Benefit}.</p></div>",
+      "word_count": 58,
+      "date_created": "2025-12-13T05:13:24"
+    },
+    {
+      "id": "f92c3ec1-94b2-46b2-a0a9-8c3ae45327a3",
+      "campaign_id": null,
+      "fragment_type": "headline_variations",
+      "content_body": "<h1>Get {Result} Or We Pay You $100</h1>",
+      "word_count": 8,
+      "date_created": "2025-12-13T05:13:26"
+    },
+    {
+      "id": "fb9eeb80-01b7-44f9-86b5-53cea84ef5fd",
+      "campaign_id": null,
+      "fragment_type": "offer_stack",
+      "content_body": "<div class='offer-stack'><h3>The 'No Brainer' Bundle</h3><ul><li>The {Product} Core ($497)</li><li>The Automation Suite ($297)</li><li>The {City} Market Guide ($197)</li></ul><p><strong>Total Value: $991</strong></p><p><strong>Your Price: $67</strong></p></div>",
+      "word_count": 40,
+      "date_created": "2025-12-13T05:13:28"
+    },
+    {
+      "id": "fe16dc5b-c8cb-47aa-bc3d-9918f7106529",
+      "campaign_id": null,
+      "fragment_type": "framework_teaching",
+      "content_body": "<div class='framework'><h3>The 'Architect' Model</h3><p>Don't build a house without blueprints. Don't build a {Niche} business without a plan. We are the architects. We give you the blueprints. You just hire the contractors (or use our tools) to build {Benefit}.</p></div>",
+      "word_count": 53,
+      "date_created": "2025-12-13T05:13:24"
+    },
+    {
+      "id": "fe325d1a-1966-45e1-9f92-63e483404745",
+      "campaign_id": null,
+      "fragment_type": "brunson_bullets",
+      "content_body": "<ul class='features-list'><li><strong>The 'Guru' Killer:</strong> Stop paying experts and become one yourself.</li><li><strong>Laser Focus:</strong> How to ignore noise and target {Benefit}.</li><li><strong>End {Pain_Point}:</strong> The final chapter in your struggle with {Niche}.</li></ul>",
+      "word_count": 38,
+      "date_created": "2025-12-13T05:13:22"
+    }
+  ]
+}

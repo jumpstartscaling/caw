@@ -1,0 +1,35 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+---
+<AdminLayout title="Analytics">
+  <h2 class="text-xl font-bold mb-4">Metrics Overview</h2>
+  <div class="grid grid-cols-3 gap-4 mb-6" id="stats">
+    <a href="/jumpstart/admin/analytics/events" class="bg-gray-900 rounded-lg p-4 border border-gray-800 hover:border-gold block">
+      <div class="text-2xl font-bold text-gold" id="events">-</div>
+      <div class="text-sm text-gray-400">Events</div>
+    </a>
+    <a href="/jumpstart/admin/analytics/pageviews" class="bg-gray-900 rounded-lg p-4 border border-gray-800 hover:border-gold block">
+      <div class="text-2xl font-bold text-gold" id="pageviews">-</div>
+      <div class="text-sm text-gray-400">Pageviews</div>
+    </a>
+    <a href="/jumpstart/admin/analytics/conversions" class="bg-gray-900 rounded-lg p-4 border border-gray-800 hover:border-gold block">
+      <div class="text-2xl font-bold text-gold" id="conversions">-</div>
+      <div class="text-sm text-gray-400">Conversions</div>
+    </a>
+  </div>
+  <script>
+    const base = () => window.__ADMIN_API_BASE__ || '';
+    async function load() {
+      try {
+        const r = await fetch(base() + '/api/analytics/summary');
+        const d = await r.json();
+        if (r.ok) {
+          document.getElementById('events').textContent = d.events ?? '0';
+          document.getElementById('pageviews').textContent = d.pageviews ?? '0';
+          document.getElementById('conversions').textContent = d.conversions ?? '0';
+        }
+      } catch (_) {}
+    }
+    load();
+  </script>
+</AdminLayout>

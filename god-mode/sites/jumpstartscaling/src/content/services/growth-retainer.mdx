@@ -1,0 +1,134 @@
+---
+title: "Growth Retainer"
+description: "Comprehensive growth engineering retainer that integrates all six service areas into a unified scaling system. Dedicated team, continuous optimization, and predictable monthly growth."
+palette: "gold"
+order: 6
+keyMetrics:
+  - label: "Revenue Growth"
+    value: "4.8x"
+  - label: "Time to ROI"
+    value: "<30 Days"
+  - label: "System Uptime"
+    value: "99.9%"
+---
+import Hero from '../../components/ui/Hero.astro';
+import GlassCard from '../../components/ui/GlassCard.astro';
+import CTA from '../../components/ui/CTA.astro';
+import ScalingSurvey from '../../components/forms/ScalingSurvey.tsx';
+import ParallaxHero from '../../components/ui/ParallaxHero.astro';
+import AnimatedSection from '../../components/ui/AnimatedSection.astro';
+// import InteractiveTimeline from '../../components/visuals/InteractiveTimeline.tsx'; // Not strictly needed for this one, but could be used.
+import PullQuote from '../../components/ui/PullQuote.astro';
+import BentoGrid from '../../components/ui/BentoGrid.astro';
+import IconBullet from '../../components/ui/IconBullet.astro';
+import ScrollRevealGrid from '../../components/ui/ScrollRevealGrid.tsx';
+import LTVCalculator from '../../components/calculators/LTVCalculator';
+
+<ParallaxHero>
+  <Hero 
+    title="Growth Retainer" 
+    subtitle="A complete growth engineering department for a fraction of the cost of in-house hires. Strategy, execution, and infrastructure in one integrated service." 
+    badge="Most Popular"
+  />
+</ParallaxHero>
+<section class="section light">
+  <div class="container mx-auto px-6 max-w-4xl">
+    <AnimatedSection delay={200}>
+      <GlassCard 
+        variant="split"
+        title="What the Growth Retainer Includes"
+        subtitle="A dedicated team acting as an extension of your organization."
+      >
+    The Growth Retainer provides comprehensive growth engineering across every function with a dedicated team that becomes an extension of your organization. This is not an agency relationship where you submit tickets and wait for updates. This is a strategic partnership where a team of specialists works on your business every day with the same intensity and urgency as if they were internal employees.
+
+    Your dedicated team includes a **Growth Strategist**, **Media Buyer**, **Conversion Engineer**, **Revenue Operations Specialist**, and a **Data Analyst**. 
+
+    On an ongoing monthly basis, we deliver complete paid acquisition management, continuous funnel optimization, CRM automation management, full attribution reporting, and authority content production.
+  </GlassCard>
+    </AnimatedSection>
+  </div>
+</section>
+
+<section class="section dark">
+  <div class="container mx-auto px-6 max-w-6xl">
+    <AnimatedSection delay={800}>
+      <div className="my-16">
+        <div className="max-w-4xl mx-auto text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-black gradient-text mb-6">The Growth Inventory</h2>
+          <p className="text-xl text-white/60">Everything you need to engineer predictable revenue.</p>
+        </div>
+        <IconBullet items={[
+          "Dedicated growth engineering team with 5 specialists across all functions",
+          "Complete paid acquisition management across all relevant platforms",
+          "Continuous funnel optimization with systematic A/B testing program",
+          "Full CRM automation management with monthly new workflow deployments",
+          "End-to-end attribution infrastructure with revenue-connected reporting",
+      "Monthly authority content production with SEO optimization",
+      "Weekly strategy calls with your Growth Strategist",
+      "Monthly cross-functional performance reviews and strategic roadmap updates",
+      "Real-time Slack or Teams channel for instant communication",
+      "Quarterly business reviews with leadership team and 90-day growth plans",
+      "Priority support with same-day response on critical issues",
+      "Custom KPI dashboard with real-time cross-functional performance metrics"
+    ]} />
+      </div>
+    </AnimatedSection>
+  </div>
+</section>
+
+<section class="section light">
+  <div class="container mx-auto px-6 max-w-4xl">
+    <AnimatedSection delay={1000}>
+      <GlassCard 
+        variant="hero"
+        title="The Compounding Returns"
+      >
+        The most powerful aspect of the Growth Retainer is the compounding effect that integrated management produces over time. In the first month we establish baselines... by month six the growth engine is producing results that would be physically impossible to achieve through siloed management.
+    
+        We track this through the **Growth Velocity Index** — measuring the acceleration of your revenue growth rate over time. Our clients consistently achieve exponential rather than linear growth patterns.
+    
+        Most clients achieve full return on their Growth Retainer investment within 30 to 60 days and by month six the return typically exceeds 5 to 10x the monthly investment. You are not renting growth — you are building permanent revenue infrastructure.
+    
+        <PullQuote text="It is not the right fit for every company — you need product-market fit, minimum viable revenue, and genuine ambition to dominate your category." />
+      </GlassCard>
+    </AnimatedSection>
+  </div>
+</section>
+
+<section class="section dark">
+  <div class="container mx-auto px-6">
+    <AnimatedSection delay={1200}>
+      <div style={{maxWidth:'600px', margin:'4rem auto', padding:'0 1.5rem'}}>
+        <h2 className="gradient-text" style={{textAlign:'center', fontSize:'clamp(1.5rem,3vw,2rem)', fontWeight:800, marginBottom:'2rem'}}>Start Your Growth Audit</h2>
+        <ScalingSurvey client:visible />
+      </div>
+    </AnimatedSection>
+
+    <AnimatedSection delay={1400}>
+      <div style={{maxWidth:'900px', margin:'3rem auto', padding:'0 1.5rem'}}>
+        <h2 className="gradient-text" style={{fontSize:'clamp(1.5rem,3vw,2rem)', fontWeight:800, textAlign:'center', marginBottom:'2rem'}}>Related Services & Reading</h2>
+        <BentoGrid items={[
+          {title: "Paid Acquisition Engineering", desc: "See the individual service that powers our traffic generation.", link: "/services/paid-acquisition"},
+          {title: "Market Domination Strategy", desc: "Read the intel article on our strategic philosophy.", link: "/intel/market-domination-strategy"},
+          {title: "Authority Engine", desc: "Learn how we build the brand authority that acts as a force multiplier.", link: "/services/authority-engine"}
+        ]} />
+      </div>
+    </AnimatedSection>
+  </div>
+</section>
+
+<section class="section light">
+  <div class="container mx-auto px-6 max-w-4xl">
+    <AnimatedSection delay={1400}>
+      <GlassCard variant="default" title="The System Integration Layer">
+        Most agencies manage channels. We manage interactions. The Growth Retainer includes our proprietary **System Integration Layer** — a technical framework that connects your paid media tokens directly to CRM objects and attribution models in real-time.
+    
+        This means when a creative winner is identified in the "Sandbox" (Phase 1), the system automatically updates the funnel messaging and triggers a specific nurture sequence in the CRM. This is not manual work; it's engineered synchronization that eliminates the lag time between identifying an opportunity and capitalising on it.
+      </GlassCard>
+    </AnimatedSection>
+  </div>
+</section>
+
+<section class="section dark">
+  <CTA />
+</section>

@@ -1,0 +1,170 @@
+---
+const base = '/jumpstart';
+const nav = [
+  { label: 'Command Station', links: [{ href: `${base}/admin/`, label: 'Dashboard' }] },
+  { label: 'Launchpad', links: [
+    { href: `${base}/admin/sites`, label: 'Sites' },
+    { href: `${base}/admin/sites/jumpstart`, label: 'Jumpstart Wizard' },
+    { href: `${base}/admin/sites/import`, label: 'WP Import' },
+  ]},
+  { label: 'Content Factory', links: [
+    { href: `${base}/admin/factory`, label: 'Kanban' },
+    { href: `${base}/admin/factory/articles`, label: 'Articles' },
+    { href: `${base}/admin/content-factory`, label: 'Generator' },
+  ]},
+  { label: 'Intelligence', links: [
+    { href: `${base}/admin/intelligence`, label: 'Overview' },
+    { href: `${base}/admin/intelligence/avatars`, label: 'Avatars' },
+    { href: `${base}/admin/intelligence/variants`, label: 'Variants' },
+    { href: `${base}/admin/intelligence/geo`, label: 'Geo' },
+    { href: `${base}/admin/intelligence/spintax`, label: 'Spintax' },
+    { href: `${base}/admin/intelligence/patterns`, label: 'Patterns' },
+  ]},
+  { label: 'SEO Engine', links: [
+    { href: `${base}/admin/seo/campaigns`, label: 'Campaigns' },
+    { href: `${base}/admin/seo/articles`, label: 'Articles' },
+    { href: `${base}/admin/seo/headlines`, label: 'Headlines' },
+    { href: `${base}/admin/seo/fragments`, label: 'Fragments' },
+    { href: `${base}/admin/seo/wizard`, label: 'Wizard' },
+  ]},
+  { label: 'Content', links: [
+    { href: `${base}/admin/pages`, label: 'Pages' },
+    { href: `${base}/admin/posts`, label: 'Posts' },
+    { href: `${base}/admin/content/avatars`, label: 'Avatar Content' },
+    { href: `${base}/admin/content/geo_clusters`, label: 'Geo Clusters' },
+  ]},
+  { label: 'Collections', links: [
+    { href: `${base}/admin/collections`, label: 'Browser' },
+    { href: `${base}/admin/collections/page-blocks`, label: 'Page Blocks' },
+    { href: `${base}/admin/collections/offer-blocks`, label: 'Offer Blocks' },
+    { href: `${base}/admin/collections/headline-inventory`, label: 'Headlines' },
+    { href: `${base}/admin/collections/content-fragments`, label: 'Fragments' },
+  ]},
+  { label: 'Analytics', links: [
+    { href: `${base}/admin/analytics`, label: 'Overview' },
+    { href: `${base}/admin/analytics/events`, label: 'Events' },
+    { href: `${base}/admin/analytics/conversions`, label: 'Conversions' },
+    { href: `${base}/admin/analytics/pageviews`, label: 'Pageviews' },
+  ]},
+  { label: 'Leads', links: [
+    { href: `${base}/admin/leads`, label: 'Leads' },
+  ]},
+  { label: 'Media', links: [
+    { href: `${base}/admin/media`, label: 'Browser' },
+    { href: `${base}/admin/media/templates`, label: 'Templates' },
+  ]},
+  { label: 'Locations', links: [
+    { href: `${base}/admin/locations`, label: 'Locations' },
+  ]},
+  { label: 'pSEO', links: [
+    { href: `${base}/admin/pseo-services`, label: 'Services' },
+    { href: `${base}/admin/content-matrix`, label: 'Content Matrix' },
+    { href: `${base}/admin/scaling-surveys`, label: 'Surveys' },
+  ]},
+  { label: 'Scheduler', links: [
+    { href: `${base}/admin/scheduler`, label: 'Calendar' },
+  ]},
+  { label: 'Assembler', links: [
+    { href: `${base}/admin/assembler`, label: 'Dashboard' },
+    { href: `${base}/admin/assembler/templates`, label: 'Templates' },
+    { href: `${base}/admin/assembler/preview`, label: 'Preview' },
+  ]},
+  { label: 'Automations', links: [
+    { href: `${base}/admin/automations`, label: 'Automations' },
+  ]},
+  { label: 'System', links: [
+    { href: `${base}/admin/system`, label: 'Overview' },
+    { href: `${base}/admin/system/work-log`, label: 'Work Log' },
+    { href: `${base}/admin/status`, label: 'Status' },
+    { href: `${base}/admin/debug`, label: 'Debug' },
+  ]},
+  { label: 'Settings', links: [
+    { href: `${base}/admin/settings`, label: 'Settings' },
+  ]},
+  { label: 'Testing', links: [
+    { href: `${base}/admin/testing`, label: 'Suite' },
+    { href: `${base}/admin/testing/connection`, label: 'Connection' },
+    { href: `${base}/admin/testing/schema`, label: 'Schema' },
+    { href: `${base}/admin/testing/render`, label: 'Render' },
+    { href: `${base}/admin/testing/results`, label: 'Results' },
+  ]},
+];
+---
+
+<aside class="admin-sidebar" id="admin-sidebar">
+  <a href={`${base}/admin/`} class="sidebar-brand">Spark Admin</a>
+  <nav class="sidebar-nav">
+    {nav.map((section) => (
+      <details class="sidebar-section" data-section={section.label} open>
+        <summary>{section.label}</summary>
+        <ul>
+          {section.links.map((link) => (
+            <li>
+              <a href={link.href}>{link.label}</a>
+            </li>
+          ))}
+        </ul>
+      </details>
+    ))}
+  </nav>
+  <p class="sidebar-footer">66 pages</p>
+</aside>
+<style>
+  .admin-sidebar {
+    width: 260px;
+    min-width: 260px;
+    background: #0d0d0d;
+    border-right: 1px solid #222;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  .sidebar-brand {
+    padding: 1rem 1.25rem;
+    font-weight: 700;
+    font-size: 1.125rem;
+    color: #C9A961;
+    text-decoration: none;
+    border-bottom: 1px solid #222;
+  }
+  .sidebar-brand:hover { text-decoration: underline; }
+  .sidebar-nav { flex: 1; padding: 0.5rem 0; }
+  .sidebar-section {
+    border-bottom: 1px solid #1a1a1a;
+  }
+  .sidebar-section summary {
+    padding: 0.5rem 1.25rem;
+    cursor: pointer;
+    font-weight: 600;
+    color: #999;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    list-style: none;
+    user-select: none;
+  }
+  .sidebar-section summary::-webkit-details-marker { display: none; }
+  .sidebar-section summary::after { content: ' ›'; }
+  .sidebar-section[open] summary::after { content: ' ›'; transform: rotate(90deg); display: inline-block; }
+  .sidebar-section ul { list-style: none; padding: 0 0 0.5rem 0; margin: 0; }
+  .sidebar-section li { margin: 0; }
+  .sidebar-section a {
+    display: block;
+    padding: 0.4rem 1.25rem 0.4rem 1.75rem;
+    color: #ccc;
+    text-decoration: none;
+    font-size: 0.9rem;
+  }
+  .sidebar-section a:hover { background: #1a1a1a; color: #C9A961; }
+  .sidebar-footer {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.75rem;
+    color: #555;
+    border-top: 1px solid #222;
+  }
+  @media (max-width: 768px) {
+    .admin-sidebar { position: fixed; left: 0; top: 0; z-index: 50; transform: translateX(-100%); }
+    .admin-sidebar.open { transform: translateX(0); }
+  }
+</style>

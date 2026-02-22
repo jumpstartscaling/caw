@@ -1,0 +1,144 @@
+---
+title: "Paid Acquisition Engineering"
+description: "Performance media buying engineered for maximum ROAS. We build and manage paid acquisition systems across Google, Meta, TikTok, and LinkedIn that produce predictable, scalable revenue growth."
+palette: "gold"
+order: 1
+keyMetrics:
+  - label: "Avg ROAS Improvement"
+    value: "3.2x"
+  - label: "Cost Per Lead Reduction"
+    value: "47%"
+  - label: "Client Retention"
+    value: "94%"
+---
+
+import ParallaxHero from '../../components/ui/ParallaxHero.astro';
+import Hero from '../../components/ui/Hero.astro';
+import AnimatedSection from '../../components/ui/AnimatedSection.astro';
+import GlassCard from '../../components/ui/GlassCard.astro';
+import PullQuote from '../../components/ui/PullQuote.astro';
+import InteractiveTimeline from '../../components/visuals/InteractiveTimeline.tsx';
+import ScrollRevealGrid from '../../components/ui/ScrollRevealGrid.tsx';
+import BentoGrid from '../../components/ui/BentoGrid.astro';
+import ScalingSurvey from '../../components/interactivity/ScalingSurvey.tsx';
+import CTA from '../../components/ui/CTA.astro';
+import ROASCalculator from '../../components/calculators/ROASCalculator.jsx';
+import ImagePlaceholder from '../../components/ui/ImagePlaceholder.tsx';
+
+<ParallaxHero>
+  <Hero 
+    title="Paid Acquisition Engineering" 
+    subtitle="Performance media buying engineered for maximum ROAS across Google, Meta, TikTok, and LinkedIn." 
+  />
+</ParallaxHero>
+
+<section class="section light">
+  <div class="container mx-auto px-6 max-w-6xl">
+    <AnimatedSection delay={200}>
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div class="p-8 md:p-12">
+            <h2 class="text-3xl md:text-4xl font-black text-black mb-6">The Chaos of Traditional Media Buying</h2>
+            <h3 class="text-xl text-black/60 font-medium mb-6">Moving from spray-and-pray to engineered scaling.</h3>
+            
+            <div class="prose prose-lg text-black/80 leading-relaxed">
+                <p>Most brands treat paid acquisition like gambling. They launch untested creatives, manually scale budgets, and pray for predictability. This approach leads to creative fatigue, auction competition, and diminishing returns.</p>
+                <p>The average brand sees ROAS drop 40-60% within 3 months of scaling due to unaddressed variance.</p>
+                <p class="font-bold border-l-4 border-black pl-4 italic">"Traditional agencies operate on artistry, not engineering."</p>
+            </div>
+        </div>
+
+        <div class="rounded-2xl overflow-hidden shadow-2xl border border-black/10 relative bg-black">
+           <video
+             src="/assets/infrastructure-gap-opt.mp4"
+             class="w-full h-auto block"
+             autoplay
+             muted
+             loop
+             playsinline
+           ></video>
+           <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none"></div>
+        </div>
+      </div>
+    </AnimatedSection>
+  </div>
+</section>
+
+<section class="section dark">
+  <div class="container mx-auto px-6 max-w-6xl">
+    <AnimatedSection delay={500}>
+      <GlassCard 
+        variant="split"
+        title="The Scaling Protocol"
+        subtitle="Three rigorous phases to eliminate scaling variance."
+      >
+        <div className="max-w-4xl">
+          <InteractiveTimeline client:load steps={[
+            {title: "Phase 1: Sandbox", content: "Controlled multivariate testing with statistical thresholds. Server-side CAPI from day one. Winners advance only after MER thresholds are met."},
+            {title: "Phase 2: Extraction", content: "Aggressive iteration on proven angles. Creative refresh systems for infinite variations and high-LTV audience expansion."},
+            {title: "Phase 3: Domination", content: "Unlimited budget ramp with margin protection. Advanced bidding strategies lock in auction dominance and 5-10x ROAS."}
+          ]} />
+        </div>
+      </GlassCard>
+    </AnimatedSection>
+  </div>
+</section>
+
+<section class="section light">
+  <div class="container mx-auto px-6 max-w-4xl">
+    <AnimatedSection delay={500}>
+        <div class="my-16">
+            <h2 class="text-3xl font-bold text-center mb-12 text-black">Project Your ROAS</h2>
+            <ROASCalculator client:visible />
+        </div>
+    </AnimatedSection>
+  </div>
+</section>
+
+<section class="section dark">
+  <div class="container mx-auto px-6 max-w-4xl">
+    <AnimatedSection delay={600}>
+      <ScrollRevealGrid metrics={frontmatter.keyMetrics} client:visible />
+    </AnimatedSection>
+
+    <AnimatedSection delay={700}>
+      <GlassCard 
+        variant="hero"
+        title="Infrastructure Wins Markets"
+      >
+        Traditional agencies deliver campaigns. We deliver infrastructure. Campaigns produce temporary spikes. Infrastructure produces compounding returns.
+    
+        When you engineer acquisition, every dollar spent builds on the previous dollar. Attribution is accurate. Scaling decisions are data-driven rather than hopeful.
+    
+        <PullQuote text="Engineered acquisition turns paid media from an expense into a compounding asset." author="Scalability Axiom" />
+      </GlassCard>
+    </AnimatedSection>
+  </div>
+</section>
+
+<section class="section light">
+  <div class="container mx-auto px-6">
+    <AnimatedSection delay={1000}>
+      <div class="my-16">
+        <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 text-black">Related Services & Reading</h2>
+        <BentoGrid items={[
+          {title: "Funnel Architecture", desc: "Convert your paid traffic at 2-3x industry averages.", link: "/services/funnel-architecture"},
+          {title: "Data Attribution", desc: "Know exactly which campaigns drive revenue.", link: "/services/data-attribution"},
+          {title: "Authority Engine", desc: "Lower CAC with pre-click trust.", link: "/services/authority-engine"}
+        ]} />
+      </div>
+    </AnimatedSection>
+  </div>
+</section>
+
+<section class="section dark">
+  <div class="container mx-auto px-6 text-center">
+    <AnimatedSection delay={1200}>
+      <div class="my-16">
+        <h2 class="text-4xl md:text-5xl font-bold mb-8 gradient-text">Ready to Engineer Your Acquisition?</h2>
+        <div class="max-w-3xl mx-auto">
+          <ScalingSurvey client:load />
+        </div>
+      </div>
+    </AnimatedSection>
+  </div>
+</section>

@@ -1,0 +1,30 @@
+---
+// src/pages/services/[...slug].astro - Updated to use BaseLayout (consistent particles, nav, spacing, SEO)
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const services = await getCollection('services');
+  return services.map(entry => ({
+    params: { slug: entry.id.replace(/\.mdx?$/, '') },
+    props: { entry }
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+
+const faqs = entry.data.faqs || []; // If you add FAQ frontmatter later
+---
+
+<BaseLayout 
+  title={entry.data.title} 
+  description={entry.data.description} 
+  palette={entry.data.palette || 'gold'} 
+  faqs={faqs}
+
+  fluid={true}
+>
+  <!-- Content (MDX handles sections: Hero -> Dark/Light Alternating -> CTA) -->
+  <Content />
+</BaseLayout>

@@ -1,0 +1,63 @@
+{
+  "collection": "cartesian_patterns",
+  "exportedAt": "2025-12-13T14:49:42.361Z",
+  "recordCount": 3,
+  "data": [
+    {
+      "id": 1,
+      "pattern_key": "long_tail_seo_headlines",
+      "pattern_type": "formula",
+      "data": [
+        {
+          "id": "geo_dominance",
+          "formula": "{adjectives_quality} {{NICHE}} {Agency|Partner|Experts} in {{CITY}}, {{STATE}}",
+          "example_output": "Premier Plastic Surgery Marketing Experts in Miami, FL"
+        },
+        {
+          "id": "pain_resolution_geo",
+          "formula": "How to {verbs_solution} {{NICHE}} {outcomes} in {{CITY}}",
+          "example_output": "How to Automate Dental Practice Patient Volume in Austin"
+        },
+        {
+          "id": "authority_hook",
+          "formula": "Why {{CITY}}'s {adjectives_growth} {{NICHE}} Founders Choose Us",
+          "example_output": "Why Palo Alto's Fast-Growing Fintech Founders Choose Us"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "pattern_key": "hyper_local_hooks",
+      "pattern_type": "formula",
+      "data": [
+        {
+          "id": "neighborhood_targeting",
+          "formula": "Attention {{CITY}}: {verbs_action} Your {{NICHE}} Market {timelines}",
+          "example_output": "Attention Greenwich: Dominate Your Hedge Fund Market Before Q4"
+        },
+        {
+          "id": "zip_code_prestige",
+          "formula": "The {adjectives_quality} Strategy for {{NICHE}} in {{ZIP_FOCUS}}",
+          "example_output": "The Elite Strategy for Luxury Brokerage in 90210"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "pattern_key": "intent_based_search_terms",
+      "pattern_type": "formula",
+      "data": [
+        {
+          "id": "commercial_intent",
+          "formula": "{adjectives_quality} {{NICHE}} Automation Services {{CITY}}",
+          "example_output": "Top-Rated Vertical SaaS Automation Services Atherton"
+        },
+        {
+          "id": "problem_aware",
+          "formula": "Fix {{NICHE}} {Zapier|CRM|Data} Issues {{CITY}}",
+          "example_output": "Fix HealthTech CRM Issues Boston"
+        }
+      ]
+    }
+  ]
+}

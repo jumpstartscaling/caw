@@ -1,0 +1,50 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+---
+<AdminLayout title="Mission Control">
+  <h2 class="text-xl font-bold mb-4">Mission Control</h2>
+  <p class="text-gray-400 mb-6">pSEO Factory admin. Select a section from the nav.</p>
+  <div class="grid grid-cols-2 md:grid-cols-5 gap-4" id="stats">
+    <div class="bg-gray-900 rounded-lg p-4 border border-gray-800">
+      <div class="text-3xl font-bold text-gold" id="leads-count">-</div>
+      <div class="text-sm text-gray-400">Leads</div>
+    </div>
+    <div class="bg-gray-900 rounded-lg p-4 border border-gray-800">
+      <div class="text-3xl font-bold text-gold" id="surveys-count">-</div>
+      <div class="text-sm text-gray-400">Surveys</div>
+    </div>
+    <div class="bg-gray-900 rounded-lg p-4 border border-gray-800">
+      <div class="text-3xl font-bold text-gold" id="locations-count">-</div>
+      <div class="text-sm text-gray-400">Locations</div>
+    </div>
+    <div class="bg-gray-900 rounded-lg p-4 border border-gray-800">
+      <div class="text-3xl font-bold text-gold" id="services-count">-</div>
+      <div class="text-sm text-gray-400">Services</div>
+    </div>
+    <div class="bg-gray-900 rounded-lg p-4 border border-gray-800">
+      <div class="text-3xl font-bold text-gold" id="matrix-count">-</div>
+      <div class="text-sm text-gray-400">Content Matrix</div>
+    </div>
+  </div>
+  <script>
+    async function loadStats() {
+      try {
+        const base = window.__ADMIN_API_BASE__ || '';
+        const urls = ['/api/leads', '/api/scaling-surveys', '/api/locations', '/api/pseo-services', '/api/content-matrix?limit=1000'];
+        const results = await Promise.allSettled(urls.map(u => fetch(base + u).then(r => r.ok ? r.json() : Promise.reject(new Error(r.status)))));
+        const [leads, surveys, locs, svcs, matrix] = results.map(r => r.status === 'fulfilled' ? r.value : null);
+        document.getElementById('leads-count').textContent = leads?.leads?.length ?? '?';
+        document.getElementById('surveys-count').textContent = surveys?.surveys?.length ?? '?';
+        document.getElementById('locations-count').textContent = Array.isArray(locs) ? locs.length : '?';
+        document.getElementById('services-count').textContent = Array.isArray(svcs) ? svcs.length : '?';
+        document.getElementById('matrix-count').textContent = Array.isArray(matrix) ? matrix.length : '?';
+      } catch (e) {
+        ['leads-count','surveys-count','locations-count','services-count','matrix-count'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.textContent = '?';
+        });
+      }
+    }
+    loadStats();
+  </script>
+</AdminLayout>

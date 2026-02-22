@@ -1,0 +1,21 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+---
+<AdminLayout title="Pages">
+  <h2 class="text-xl font-bold mb-4">Pages</h2>
+  <div id="table-wrap"><p class="text-gray-400">Loading...</p></div>
+  <script>
+    const base = () => window.__ADMIN_API_BASE__ || '';
+    async function load() {
+      try {
+        const r = await fetch(base() + '/api/pages?limit=200');
+        const rows = await r.json();
+        if (!r.ok) { document.getElementById('table-wrap').innerHTML = `<p class="text-red-400">API error</p>`; return; }
+        const arr = Array.isArray(rows) ? rows : [];
+        const html = arr.length ? `<table><thead><tr><th>ID</th><th>Site</th><th>Title</th><th>Slug</th><th>Status</th></tr></thead><tbody>${arr.map(p => `<tr><td>${p.id}</td><td>${p.site_id ?? '-'}</td><td>${p.title ?? '-'}</td><td>${p.slug ?? '-'}</td><td>${p.status ?? '-'}</td></tr>`).join('')}</tbody></table>` : '<p class="text-gray-400">No pages yet.</p>';
+        document.getElementById('table-wrap').innerHTML = html;
+      } catch (e) { document.getElementById('table-wrap').innerHTML = `<p class="text-red-400">Error: ${e.message}</p>`; }
+    }
+    load();
+  </script>
+</AdminLayout>

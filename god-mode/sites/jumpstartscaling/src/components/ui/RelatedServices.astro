@@ -1,0 +1,23 @@
+---
+interface Props {
+  items: { 
+    title: string; 
+    desc: string; 
+    link: string; 
+  }[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-12 not-prose">
+  {items.map((item) => (
+    <a href={item.link} class="group block p-6 bg-white border border-black/10 rounded-xl hover:shadow-lg hover:border-[#C9A961] transition-all duration-300">
+      <div class="flex items-center justify-between mb-2">
+        <h3 class="font-bold text-lg text-black group-hover:text-[#C9A961] transition-colors">{item.title}</h3>
+        <span class="text-[#C9A961] transform group-hover:translate-x-1 transition-transform">→</span>
+      </div>
+      <p class="text-sm text-gray-600 line-clamp-2">{item.desc}</p>
+    </a>
+  ))}
+</div>

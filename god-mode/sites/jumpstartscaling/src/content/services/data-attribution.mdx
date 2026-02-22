@@ -1,0 +1,107 @@
+---
+title: "Data Attribution"
+description: "Full-funnel attribution engineering that connects every dollar of ad spend to actual revenue. We build the measurement infrastructure that makes scaling decisions based on data instead of guesses."
+palette: "gold"
+order: 4
+keyMetrics:
+  - label: "Attribution Accuracy"
+    value: "95%+"
+  - label: "Wasted Spend Identified"
+    value: "32%"
+  - label: "Scaling Confidence"
+    value: "10x"
+---
+import Hero from '../../components/ui/Hero.astro';
+import GlassCard from '../../components/ui/GlassCard.astro';
+import CTA from '../../components/ui/CTA.astro';
+import ScalingSurvey from '../../components/interactivity/ScalingSurvey.tsx';
+import ParallaxHero from '../../components/ui/ParallaxHero.astro';
+import AnimatedSection from '../../components/ui/AnimatedSection.astro';
+import InteractiveTimeline from '../../components/visuals/InteractiveTimeline.tsx';
+import PullQuote from '../../components/ui/PullQuote.astro';
+import BentoGrid from '../../components/ui/BentoGrid.astro';
+import IconBullet from '../../components/ui/IconBullet.astro';
+import ScrollRevealGrid from '../../components/ui/ScrollRevealGrid.tsx';
+
+<ParallaxHero>
+  <Hero title="Data Attribution" subtitle="Full-funnel measurement infrastructure that connects every dollar of ad spend to actual downstream revenue." />
+</ParallaxHero>
+
+<section class="section light">
+  <div class="container mx-auto px-6 max-w-6xl">
+    <AnimatedSection delay={200}>
+      <ScrollRevealGrid client:visible metrics={frontmatter.keyMetrics} />
+    </AnimatedSection>
+  </div>
+</section>
+
+<section class="section dark">
+  <div class="container mx-auto px-6 max-w-4xl">
+    <AnimatedSection delay={400}>
+      <GlassCard 
+        variant="split"
+        title="You Cannot Scale What You Cannot Measure"
+      >
+        <div slot="content">
+          <p class="mb-6">The biggest lie in digital marketing is "ROAS". Most ad platforms claim credit for sales they didn't generate, while missing the sales they heavily influenced. When you rely on platform-reported data, you are scaling based on hallucinations.</p>
+          <p>This leads to two fatal errors: cutting the top-of-funnel campaigns that are actually feeding your growth, and over-investing in bottom-of-funnel retargeting that is just claiming credit for traffic you already owned.</p>
+        </div>
+        <div slot="visual">
+           <PullQuote text="If your source of truth is the ad platform, your strategy is built on a conflict of interest." />
+        </div>
+      </GlassCard>
+    </AnimatedSection>
+  </div>
+</section>
+
+<section class="section light">
+  <div class="container mx-auto px-6 max-w-6xl">
+    <AnimatedSection delay={600}>
+      <div className="my-16">
+        <h2 className="text-4xl font-bold text-center mb-12 gradient-text text-black">The Attribution Protocol</h2>
+        <InteractiveTimeline client:visible steps={[
+          {
+            title: "Phase 1: Server-Side Tracking",
+            content: "<p>We bypass browser restrictions and ad blockers by implementing rigorous server-side tracking (CAPI). We capture every click, view, and submission directly at the server level, ensuring near-100% data fidelity regardless of client-side privacy settings.</p>"
+          },
+          {
+            title: "Phase 2: Identity Resolution",
+            content: "<p>We stitch together user journeys across devices and sessions. When a user clicks an ad on mobile but buys on desktop three days later, our identity graph connects those events, giving credit where it is due.</p>"
+          },
+          {
+            title: "Phase 3: Marketing Efficiency Ratio (MER)",
+            content: "<p>We move you beyond platform ROAS to ecosystem metrics. We build dashboards that track MER (Total Revenue / Total Spend) and nCPA (New Customer Acquisition Cost), giving you the true north metrics for profitability.</p>"
+          }
+        ]} />
+      </div>
+    </AnimatedSection>
+  </div>
+</section>
+
+<section class="section dark">
+  <div class="container mx-auto px-6 max-w-4xl">
+    <AnimatedSection delay={800}>
+      <h2 class="text-4xl font-bold text-center mb-12 gradient-text">Why Data is Your Moat</h2>
+      <IconBullet items={[
+        "Eliminate 20-30% of wasted ad spend immediately",
+        "Scale winning campaigns with mathematical confidence",
+        "Understand the true LTV impact of each acquisition channel",
+        "Own your data independent of platform changes (iOS updates)",
+        "Feed better data back to ad algorithms to improve targeting"
+      ]} />
+    </AnimatedSection>
+  </div>
+</section>
+
+<section class="section light">
+  <div class="container mx-auto px-6">
+    <div class="max-w-4xl mx-auto text-center">
+       <h2 class="text-3xl font-bold mb-8 text-black">Ready to see your real numbers?</h2>
+       <ScalingSurvey client:visible />
+    </div>
+  </div>
+</section>
+
+<section class="section dark">
+  <CTA heading="Stop Guessing. Start scaling." text="Get a free attribution audit to find your data gaps." href="/audit" label="Audit My Data" />
+</section>

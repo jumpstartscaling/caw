@@ -1,0 +1,37 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+---
+<AdminLayout title="Scaling Surveys">
+  <h2 class="text-xl font-bold mb-4">Scaling Survey Submissions</h2>
+  <div id="surveys-table"><p class="text-gray-400">Loading...</p></div>
+  <script>
+    async function load() {
+      try {
+        const r = await fetch((window.__ADMIN_API_BASE__ || '') + '/api/scaling-surveys?limit=500');
+        const d = await r.json();
+        const rows = d?.surveys ?? [];
+        const html = `
+          <table>
+            <thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Company</th><th>Industry</th><th>Date</th></tr></thead>
+            <tbody>
+              ${rows.map(s => `
+                <tr>
+                  <td>${s.id}</td>
+                  <td>${s.name ?? '-'}</td>
+                  <td><a href="mailto:${s.email}">${s.email ?? '-'}</a></td>
+                  <td>${s.company ?? '-'}</td>
+                  <td>${s.industry ?? '-'}</td>
+                  <td>${s.created_at ?? '-'}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        `;
+        document.getElementById('surveys-table').innerHTML = rows.length ? html : '<p class="text-gray-400">No surveys yet.</p>';
+      } catch (e) {
+        document.getElementById('surveys-table').innerHTML = `<p class="text-red-400">Error: ${e.message}</p>`;
+      }
+    }
+    load();
+  </script>
+</AdminLayout>

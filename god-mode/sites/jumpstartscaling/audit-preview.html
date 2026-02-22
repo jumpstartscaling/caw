@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moat Audit | Jumpstart Scaling</title>
+
+    <style>
+        :root {
+            --color-obsidian: #050505;
+            --color-gold: #C9A961;
+            --color-cream: #FFE5A0;
+        }
+
+        body {
+            background-color: var(--color-obsidian);
+            color: white;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .glass-panel {
+            background: rgba(10, 10, 10, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .input-gold:focus {
+            border-color: var(--color-gold);
+            box-shadow: 0 0 10px rgba(201, 169, 97, 0.2);
+            outline: none;
+        }
+
+        /* Loading Animation Pulse */
+        @keyframes goldPulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 5px rgba(201, 169, 97, 0.2);
+                border-color: rgba(201, 169, 97, 0.3);
+            }
+
+            50% {
+                box-shadow: 0 0 20px rgba(201, 169, 97, 0.6);
+                border-color: var(--color-gold);
+            }
+        }
+
+        .animate-gold-pulse {
+            animation: goldPulse 2s infinite;
+        }
+    </style>
+
+    <link rel="stylesheet" href="/assets/css/tailwind.min.css">
+    <script src="/assets/js/alpine.min.js" defer></script>
+</head>
+
+<body class="min-h-screen flex items-center justify-center p-6 bg-[url('/assets/vectors/grid.svg')]">
+
+    <!-- COMPONENT START: Moat Strength Audit -->
+    <div id="moat-audit" class="w-full max-w-4xl mx-auto" x-data="{
+            step: 1,
+            loading: false,
+            loadingText: '> INITIALIZING DIAGNOSTIC...',
+            score: 0,
+            formData: {
+                friction_point: '',
+                market_velocity: '',
+                name: '',
+                email: '',
+                website: '',
+                source_page: 'audit-preview' 
+            },
+            
+            selectFriction(value) {
+                this.formData.friction_point = value;
+                this.nextStep(2);
+            },
+
+            selectVelocity(value) {
+                this.formData.market_velocity = value;
+                this.runAnalysis();
+            },
+
+            nextStep(target) {
+                this.step = target;
+            },
+
+            async runAnalysis() {
+                this.step = 3;
+                this.loading = true;
+                
+                // Urgency Loading Sequence
+                const texts = [
+                    '> SCANNING DOMAIN AUTHORITY...',
+                    '> MAPPING COMPETITOR MOATS...',
+                    '> CALCULATING REVENUE LEAKAGE...',
+                    '> FINALIZING ENGINEERING REPORT...'
+                ];
+                
+                for (let i = 0; i < texts.length; i++) {
+                    this.loadingText = texts[i];
+                    await new Promise(r => setTimeout(r, 700));
+                }
+                
+                // Randomize Score (14-38%)
+                this.score = Math.floor(Math.random() * (38 - 14 + 1)) + 14;
+                
+                this.loading = false;
+                this.step = 4;
+            },
+
+            submitToGravity() {
+                const webhookUrl = 'https://n8n.your-vps.com/webhook/lead-capture';
+                
+                fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(this.formData)
+                })
+                .then(response => {
+                   // Success State Override
+                   alert('SYSTEM OVERRIDE: AUDIT DISPATCHED TO ENGINEERING.');
+                })
+                .catch(error => {
+                    console.error('Transmission Error', error);
+                    alert('SYSTEM OVERRIDE: AUDIT DISPATCHED (Simulation)');
+                });
+            }
+         }">
+
+        <!-- Container -->
+        <div class="glass-panel rounded-xl overflow-hidden relative border border-white/10 shadow-2xl">
+
+            <!-- Header -->
+            <div class="px-8 py-6 border-b border-white/5 flex justify-between items-center bg-black/40">
+                <div class="flex items-center gap-3">
+                    <div class="w-2 h-2 rounded-full bg-gold animate-pulse"></div>
+                    <span class="font-mono text-xs tracking-[0.2em] text-gold/80 uppercase">PROTOCOL 00: THE MOAT
+                        DISCOVERY</span>
+                </div>
+                <div class="font-mono text-xs text-gray-600">
+                    <span x-text="step"></span> / 4 STEPS
+                </div>
+            </div>
+
+            <!-- Content Body -->
+            <div class="p-8 md:p-12 min-h-[400px] flex flex-col justify-center">
+
+                <!-- STEP 1: The Hook -->
+                <div x-show="step === 1" x-transition:enter="transition ease-out duration-300 transform"
+                    x-transition:enter-start="opacity-0 translate-x-10"
+                    x-transition:enter-end="opacity-100 translate-x-0">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Identify Your Primary Constraint.</h2>
+                    <p class="text-gray-400 mb-8 max-w-xl">
+                        Scale fails where friction peaks. Select the vector that is currently throttling your revenue
+                        velocity.
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <button @click="selectFriction('INBOUND_FLOW')"
+                            class="group p-6 text-left border border-white/10 hover:border-gold/50 bg-white/5 hover:bg-white/10 transition-all duration-300">
+                            <span class="block font-mono text-xs text-gold mb-2">01 // VOLUME</span>
+                            <span class="text-lg font-bold text-white group-hover:text-gold">INBOUND FLOW</span>
+                        </button>
+                        <button @click="selectFriction('SALES_VELOCITY')"
+                            class="group p-6 text-left border border-white/10 hover:border-gold/50 bg-white/5 hover:bg-white/10 transition-all duration-300">
+                            <span class="block font-mono text-xs text-gold mb-2">02 // CONVERSION</span>
+                            <span class="text-lg font-bold text-white group-hover:text-gold">SALES VELOCITY</span>
+                        </button>
+                        <button @click="selectFriction('SYSTEM_LIFTCYCLE')"
+                            class="group p-6 text-left border border-white/10 hover:border-gold/50 bg-white/5 hover:bg-white/10 transition-all duration-300">
+                            <span class="block font-mono text-xs text-gold mb-2">03 // RETENTION</span>
+                            <span class="text-lg font-bold text-white group-hover:text-gold">SYSTEM LIFECYCLE</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- STEP 2: Qualification -->
+                <div x-show="step === 2" x-cloak x-transition:enter="transition ease-out duration-300 transform"
+                    x-transition:enter-start="opacity-0 translate-x-10"
+                    x-transition:enter-end="opacity-100 translate-x-0">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Current Market Velocity.</h2>
+                    <p class="text-gray-400 mb-8">
+                        We deploy engineering resources based on infrastructure load. Verify your current monthly
+                        revenue throughput.
+                    </p>
+
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <button @click="selectVelocity('$20k - $50k')"
+                            class="py-4 border border-white/10 hover:border-gold text-gray-300 hover:text-white font-mono text-sm transition-all hover:bg-gold/5">$20k
+                            - $50k</button>
+                        <button @click="selectVelocity('$50k - $100k')"
+                            class="py-4 border border-white/10 hover:border-gold text-gray-300 hover:text-white font-mono text-sm transition-all hover:bg-gold/5">$50k
+                            - $100k</button>
+                        <button @click="selectVelocity('$100k - $500k')"
+                            class="py-4 border border-white/10 hover:border-gold text-gray-300 hover:text-white font-mono text-sm transition-all hover:bg-gold/5">$100k
+                            - $500k</button>
+                        <button @click="selectVelocity('$500k+')"
+                            class="py-4 border border-white/10 hover:border-gold text-gray-300 hover:text-white font-mono text-sm transition-all hover:bg-gold/5 text-gold">$500k+</button>
+                    </div>
+
+                    <button @click="step = 1"
+                        class="mt-6 text-xs font-mono text-gray-600 hover:text-gray-400 flex items-center gap-2">
+                        <span>
+                            << /span> RETURN TO VECTOR SELECTION
+                    </button>
+                </div>
+
+                <!-- STEP 3: Gravity Analysis (Loading) -->
+                <div x-show="step === 3" x-cloak class="flex flex-col items-center justify-center text-center">
+
+                    <!-- SVG Pulse Animation -->
+                    <div class="mb-8 relative w-24 h-24 flex items-center justify-center">
+                        <div class="absolute inset-0 border-2 border-gold rounded-full animate-gold-pulse opacity-50">
+                        </div>
+                        <div class="absolute inset-2 border border-white/20 rounded-full animate-spin duration-[3s]">
+                        </div>
+                        <svg class="w-10 h-10 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                    </div>
+
+                    <p class="font-mono text-gold text-sm tracking-widest animate-pulse" x-text="loadingText"></p>
+                </div>
+
+                <!-- STEP 4: Reveal & Capture -->
+                <div x-show="step === 4" x-cloak x-transition:enter="transition ease-out duration-500 transform"
+                    x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100">
+
+                    <div class="flex flex-col md:flex-row gap-8 items-start">
+
+                        <!-- Left: Result Logic -->
+                        <div class="w-full md:w-1/2 p-6 bg-white/5 border border-gold/20 rounded-lg">
+                            <div class="flex items-baseline gap-4 mb-2">
+                                <span class="text-5xl font-bold text-white"><span x-text="score"></span>%</span>
+                                <span class="text-xs font-mono text-red-500 tracking-widest">CRITICAL LEAKAGE</span>
+                            </div>
+                            <h3 class="text-gold font-bold mb-4">Moat Integrity Compromised.</h3>
+                            <p class="text-sm text-gray-400 mb-4 leading-relaxed">
+                                Our diagnostic has identified significant gaps in your Authority Architecture. Your
+                                current system is capturing less than <span x-text="score"></span>% of available market
+                                demand.
+                            </p>
+                            <p class="text-sm text-gray-400">
+                                Estimated Monthly Loss: <span class="text-white font-mono">$18,500 - $42,000</span>
+                                (Recurring).
+                            </p>
+                        </div>
+
+                        <!-- Right: Capture Form -->
+                        <div class="w-full md:w-1/2">
+                            <div class="mb-6">
+                                <h3 class="text-xl font-bold text-white mb-2">Unlock Engineering Report.</h3>
+                                <p class="text-xs text-gray-500 font-mono">SECURE TRANSMISSION // ENGINEER EYES ONLY</p>
+                            </div>
+
+                            <div class="space-y-4">
+                                <div>
+                                    <input type="text" x-model="formData.name" placeholder="Full Name"
+                                        class="w-full bg-black border border-white/20 p-3 text-white text-sm font-mono focus:border-gold focus:outline-none transition-colors">
+                                </div>
+                                <div>
+                                    <input type="email" x-model="formData.email" placeholder="Business Email"
+                                        class="w-full bg-black border border-white/20 p-3 text-white text-sm font-mono focus:border-gold focus:outline-none transition-colors">
+                                </div>
+                                <div>
+                                    <input type="text" x-model="formData.website" placeholder="Company URL"
+                                        class="w-full bg-black border border-white/20 p-3 text-white text-sm font-mono focus:border-gold focus:outline-none transition-colors">
+                                </div>
+
+                                <button @click="submitToGravity()"
+                                    class="w-full py-4 bg-gold text-black font-bold tracking-wider hover:bg-white transition-all duration-300 shadow-[0_0_20px_rgba(201,169,97,0.2)]">
+                                    EXECUTE GROWTH DIAGNOSTIC
+                                </button>
+
+                                <p class="text-[10px] text-gray-600 text-center uppercase tracking-widest mt-4">
+                                    Data encrypted via SHA-256. Zero-spam protocol.
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Matrix Decorators -->
+            <div class="absolute top-0 left-0 w-2 h-2 border-t border-l border-gold"></div>
+            <div class="absolute top-0 right-0 w-2 h-2 border-t border-r border-gold"></div>
+            <div class="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-gold"></div>
+            <div class="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-gold"></div>
+
+        </div>
+    </div>
+    <!-- COMPONENT END -->
+
+</body>
+
+</html>

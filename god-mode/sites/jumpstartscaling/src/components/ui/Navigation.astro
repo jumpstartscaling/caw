@@ -1,0 +1,219 @@
+---
+// src/components/ui/Navigation.astro
+// Jumpstart Scaling Navigation (2026-02-16)
+// - Reverted to ChrisAmaya.work style (Matt Black, Hotlinks)
+// - Structure: Desktop Mega-Menu + Mobile Drawer
+// - Branding: Gold accents, Matte black bg (#0B0B0F)
+
+const JUMPSTART_URL = "https://jumpstartscaling.com";
+
+const services = [
+  { name: "Paid Acquisition", href: "/services/paid-acquisition", desc: "Scale ad spend profitably" },
+  { name: "Funnel Architecture", href: "/services/funnel-architecture", desc: "Optimize conversion rates" },
+  { name: "CRM Transformation", href: "/services/crm-transformation", desc: "Automate sales ops" },
+  { name: "Authority Engine", href: "/services/authority-engine", desc: "Establish market dominance" },
+];
+
+const resources = [
+  { name: "Calculators", href: "/resources/calculators", desc: "8+ Growth Tools" },
+  { name: "Market Intel", href: "/intel", desc: "Deep dive strategy" },
+  { name: "Full Audit", href: "/audit", desc: "Free comprehensive analysis" },
+];
+---
+
+<nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-4 bg-[#0B0B0F] border-b border-white/5">
+  <div class="max-w-[1600px] mx-auto px-6 flex items-center justify-between">
+    
+    <!-- Logo -->
+    <a href="/" aria-label="Jumpstart Scaling homepage" class="flex items-center gap-3 group">
+      <div class="w-10 h-10 bg-gradient-to-br from-[#C9A961] to-[#FFE5A0] rounded-lg flex items-center justify-center shadow-[0_0_15px_rgba(201,169,97,0.3)] group-hover:shadow-[0_0_25px_rgba(201,169,97,0.5)] transition-all">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#050505" stroke-width="2.5">
+          <path d="M13 2L3 14h9v8l10-12h-9l9-8z"></path>
+        </svg>
+      </div>
+      <span class="font-bold text-xl tracking-tight text-white hidden sm:block">
+        Jumpstart<span class="text-[#FFE5A0]">Scaling</span>
+      </span>
+    </a>
+
+    <!-- Desktop Menu -->
+    <ul class="hidden lg:flex items-center gap-8 font-medium text-sm text-white/90">
+      
+      <!-- Services Dropdown -->
+      <li class="relative group">
+        <button class="hover:text-[#E8C677] transition flex items-center gap-1 py-4 cursor-pointer">
+          Services <span class="text-[10px] opacity-70 group-hover:rotate-180 transition-transform">▼</span>
+        </button>
+        <!-- Hover Bridge -->
+        <div class="absolute top-full left-0 w-full h-4 bg-transparent"></div>
+        
+        <div class="absolute top-[calc(100%+0.5rem)] left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-2 group-hover:translate-y-0 w-72 pointer-events-none group-hover:pointer-events-auto">
+          <ul class="bg-[#0A0A0A] border border-white/10 rounded-xl p-2 shadow-2xl overflow-hidden ring-1 ring-white/5">
+            {services.map(item => (
+              <li>
+                <a href={item.href} class="block py-3 px-4 rounded-lg hover:bg-[#E8C677]/10 transition group/item">
+                  <div class="text-white/90 font-bold group-hover/item:text-[#E8C677] transition-colors">{item.name}</div>
+                  <div class="text-xs text-white/50">{item.desc}</div>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </li>
+
+      <!-- Resources Dropdown -->
+      <li class="relative group">
+        <button class="hover:text-[#E8C677] transition flex items-center gap-1 py-4 cursor-pointer">
+          Resources <span class="text-[10px] opacity-70 group-hover:rotate-180 transition-transform">▼</span>
+        </button>
+        <!-- Hover Bridge -->
+        <div class="absolute top-full left-0 w-full h-4 bg-transparent"></div>
+
+        <div class="absolute top-[calc(100%+0.5rem)] left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-2 group-hover:translate-y-0 w-64 pointer-events-none group-hover:pointer-events-auto">
+          <ul class="bg-[#0A0A0A] border border-white/10 rounded-xl p-2 shadow-2xl overflow-hidden ring-1 ring-white/5">
+            <li class="px-4 py-2 text-[10px] uppercase tracking-widest text-[#E8C677]/70 font-mono">Growth Tools</li>
+            {resources.map(item => (
+              <li>
+                <a href={item.href} class="block py-2 px-4 rounded-lg hover:bg-[#E8C677]/10 hover:text-[#E8C677] transition text-white/80">
+                  {item.name}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </li>
+
+      <li>
+        <a href="/about" class="hover:text-[#E8C677] transition block py-4">About</a>
+      </li>
+      <li>
+        <a href="/contact" class="hover:text-[#E8C677] transition block py-4">Contact</a>
+      </li>
+      <li>
+        <a href="/intel" class="hover:text-[#E8C677] transition block py-4">Intel</a>
+      </li>
+
+      <!-- CTA -->
+      <li>
+        <a href="/audit" class="px-6 py-2.5 bg-[#E8C677] text-black font-bold text-sm uppercase tracking-wider rounded-lg hover:bg-white transition shadow-[0_0_20px_rgba(232,198,119,0.4)] hover:shadow-white/50">
+          Get Audit
+        </a>
+      </li>
+    </ul>
+
+    <!-- Mobile Hamburger -->
+    <button id="mobile-menu-btn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-drawer" class="lg:hidden z-[60] relative w-12 h-12 flex flex-col justify-center items-center gap-1.5 group">
+      <span class="w-8 h-0.5 bg-white transition-all duration-300 origin-center group-[.open]:rotate-45 group-[.open]:translate-y-2"></span>
+      <span class="w-8 h-0.5 bg-white transition-all duration-300 origin-center group-[.open]:opacity-0"></span>
+      <span class="w-8 h-0.5 bg-white transition-all duration-300 origin-center group-[.open]:-rotate-45 group-[.open]:-translate-y-2"></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Drawer -->
+<div id="mobile-drawer" class="fixed inset-0 bg-[#0B0B0F]/99 backdrop-blur-3xl translate-x-full transition-transform duration-300 ease-out z-50 h-[100dvh] overflow-y-auto lg:hidden" aria-hidden="true">
+  <div class="flex flex-col min-h-full">
+    <!-- Header Spacing -->
+    <div class="h-24 flex items-center justify-end px-6">
+       <!-- Close button handled by the z-60 hamburger above -->
+    </div>
+
+    <div class="flex-1 px-8 pb-12">
+      <ul class="space-y-8">
+        <li><a href="/" class="text-3xl font-bold text-white hover:text-[#E8C677] transition mobile-link">Home</a></li>
+            <li><a href="/about" class="text-xl text-white/80 hover:text-[#E8C677] transition mobile-link py-2">About</a></li>
+            <li><a href="/contact" class="text-xl text-white/80 hover:text-[#E8C677] transition mobile-link py-2">Contact</a></li>
+
+        <!-- Services Section -->
+        <li class="space-y-4">
+          <span class="text-[#E8C677] text-sm font-mono uppercase tracking-widest border-b border-[#E8C677]/30 pb-2 block">Services</span>
+          <ul class="space-y-2">
+            {services.map(item => (
+              <li><a href={item.href} class="block text-xl text-white/80 hover:text-[#E8C677] transition mobile-link py-2">{item.name}</a></li>
+            ))}
+          </ul>
+        </li>
+
+        <!-- Tools Section -->
+        <li class="space-y-4">
+           <span class="text-[#E8C677] text-sm font-mono uppercase tracking-widest border-b border-[#E8C677]/30 pb-2 block">Tools & Intel</span>
+           <ul class="space-y-2">
+            {resources.map(item => (
+              <li><a href={item.href} class="block text-xl text-white/80 hover:text-[#E8C677] transition mobile-link py-1">{item.name}</a></li>
+            ))}
+           </ul>
+        </li>
+
+        <li class="mt-8 pt-8 border-t border-white/10">
+          <a href="/audit" class="block w-full text-center py-4 bg-[#E8C677] text-black font-bold text-xl rounded-xl shadow-[0_0_30px_rgba(232,198,119,0.3)] hover:scale-105 transition mobile-link">
+            Start Free Audit
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+  const menuBtn = document.getElementById('mobile-menu-btn');
+  const drawer = document.getElementById('mobile-drawer');
+  const html = document.documentElement;
+  const mobileLinks = document.querySelectorAll('.mobile-link');
+  let isOpen = false;
+
+  function toggleMenu() {
+    isOpen = !isOpen;
+    
+    // Toggle Classes
+    if (isOpen) {
+        drawer.classList.remove('translate-x-full');
+        drawer.setAttribute('aria-hidden', 'false');
+        menuBtn.classList.add('open');
+        menuBtn.setAttribute('aria-expanded', 'true');
+        html.style.overflow = 'hidden'; // Prevent scrolling
+
+        // Announce
+        const a = document.createElement('div');
+        a.setAttribute('role', 'status');
+        a.setAttribute('aria-live', 'polite');
+        a.className = 'sr-only';
+        a.textContent = 'Menu opened';
+        document.body.appendChild(a);
+        setTimeout(() => a.remove(), 1000);
+
+    } else {
+        drawer.classList.add('translate-x-full');
+        drawer.setAttribute('aria-hidden', 'true');
+        menuBtn.classList.remove('open');
+        menuBtn.setAttribute('aria-expanded', 'false');
+        html.style.overflow = '';
+
+        // Announce
+        const a = document.createElement('div');
+        a.setAttribute('role', 'status');
+        a.setAttribute('aria-live', 'polite');
+        a.className = 'sr-only';
+        a.textContent = 'Menu closed';
+        document.body.appendChild(a);
+        setTimeout(() => a.remove(), 1000);
+    }
+  }
+
+  // Event Listeners
+  menuBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleMenu();
+  });
+
+  // Close on link click
+  mobileLinks.forEach(link => {
+      link.addEventListener('click', () => {
+          if (isOpen) toggleMenu();
+      });
+  });
+
+  // Close on Escape
+  document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isOpen) toggleMenu();
+  });
+</script>

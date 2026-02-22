@@ -1,0 +1,52 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+---
+<AdminLayout title="Locations">
+  <h2 class="text-xl font-bold mb-4">Locations</h2>
+  <button onclick="showAddForm()" class="mb-4">+ Add Location</button>
+  <div id="add-form" class="hidden mb-4 p-4 bg-gray-900 rounded border border-gray-800">
+    <input id="city" placeholder="City" class="mr-2 mb-2" />
+    <input id="state" placeholder="State" class="mr-2 mb-2 w-20" />
+    <input id="zip" placeholder="Zip" class="mr-2 mb-2 w-24" />
+    <input id="neighborhood" placeholder="Neighborhood" class="mr-2 mb-2 w-40" />
+    <button onclick="addLocation()">Save</button>
+    <button onclick="document.getElementById('add-form').classList.add('hidden')" class="ml-2 bg-gray-600">Cancel</button>
+  </div>
+  <div id="locations-table"><p class="text-gray-400">Loading...</p></div>
+  <script>
+    async function load() {
+      try {
+        const r = await fetch((window.__ADMIN_API_BASE__ || '') + '/api/locations');
+        const data = await r.json();
+        const rows = Array.isArray(data) ? data : [];
+        if (!r.ok) {
+          const msg = (typeof data?.detail === 'string' ? data.detail : JSON.stringify(data?.detail || data)) || r.statusText || `HTTP ${r.status}`;
+          document.getElementById('locations-table').innerHTML = `<p class="text-red-400">API error: ${msg}</p>`;
+          return;
+        }
+        const html = `
+          <table>
+            <thead><tr><th>ID</th><th>City</th><th>State</th><th>Zip</th><th>Neighborhood</th><th>Slug</th><th></th></tr></thead>
+            <tbody>
+              ${rows.map(l => `
+                <tr><td>${l.id}</td><td>${l.city}</td><td>${l.state}</td><td>${l.zip ?? ''}</td><td>${l.neighborhood ?? ''}</td><td>${l.slug ?? ''}</td><td><button class="danger" onclick="del(${l.id})">Delete</button></td></tr>
+              `).join('')}
+            </tbody>
+          </table>
+        `;
+        document.getElementById('locations-table').innerHTML = rows.length ? html : '<p class="text-gray-400">No locations.</p>';
+      } catch (e) {
+        document.getElementById('locations-table').innerHTML = `<p class="text-red-400">Error: ${e.message}</p>`;
+      }
+    }
+    function showAddForm() { document.getElementById('add-form').classList.remove('hidden'); }
+    async function addLocation() {
+      const body = { city: document.getElementById('city').value, state: document.getElementById('state').value, zip: document.getElementById('zip').value || null, neighborhood: document.getElementById('neighborhood').value || null };
+      await fetch((window.__ADMIN_API_BASE__ || '') + '/api/locations', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+      load();
+      document.getElementById('add-form').classList.add('hidden');
+    }
+    async function del(id) { if (confirm('Delete?')) { await fetch((window.__ADMIN_API_BASE__ || '') + `/api/locations/${id}`, { method: 'DELETE' }); load(); } }
+    load();
+  </script>
+</AdminLayout>

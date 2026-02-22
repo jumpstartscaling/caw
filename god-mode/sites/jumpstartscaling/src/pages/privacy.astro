@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/ui/Breadcrumbs.astro';
+const crumbs=[{name:'Home',url:'/'},{name:'Privacy Policy',url:'/privacy'}];
+---
+<BaseLayout title="Privacy Policy" description="Jumpstart Scaling privacy policy covering data collection, usage, tracking, and your rights." crumbs={crumbs}>
+<Breadcrumbs items={crumbs}/>
+<article class="legal-page prose">
+<h1>Privacy Policy</h1>
+<p><strong>Effective Date:</strong> February 1, 2026<br/><strong>Last Updated:</strong> February 1, 2026</p>
+<p>Jumpstart Scaling ("we," "us," "our") operates jumpstartscaling.com. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or use our services.</p>
+<h2>Information We Collect</h2>
+<p><strong>Personal Information:</strong> When you fill out forms on our website, request an audit, or contact us, we may collect your name, email address, phone number, company name, and any other information you voluntarily provide.</p>
+<p><strong>Usage Data:</strong> We automatically collect information about your device, browser, IP address, pages visited, time spent on pages, referring URLs, and other diagnostic data through server logs and analytics tools.</p>
+<p><strong>Cookies and Tracking:</strong> We use cookies, pixels, and similar technologies from Google Analytics, Meta (Facebook), TikTok, Pinterest, and X (Twitter) to understand website traffic, measure advertising effectiveness, and deliver relevant advertising. These third parties may collect information about your online activities over time and across different websites.</p>
+<h2>How We Use Your Information</h2>
+<p>We use collected information to provide and maintain our services, respond to inquiries and provide customer support, send communications about our services with your consent, analyze website usage and improve our content and user experience, deliver targeted advertising through third-party platforms, comply with legal obligations, and protect against fraudulent or unauthorized activity.</p>
+<h2>Data Sharing</h2>
+<p>We do not sell your personal information. We may share your information with analytics and advertising partners as described above, service providers who assist in operating our website and delivering our services, and law enforcement or regulatory authorities when required by law.</p>
+<h2>Data Retention</h2>
+<p>We retain personal information for as long as necessary to fulfill the purposes for which it was collected, comply with legal obligations, resolve disputes, and enforce our agreements.</p>
+<h2>Your Rights</h2>
+<p>Depending on your location you may have the right to access, correct, or delete your personal information, opt out of targeted advertising, request a copy of the data we hold about you, and withdraw consent where processing is based on consent. To exercise any of these rights contact us at chris@jumpstartscaling.com.</p>
+<h2>California Residents</h2>
+<p>Under the California Consumer Privacy Act (CCPA) California residents have additional rights including the right to know what personal information is collected, the right to delete personal information, the right to opt out of the sale of personal information (we do not sell personal information), and the right to non-discrimination for exercising privacy rights.</p>
+<h2>Security</h2>
+<p>We implement reasonable technical and organizational measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction. However no method of transmission over the Internet or electronic storage is completely secure.</p>
+<h2>Changes to This Policy</h2>
+<p>We may update this Privacy Policy from time to time. The updated version will be indicated by the "Last Updated" date above. We encourage you to review this policy periodically.</p>
+<h2>Contact</h2>
+<p>Questions about this Privacy Policy should be directed to chris@jumpstartscaling.com.</p>
+</article>
+</BaseLayout>
+<style>
+.legal-page{max-width:800px;margin:0 auto;padding:3rem 1.5rem 4rem}
+.legal-page h1{font-size:clamp(2rem,4vw,3rem);font-weight:800;margin:0 0 1.5rem}
+.legal-page h2{font-size:1.25rem;font-weight:700;margin:2.5rem 0 1rem;color:var(--text-primary)}
+</style>

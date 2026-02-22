@@ -1,0 +1,84 @@
+---
+// src/pages/audit.astro - Updated high-conversion version
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ScalingSurvey from '../components/forms/ScalingSurvey.tsx';
+import AnimatedSection from '../components/ui/AnimatedSection.astro';
+---
+
+<BaseLayout 
+  title="Free Moat Audit | Jumpstart Scaling" 
+  description="60-second interactive quiz to score your growth defensibility and get a custom scaling roadmap." 
+  palette="gold" 
+>
+  {/* Hero Section */}
+  <section class="relative pt-32 pb-20 overflow-hidden">
+    {/* Background Glow */}
+    <div class="absolute inset-0 z-0 pointer-events-none">
+        <div class="absolute top-0 right-0 w-[800px] h-[800px] bg-[#E8C677] opacity-10 blur-[150px] rounded-full"></div>
+        <div class="absolute bottom-0 left-0 w-[800px] h-[800px] bg-[#FFE5A0] opacity-5 blur-[150px] rounded-full"></div>
+    </div>
+
+    <div class="container relative z-10 max-w-6xl mx-auto px-6">
+      <div class="text-center mb-16 max-w-4xl mx-auto">
+        <h1 class="text-5xl md:text-7xl font-black mb-6 tracking-tighter">
+          Is Your Growth Built on a <br />
+          <span class="gradient-text">House of Cards?</span>
+        </h1>
+        <p class="text-xl md:text-2xl text-white/80 max-w-2xl mx-auto leading-relaxed">
+          Most SaaS companies scale until they break. Identify the exact bottlenecks preventing you from reaching <span class="text-accent font-bold">$10M+ ARR</span>.
+        </p>
+        <p class="mt-6 text-accent font-mono text-sm tracking-widest uppercase">
+          60-Second Assessment • Personal Roadmap • 100% Free
+        </p>
+      </div>
+
+      {/* Value Prop Grid */}
+      <div class="grid md:grid-cols-3 gap-8 mb-20 text-center md:text-left">
+        <div class="p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm">
+            <div class="text-4xl mb-4">🔍</div>
+            <h3 class="text-xl font-bold mb-2 text-white">Find Invisible Leaks</h3>
+            <p class="text-white/60">Pinpoint where you're losing money in your acquisition funnel—from ad spend waste to churn.</p>
+        </div>
+        <div class="p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm">
+            <div class="text-4xl mb-4">📊</div>
+            <h3 class="text-xl font-bold mb-2 text-white">Benchmark Against Top 1%</h3>
+            <p class="text-white/60">See how your metrics (CAC, LTV, Retention) stack up against 2025 SaaS leaders.</p>
+        </div>
+        <div class="p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm">
+            <div class="text-4xl mb-4">🗺️</div>
+            <h3 class="text-xl font-bold mb-2 text-white">Get a Custom Roadmap</h3>
+            <p class="text-white/60">Receive a detailed, prioritized action plan tailored to your specific growth stage.</p>
+        </div>
+      </div>
+
+      {/* The Audit Tool */}
+      <div id="audit-tool" class="scroll-mt-24">
+         <ScalingSurvey client:load />
+      </div>
+
+      {/* Social Proof / Trust */}
+      <div class="mt-24 text-center border-t border-white/10 pt-16">
+        <p class="text-sm text-white/40 uppercase tracking-widest mb-8">Trusted by founders scaling from $1M to $50M</p>
+        <div class="flex flex-wrap justify-center gap-12 opacity-50 grayscale hover:grayscale-0 transition duration-500">
+             {/* Simple text logos for now, or replace with SVGs if available */}
+             <span class="text-xl font-bold font-serif">Acme Corp</span>
+             <span class="text-xl font-bold font-mono">TechFlow</span>
+             <span class="text-xl font-bold italic">ScaleUp</span>
+             <span class="text-xl font-bold">VentureOne</span>
+        </div>
+      </div>
+
+       {/* Final FAQ/Note */}
+      <div class="mt-20 max-w-3xl mx-auto text-center">
+          <h3 class="text-2xl font-bold mb-4">Why is this free?</h3>
+          <p class="text-white/60 mb-8">
+              We believe in value first. This audit gives you clarity. If you need help executing the roadmap, we hope you'll consider Jumpstart Scaling as your partner. If not, you still walk away with a winning strategy.
+          </p>
+          <p class="text-xs text-white/30">
+            🔒 Your data is secure. We calculate your score locally and only use your email to send your report.
+          </p>
+      </div>
+
+    </div>
+  </section>
+</BaseLayout>

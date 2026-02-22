@@ -1,0 +1,74 @@
+# God Mode Analytics Stack — Metabase + Rudderstack
+# Integrates with god-mode Postgres (same DB as API) and god-mode API.
+# Requires: DB_HOST, DB_USER, DB_PASSWORD, DB_NAME (match god-mode-api DATABASE_URL)
+#           GOD_MODE_API_INTERNAL_URL (internal hostname:port of god-mode-api on coolify network)
+#           RUDDER_WORKSPACE_TOKEN (Rudderstack source write key)
+version: '3.8'
+
+services:
+  metabase:
+    image: 'metabase/metabase:latest'
+    container_name: godmode-metabase
+    restart: always
+    expose:
+      - '3000'
+    environment:
+      - MB_DB_TYPE=postgres
+      - MB_DB_DBNAME=${DB_NAME:-god_mode}
+      - MB_DB_PORT=${DB_PORT:-5432}
+      - MB_DB_USER=${DB_USER}
+      - MB_DB_PASS=${DB_PASSWORD}
+      - MB_DB_HOST=${DB_HOST}
+      - MB_SITE_URL=${MB_SITE_URL}
+    networks:
+      - coolify
+
+  rudderstack-server:
+    image: 'rudderlabs/rudder-server:latest'
+    container_name: godmode-rudderstack
+    restart: always
+    depends_on:
+      - rudderstack-db
+      - rudderstack-transformer
+    expose:
+      - '8080'
+    environment:
+      - WORKSPACE_TOKEN=${RUDDER_WORKSPACE_TOKEN}
+      - DEST_TRANSFORM_URL=http://godmode-rudder-transformer:9090
+      - JOBS_DB_HOST=godmode-rudder-db
+      - JOBS_DB_USER=rudder
+      - JOBS_DB_PORT=5432
+      - JOBS_DB_PASSWORD=${RUDDER_JOBS_DB_PASSWORD:-secure_rudder_password}
+      - JOBS_DB_DB_NAME=jobsdb
+      - GOD_MODE_API_URL=${GOD_MODE_API_INTERNAL_URL}
+    networks:
+      - coolify
+
+  rudderstack-transformer:
+    image: 'rudderlabs/rudder-transformer:latest'
+    container_name: godmode-rudder-transformer
+    restart: always
+    expose:
+      - '9090'
+    networks:
+      - coolify
+
+  rudderstack-db:
+    image: 'postgres:15-alpine'
+    container_name: godmode-rudder-db
+    restart: always
+    environment:
+      - POSTGRES_USER=rudder
+      - POSTGRES_PASSWORD=${RUDDER_JOBS_DB_PASSWORD:-secure_rudder_password}
+      - POSTGRES_DB=jobsdb
+    volumes:
+      - rudder-db-data:/var/lib/postgresql/data
+    networks:
+      - coolify
+
+volumes:
+  rudder-db-data:
+
+networks:
+  coolify:
+    external: true

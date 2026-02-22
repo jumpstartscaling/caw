@@ -1,0 +1,45 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+---
+<AdminLayout title="Intelligence Overview">
+  <h2 class="text-xl font-bold mb-4">Intelligence</h2>
+  <div class="grid grid-cols-2 md:grid-cols-5 gap-4" id="stats">
+    <a href="/jumpstart/admin/intelligence/avatars" class="bg-gray-900 rounded-lg p-4 border border-gray-800 hover:border-gold block">
+      <div class="text-2xl font-bold text-gold" id="avatars">-</div>
+      <div class="text-sm text-gray-400">Avatars</div>
+    </a>
+    <a href="/jumpstart/admin/intelligence/variants" class="bg-gray-900 rounded-lg p-4 border border-gray-800 hover:border-gold block">
+      <div class="text-2xl font-bold text-gold" id="variants">-</div>
+      <div class="text-sm text-gray-400">Variants</div>
+    </a>
+    <a href="/jumpstart/admin/intelligence/geo" class="bg-gray-900 rounded-lg p-4 border border-gray-800 hover:border-gold block">
+      <div class="text-2xl font-bold text-gold" id="geo">-</div>
+      <div class="text-sm text-gray-400">Geo</div>
+    </a>
+    <a href="/jumpstart/admin/intelligence/spintax" class="bg-gray-900 rounded-lg p-4 border border-gray-800 hover:border-gold block">
+      <div class="text-2xl font-bold text-gold" id="spintax">-</div>
+      <div class="text-sm text-gray-400">Spintax</div>
+    </a>
+    <a href="/jumpstart/admin/intelligence/patterns" class="bg-gray-900 rounded-lg p-4 border border-gray-800 hover:border-gold block">
+      <div class="text-2xl font-bold text-gold" id="patterns">-</div>
+      <div class="text-sm text-gray-400">Patterns</div>
+    </a>
+  </div>
+  <script>
+    const base = () => window.__ADMIN_API_BASE__ || '';
+    async function load() {
+      try {
+        const r = await fetch(base() + '/api/counts');
+        const d = await r.json();
+        if (r.ok) {
+          document.getElementById('avatars').textContent = d.avatar_intelligence ?? '0';
+          document.getElementById('variants').textContent = d.avatar_variants ?? '0';
+          document.getElementById('geo').textContent = d.geo_intelligence ?? '0';
+          document.getElementById('spintax').textContent = d.spintax_dictionaries ?? '0';
+          document.getElementById('patterns').textContent = d.cartesian_patterns ?? '0';
+        }
+      } catch (_) {}
+    }
+    load();
+  </script>
+</AdminLayout>

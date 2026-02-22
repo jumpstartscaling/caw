@@ -1,0 +1,55 @@
+{
+    "compilerOptions": {
+        // React 19 JSX Runtime
+        "jsx": "react-jsx",
+        "jsxImportSource": "react",
+        // Modern Module Resolution
+        "moduleResolution": "bundler",
+        "target": "ES2022",
+        "lib": [
+            "ES2023",
+            "DOM",
+            "DOM.Iterable"
+        ],
+        // Astro 5 Requirements
+        "allowJs": true,
+        "strict": true,
+        "skipLibCheck": true,
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "esModuleInterop": true,
+        // Path Aliases
+        "baseUrl": ".",
+        "paths": {
+            "@/*": [
+                "src/*"
+            ],
+            "@/components/*": [
+                "src/components/*"
+            ],
+            "@/lib/*": [
+                "src/lib/*"
+            ],
+            "@/types/*": [
+                "src/types/*"
+            ]
+        },
+        // React 19 Specific
+        "types": [
+            "vite/client"
+        ],
+        "noEmit": true,
+        // Astro Content Layer
+        "verbatimModuleSyntax": true
+    },
+    "include": [
+        "src/**/*",
+        "env.d.ts",
+        ".astro/types.d.ts"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist",
+        ".astro"
+    ]
+}

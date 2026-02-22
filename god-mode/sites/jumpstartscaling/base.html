@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jumpstart Scaling | Revenue Engineering</title>
+    <meta name="description"
+        content="The Self-Service Blueprint for high-velocity founders. We engineer revenue systems that scale without chaos.">
+
+    <!-- Critical CSS & Theme Variables -->
+    <style>
+        :root {
+            --color-obsidian: #050505;
+            --color-gold: #C9A961;
+            --color-cream: #FFE5A0;
+            --color-ash: #111111;
+        }
+
+        body {
+            background-color: var(--color-obsidian);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease-in;
+        }
+
+        body[x-cloak] {
+            display: none !important;
+        }
+
+        body.loaded {
+            opacity: 1;
+        }
+
+        /* Typography */
+        .font-sans {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--color-obsidian);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--color-gold);
+        }
+
+        /* Utilities */
+        .glass-nav {
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(201, 169, 97, 0.1);
+        }
+
+        .gold-glow {
+            text-shadow: 0 0 20px rgba(201, 169, 97, 0.3);
+        }
+
+        .nav-link-active {
+            color: white !important;
+            border-bottom: 2px solid var(--color-gold);
+            text-shadow: 0 0 10px rgba(201, 169, 97, 0.4);
+        }
+
+        /* Mobile Menu Transition */
+        .mobile-drawer-enter-active,
+        .mobile-drawer-leave-active {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .mobile-drawer-enter-from,
+        .mobile-drawer-leave-to {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+    </style>
+
+    <!-- Local Assets (Zero Latency) -->
+    <link rel="stylesheet" href="/assets/css/tailwind.min.css">
+    <script src="/assets/js/alpine.min.js" defer></script>
+
+    <!-- Tracking Configuration (Placeholder) -->
+    <!-- GTM-5MDGSVCX & Pixel 232937784075968 would be injected here -->
+
+    <!-- Navigation Logic -->
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('navLogic', () => ({
+                scrollPercent: 0,
+                isScrolled: false,
+                mobileMenuOpen: false,
+                activeLink: '',
+
+                init() {
+                    // FOUC Prevention
+                    document.body.classList.add('loaded');
+
+                    // Initial Check
+                    this.checkScroll();
+                    this.setActiveLink();
+
+                    // Scroll Listener
+                    window.addEventListener('scroll', () => {
+                        this.checkScroll();
+                    });
+                },
+
+                checkScroll() {
+                    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                    this.scrollPercent = (winScroll / height) * 100;
+                    this.isScrolled = winScroll > 50;
+                },
+
+                setActiveLink() {
+                    const path = window.location.pathname;
+                    if (path.includes('paid-acquisition')) this.activeLink = '01';
+                    else if (path.includes('funnel-architecture')) this.activeLink = '02';
+                    else if (path.includes('crm-transformation')) this.activeLink = '03';
+                    else if (path.includes('authority-engine')) this.activeLink = '04';
+                    else if (path.includes('data-attribution')) this.activeLink = '05';
+                    else if (path.includes('growth-retainer')) this.activeLink = '06';
+                    else this.activeLink = '00';
+                },
+
+                toggleMobileMenu() {
+                    this.mobileMenuOpen = !this.mobileMenuOpen;
+                    if (this.mobileMenuOpen) {
+                        document.body.style.overflow = 'hidden';
+                    } else {
+                        document.body.style.overflow = '';
+                    }
+                }
+            }));
+        });
+    </script>
+</head>
+
+<body x-data="navLogic" class="antialiased bg-black selection:bg-gold selection:text-black">
+
+    <!-- Global Progress Engine -->
+    <div class="fixed top-0 left-0 h-0.5 z-[100] transition-all duration-100 ease-linear"
+        :style="`width: ${scrollPercent}%; background: linear-gradient(to right, #C9A961, #FFE5A0);`">
+    </div>
+
+    <!-- Executive Navigation Header -->
+    <nav class="fixed top-0 w-full z-50 transition-all duration-500 ease-in-out h-24 flex items-center"
+        :class="isScrolled ? 'glass-nav h-20' : 'bg-transparent border-b border-white/5'">
+
+        <div class="w-full max-w-[1400px] mx-auto px-6 lg:px-12 flex justify-between items-center">
+
+            <!-- Logo: Upward Momentum -->
+            <a href="/" class="group flex items-center gap-4 focus:outline-none">
+                <svg class="w-10 h-10 text-gold transition-transform duration-500 group-hover:scale-110"
+                    viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 5L30 25H10L20 5Z" stroke="currentColor" stroke-width="2" />
+                    <path d="M20 15L25 25H15L20 15Z" fill="currentColor" class="opacity-50" />
+                    <rect x="18" y="30" width="4" height="4" fill="currentColor" />
+                </svg>
+                <div class="flex flex-col">
+                    <span
+                        class="font-bold text-lg tracking-tight text-white group-hover:text-gold transition-colors duration-300">JUMPSTART</span>
+                    <span class="font-mono text-[10px] tracking-[0.3em] text-gold uppercase">SCALING</span>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation Matrix -->
+            <div class="hidden xl:flex items-center gap-10 font-mono text-xs tracking-widest text-gray-500">
+
+                <a href="/services/paid-acquisition.html"
+                    class="nav-link py-2 border-b-2 border-transparent hover:text-white hover:scale-105 transition-all duration-300"
+                    :class="activeLink === '01' ? 'nav-link-active' : ''">
+                    01 ACQUISITION
+                </a>
+
+                <a href="/services/funnel-architecture.html"
+                    class="nav-link py-2 border-b-2 border-transparent hover:text-white hover:scale-105 transition-all duration-300"
+                    :class="activeLink === '02' ? 'nav-link-active' : ''">
+                    02 ARCHITECTURE
+                </a>
+
+                <a href="/services/crm-transformation.html"
+                    class="nav-link py-2 border-b-2 border-transparent hover:text-white hover:scale-105 transition-all duration-300"
+                    :class="activeLink === '03' ? 'nav-link-active' : ''">
+                    03 AUTOMATION
+                </a>
+
+                <a href="/services/authority-engine.html"
+                    class="nav-link py-2 border-b-2 border-transparent hover:text-white hover:scale-105 transition-all duration-300"
+                    :class="activeLink === '04' ? 'nav-link-active' : ''">
+                    04 AUTHORITY
+                </a>
+
+                <a href="/services/data-attribution.html"
+                    class="nav-link py-2 border-b-2 border-transparent hover:text-white hover:scale-105 transition-all duration-300"
+                    :class="activeLink === '05' ? 'nav-link-active' : ''">
+                    05 ANALYTICS
+                </a>
+
+                <a href="/services/growth-retainer.html"
+                    class="nav-link py-2 border-b-2 border-transparent hover:text-white hover:scale-105 transition-all duration-300"
+                    :class="activeLink === '06' ? 'nav-link-active' : ''">
+                    06 STRATEGY
+                </a>
+
+                <!-- CTA -->
+                <button onclick="document.querySelector('#moat-audit').scrollIntoView({behavior: 'smooth'})"
+                    class="ml-4 px-6 py-2 border border-gold text-gold hover:bg-gold hover:text-black font-bold transition-all duration-300 shadow-[0_0_15px_rgba(201,169,97,0.1)] hover:shadow-[0_0_25px_rgba(201,169,97,0.4)]">
+                    START AUDIT
+                </button>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button @click="toggleMobileMenu"
+                class="xl:hidden z-50 text-white hover:text-gold transition-colors duration-300 group">
+                <div class="space-y-2">
+                    <span class="block w-8 h-0.5 bg-current transition-all duration-300"
+                        :class="mobileMenuOpen ? 'rotate-45 translate-y-2.5 bg-gold' : ''"></span>
+                    <span class="block w-8 h-0.5 bg-current transition-all duration-300"
+                        :class="mobileMenuOpen ? 'opacity-0' : ''"></span>
+                    <span class="block w-8 h-0.5 bg-current transition-all duration-300"
+                        :class="mobileMenuOpen ? '-rotate-45 -translate-y-2.5 bg-gold' : ''"></span>
+                </div>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Full-Screen Experience -->
+    <div x-show="mobileMenuOpen" x-transition:enter="mobile-drawer-enter-active"
+        x-transition:enter-start="opacity-0 -translate-y-4" x-transition:enter-end="opacity-100 translate-y-0"
+        x-transition:leave="mobile-drawer-leave-active" x-transition:leave-start="opacity-100 translate-y-0"
+        x-transition:leave-end="opacity-0 -translate-y-4"
+        class="fixed inset-0 z-40 bg-[#050505] pt-32 pb-12 px-8 overflow-y-auto">
+
+        <div class="max-w-2xl mx-auto flex flex-col h-full">
+
+            <!-- Navigation Links -->
+            <div class="flex flex-col gap-10">
+                <a href="/services/paid-acquisition.html" class="group block">
+                    <h3
+                        class="text-4xl md:text-5xl font-bold text-white group-hover:text-gold transition-colors duration-300 mb-2">
+                        01 ACQUISITION</h3>
+                    <p class="font-mono text-xs text-gray-500 group-hover:text-white transition-colors">Dominating local
+                        market share through precision media buying.</p>
+                </a>
+
+                <a href="/services/funnel-architecture.html" class="group block">
+                    <h3
+                        class="text-4xl md:text-5xl font-bold text-white group-hover:text-gold transition-colors duration-300 mb-2">
+                        02 ARCHITECTURE</h3>
+                    <p class="font-mono text-xs text-gray-500 group-hover:text-white transition-colors">Engineering
+                        high-velocity conversion pathways.</p>
+                </a>
+
+                <a href="/services/crm-transformation.html" class="group block">
+                    <h3
+                        class="text-4xl md:text-5xl font-bold text-white group-hover:text-gold transition-colors duration-300 mb-2">
+                        03 AUTOMATION</h3>
+                    <p class="font-mono text-xs text-gray-500 group-hover:text-white transition-colors">Removing
+                        constraints with autonomous AI agents.</p>
+                </a>
+
+                <a href="/services/authority-engine.html" class="group block">
+                    <h3
+                        class="text-4xl md:text-5xl font-bold text-white group-hover:text-gold transition-colors duration-300 mb-2">
+                        04 AUTHORITY</h3>
+                    <p class="font-mono text-xs text-gray-500 group-hover:text-white transition-colors">Building the
+                        only defensible moat in an AI world.</p>
+                </a>
+
+                <a href="/services/data-attribution.html" class="group block">
+                    <h3
+                        class="text-4xl md:text-5xl font-bold text-white group-hover:text-gold transition-colors duration-300 mb-2">
+                        05 ANALYTICS</h3>
+                    <p class="font-mono text-xs text-gray-500 group-hover:text-white transition-colors">Server-side
+                        tracking for absolute truth.</p>
+                </a>
+
+                <a href="/services/growth-retainer.html" class="group block">
+                    <h3
+                        class="text-4xl md:text-5xl font-bold text-white group-hover:text-gold transition-colors duration-300 mb-2">
+                        06 STRATEGY</h3>
+                    <p class="font-mono text-xs text-gray-500 group-hover:text-white transition-colors">Fractional
+                        engineering for continuous scale.</p>
+                </a>
+            </div>
+
+            <!-- Philosophy of Scale (The Content Moat) -->
+            <div class="mt-20 border-t border-white/10 pt-10">
+                <h4 class="text-gold font-bold mb-6 font-mono text-xs tracking-widest uppercase">THE PHILOSOPHY OF SCALE
+                </h4>
+                <div class="prose prose-invert prose-sm text-gray-400 leading-relaxed max-w-none">
+                    <p class="mb-4">
+                        <strong class="text-white">Efficiency is the only competitive advantage left.</strong> In a
+                        landscape saturated with AI-generated noise and commoditized tactics, speed and precision are
+                        the defining characteristics of market leaders. Chaos is the default state of growing
+                        businesses; our role is to impose order.
+                    </p>
+                    <p class="mb-4">
+                        We do not "do marketing." We engineer revenue. This distinction is critical for the modern
+                        founder. "Marketing" implies a cost center—a gamble on creative whims. "Revenue Engineering"
+                        implies a system—a predictable, repeatable machine that converts capital into customers with
+                        mathematical certainty.
+                    </p>
+                    <p class="mb-4">
+                        Complexity is the enemy of scale. The average agency adds layers of unnecessary tech, poorly
+                        integrated tools, and bloated reporting to justify their fees. We subtract. We strip away the
+                        non-essential to reveal the core unit economics of your business, then multiply that core
+                        through automated leverage.
+                    </p>
+                    <p>
+                        This Blueprint is designed for the C-Suite leader who demands technical excellence. It is a
+                        self-service documentation a "Open Source" look at how we build 8-figures valuations. Examine
+                        the protocols. Audit your own gaps. When you are ready to stop guessing and start engineering,
+                        we will be ready to deploy.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Persistent CTA -->
+            <div class="mt-auto pt-8 pb-8 sticky bottom-0 bg-[#050505] border-t border-white/10">
+                <button
+                    onclick="document.querySelector('#moat-audit').scrollIntoView({behavior: 'smooth'}); this.dispatchEvent(new CustomEvent('close-menu', {bubbles: true}));"
+                    class="w-full py-5 bg-gold text-black text-xl font-bold tracking-tight hover:bg-white transition-colors duration-300 rounded-sm">
+                    START MARKET GAP AUDIT
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Main Content Injection -->
+    <main class="relative z-10 pt-32 min-h-screen">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#050505] border-t border-white/10 pt-24 pb-12 relative z-10">
+        <div class="max-w-[1400px] mx-auto px-6 lg:px-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16">
+
+            <!-- Brand Column -->
+            <div>
+                <a href="/" class="flex items-center gap-3 mb-8">
+                    <svg class="w-8 h-8 text-gold" viewBox="0 0 40 40" fill="none">
+                        <path d="M20 5L30 25H10L20 5Z" stroke="currentColor" stroke-width="2" />
+                    </svg>
+                    <span class="font-bold text-white tracking-tight">JUMPSTART SCALING</span>
+                </a>
+                <p class="text-gray-500 text-sm leading-relaxed mb-6">
+                    A Revenue Engineering Firm.<br>
+                    New York • Austin • London
+                </p>
+                <div class="font-mono text-xs text-gold/60">
+                    NETWORK STATUS: OPERATIONAL
+                </div>
+            </div>
+
+            <!-- Protocols -->
+            <div>
+                <h4 class="text-white font-bold mb-8 font-mono text-xs tracking-widest">PROTOCOLS</h4>
+                <ul class="space-y-4 text-sm text-gray-400 font-mono">
+                    <li><a href="/services/paid-acquisition.html" class="hover:text-gold transition-colors">01 //
+                            ACQUISITION</a></li>
+                    <li><a href="/services/funnel-architecture.html" class="hover:text-gold transition-colors">02 //
+                            ARCHITECTURE</a></li>
+                    <li><a href="/services/crm-transformation.html" class="hover:text-gold transition-colors">03 //
+                            AUTOMATION</a></li>
+                    <li><a href="/services/authority-engine.html" class="hover:text-gold transition-colors">04 //
+                            AUTHORITY</a></li>
+                    <li><a href="/services/data-attribution.html" class="hover:text-gold transition-colors">05 //
+                            ANALYTICS</a></li>
+                    <li><a href="/services/growth-retainer.html" class="hover:text-gold transition-colors">06 //
+                            STRATEGY</a></li>
+                </ul>
+            </div>
+
+            <!-- Intel -->
+            <div>
+                <h4 class="text-white font-bold mb-8 font-mono text-xs tracking-widest">INTEL</h4>
+                <ul class="space-y-4 text-sm text-gray-400 font-mono">
+                    <li><a href="#" class="hover:text-gold transition-colors">MARKET GAP AUDIT</a></li>
+                    <li><a href="#" class="hover:text-gold transition-colors">CASE STUDIES</a></li>
+                    <li><a href="/privacy.html" class="hover:text-gold transition-colors">PRIVACY POLICY</a></li>
+                    <li><a href="/terms.html" class="hover:text-gold transition-colors">TERMS OF SERVICE</a></li>
+                </ul>
+            </div>
+
+            <!-- Philosophy Recap (SEO Content) -->
+            <div>
+                <h4 class="text-white font-bold mb-8 font-mono text-xs tracking-widest">SYSTEM NOTE</h4>
+                <p class="text-gray-600 text-xs leading-relaxed font-sans">
+                    This interface is designed for high-velocity interaction. Users are encouraged to utilize the Market
+                    Gap Audit to identify specific revenue leakage points before contacting the engineering team. All
+                    systems are monitored for performance and accuracy.
+                </p>
+            </div>
+
+        </div>
+        <div
+            class="max-w-[1400px] mx-auto px-6 lg:px-12 mt-24 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-xs text-gray-700 font-mono">
+            <span>&copy; 2026 JUMPSTART SCALING. ALL RIGHTS RESERVED.</span>
+            <span>ENGINEERED IN NY.</span>
+        </div>
+    </footer>
+
+</body>
+
+</html>

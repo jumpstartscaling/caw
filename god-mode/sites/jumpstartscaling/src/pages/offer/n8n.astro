@@ -1,0 +1,278 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AtmosphereParticles from '../../components/visuals/AtmosphereParticles.astro';
+
+const title = "The One-Stop Architect | Chris Amaya";
+const description = "Stop hiring freelancers. Start building an empire. The 'Unicorn Developer' who builds full-stack applications, engineers private AI systems, and automates your entire backend.";
+---
+
+<BaseLayout title={title} description={description} palette="emerald" fluid={true}>
+  
+  <style>
+    :root {
+      --accent-primary: #00FF94; /* Vivid Cyber Green */
+      --accent-secondary: #00B8FF; /* Electric Blue */
+    }
+
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    .text-accent { color: var(--accent-primary); }
+    
+    .btn {
+      display: inline-block;
+      padding: 1.25rem 3rem;
+      background: var(--accent-primary);
+      color: #000;
+      font-weight: 800;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 1.1rem;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+      border: 1px solid var(--accent-primary);
+    }
+    
+    .btn:hover {
+      background: transparent;
+      color: var(--accent-primary);
+      box-shadow: 0 0 30px rgba(0,255,148, 0.2);
+    }
+
+    .check-list li {
+      position: relative;
+      padding-left: 2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .check-list li::before {
+      content: '→';
+      color: var(--accent-primary);
+      position: absolute;
+      left: 0;
+      font-weight: bold;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 2.5rem;
+      border-radius: 8px;
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      border-color: var(--accent-primary);
+      transform: translateY(-5px);
+    }
+  </style>
+
+  <!-- STATUS BAR -->
+  <div class="bg-[#002211] border-b border-[#00FF94] text-[#00FF94] py-3 text-center text-sm font-bold font-mono tracking-wide sticky top-0 z-50">
+    <div class="container mx-auto px-6">
+      <span class="inline-block w-2 h-2 bg-[#00FF94] rounded-full mr-2"></span>
+      STATUS: ACCEPTING 2 NEW Q1 PROJECTS. <a href="#contact" class="underline hover:text-white">[BOOK AUDIT]</a>
+    </div>
+  </div>
+
+  <!-- HERO SECTION -->
+  <section class="min-h-[60vh] flex flex-col justify-center text-center pt-32 pb-12 relative overflow-hidden bg-[radial-gradient(circle_at_center,rgba(0,255,148,0.05)_0%,transparent_70%)]">
+    <div class="absolute inset-0 opacity-40 pointer-events-none">
+       <AtmosphereParticles />
+    </div>
+    
+    <div class="container mx-auto px-6 relative z-10 max-w-5xl">
+      <span class="font-mono text-[#00FF94] text-sm uppercase tracking-[2px] block mb-4">THE ONE-STOP ARCHITECT</span>
+      <h1 class="text-5xl md:text-7xl font-black leading-tight mb-6 text-white">
+        STOP TRYING TO GLUE YOUR BUSINESS TOGETHER WITH <span class="text-[#00FF94]">ZAPIER AND HOPE</span>.
+      </h1>
+      
+      <p class="text-xl text-gray-400 max-w-3xl mx-auto mb-8 font-light leading-relaxed">
+        I am the "Unicorn" Developer you've been looking for. I build full-stack applications, engineer private AI systems, and automate your entire backend—so you can stop playing CTO and start being the CEO.
+      </p>
+
+      <a href="#contact" class="btn">BOOK YOUR CONSULTATION</a>
+      
+      <p class="text-sm text-gray-600 mt-4">
+        Warning: This is not a sales call. This is a technical strategy session.<br>
+        <strong class="text-white">100% Satisfaction Guarantee.</strong>
+      </p>
+    </div>
+  </section>
+
+  <!-- DIAGNOSIS SECTION -->
+  <section id="diagnosis" class="py-12 border-b border-white/5">
+    <div class="container mx-auto px-6 max-w-4xl">
+      <span class="font-mono text-[#00FF94] text-sm uppercase tracking-[2px] block mb-4">THE DIAGNOSIS</span>
+      <h2 class="text-4xl font-black mb-2 text-white border-l-4 border-[#00FF94] pl-4">THE "FRANKENSTEIN" PROBLEM</h2>
+      <h3 class="text-gray-500 text-lg uppercase tracking-wide font-medium mb-8 pl-5">(Why Your Business Feels Fragile, Heavy, and Expensive)</h3>
+      
+      <p class="text-gray-300 text-lg mb-8">If you are reading this, you are likely generating revenue. You have product-market fit. You have customers.<br>But behind the scenes, things are... messy.</p>
+      
+      <div class="bg-red-900/10 border border-red-500/20 p-8 rounded-lg mb-8">
+        <h4 class="text-red-400 m-0 text-lg font-bold">You have built a "Frankenstein" business.</h4>
+      </div>
+
+      <ul class="check-list text-gray-300 text-lg">
+        <li><strong>The Head:</strong> A WordPress site built by a freelancer who ghosted you three years ago.</li>
+        <li><strong>The Body:</strong> A CRM (HubSpot/GoHighLevel) that is only 20% utilized.</li>
+        <li><strong>The Veins:</strong> A tangled mess of Zapier "Zaps" that cost you $1,000/month and break every time an API updates.</li>
+        <li><strong>The Brain:</strong> <em>You.</em> You are the only one who knows how it all connects.</li>
+      </ul>
+
+      <p class="text-[#00FF94] text-xl font-bold border-t border-white/10 pt-8 mt-8">
+        You are burning cash on coordination costs. You don't need more parts. You need a Unified Architecture.
+      </p>
+    </div>
+  </section>
+
+  <!-- SOLUTION SECTION -->
+  <section id="solution" class="py-12 border-b border-white/5">
+    <div class="container mx-auto px-6 max-w-6xl">
+      <span class="font-mono text-[#00FF94] text-sm uppercase tracking-[2px] block mb-4">THE SOLUTION</span>
+      <h2 class="text-4xl font-black mb-8 text-white">I DON'T JUST WRITE CODE.<br>I ENGINEER OUTCOMES.</h2>
+      
+      <p class="text-gray-300 text-lg mb-4">My name is <strong>Chris Amaya</strong>. I have been building the backend of the internet since 2004.</p>
+      <p class="text-gray-300 text-lg mb-12">Most developers stay in their lane. It results in fragmentation. <strong>I own the entire highway.</strong> I offer a Single Point of Truth for your entire technical stack.</p>
+
+      <h3 class="text-2xl text-white font-black mb-8">MY 3-PILLAR "SOVEREIGNTY" SYSTEM</h3>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="card">
+          <div class="text-4xl mb-4">🏗️</div>
+          <h4 class="text-xl font-bold mb-2 text-white">1. INFRASTRUCTURE & CLOUD</h4>
+          <p class="text-gray-400 mb-4">Stop renting expensive SaaS. I build <strong>Sovereign Assets</strong>.</p>
+          <ul class="check-list text-sm text-gray-400">
+            <li>Self-Hosted Automation</li>
+            <li>Custom Client Portals</li>
+            <li>Docker/Nginx Management</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="text-4xl mb-4">🧠</div>
+          <h4 class="text-xl font-bold mb-2 text-white">2. INTELLIGENCE (AI AGENTS)</h4>
+          <p class="text-gray-400 mb-4">Stop manual pasting. I build <strong>Autonomous Agents</strong>.</p>
+          <ul class="check-list text-sm text-gray-400">
+            <li>"Inbox Zero" Auto-Draft</li>
+            <li>Competitor Analysis Bots</li>
+            <li>Private Local LLMs</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="text-4xl mb-4">💰</div>
+          <h4 class="text-xl font-bold mb-2 text-white">3. REVENUE PHYSICS</h4>
+          <p class="text-gray-400 mb-4">Stop guessing. I engineer <strong>Bulletproof Tracking</strong>.</p>
+          <ul class="check-list text-sm text-gray-400">
+            <li>Server-Side Tracking (CAPI)</li>
+            <li>Funnel Optimization</li>
+            <li>Real-Time ROAS Dashboards</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KILL ZAPIER SECTION -->
+  <section class="py-24 border-b border-white/5">
+    <div class="container mx-auto px-6 max-w-6xl">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div>
+          <span class="font-mono text-[#00FF94] text-sm uppercase tracking-[2px] block mb-4">DEEP DIVE NO. 1</span>
+          <h2 class="text-4xl font-black mb-4 text-white">THE "KILL ZAPIER" INITIATIVE</h2>
+          <p class="text-gray-300 mb-4">Zapier is great for prototypes. It is terrible for scale. You are punished for succeeding.</p>
+          <p class="text-white font-bold mb-2">The n8n Solution:</p>
+          <ul class="check-list text-gray-300 mb-4">
+            <li><strong>Cost:</strong> ~$20/month (Flat)</li>
+            <li><strong>Tasks:</strong> Unlimited</li>
+            <li><strong>Power:</strong> Run Python/JS code</li>
+          </ul>
+          <p class="text-[#00FF94] font-bold">ROI: Instant. You save the monthly fees forever.</p>
+        </div>
+        <div class="card bg-[#001100] border border-[#00FF94]">
+          <h4 class="font-mono text-[#00FF94] text-sm tracking-widest mb-2">$$ SAVED / YEAR</h4>
+          <div class="text-5xl font-black text-white mb-4">$20,000+</div>
+          <p class="text-sm text-gray-400">Average savings for high-volume clients switching from Zapier Enterprise to Self-Hosted n8n.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHO IS THIS FOR -->
+  <section class="py-24 text-center border-b border-white/5">
+    <div class="container mx-auto px-6 max-w-6xl">
+      <h2 class="text-4xl font-black mb-4 text-white">WHO IS THIS FOR?</h2>
+      <p class="text-gray-400 max-w-2xl mx-auto mb-12">I am expensive. I am not for everyone. I do not build $500 WordPress brochures.</p>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+        <div class="card">
+          <h4 class="text-white font-bold mb-2">HIGH VOLUME</h4>
+          <p class="text-gray-400">You have a "scaling" problem, not a "starting" problem.</p>
+        </div>
+        <div class="card">
+          <h4 class="text-white font-bold mb-2">OWNERSHIP MINDSET</h4>
+          <p class="text-gray-400">You want to own your tech stack, not rent it.</p>
+        </div>
+        <div class="card">
+          <h4 class="text-white font-bold mb-2">COMPLEXITY</h4>
+          <p class="text-gray-400">"Off the shelf" software doesn't fit your workflow.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT FORM -->
+  <section id="contact" class="py-24">
+    <div class="container mx-auto px-6 max-w-2xl">
+      <div class="text-center mb-12">
+        <span class="font-mono text-[#00FF94] text-sm uppercase tracking-[2px] block mb-4">READY TO BUILD?</span>
+        <h2 class="text-4xl font-black mb-4 text-white">BOOK YOUR TECHNICAL STRATEGY SESSION</h2>
+        <p class="text-gray-400">This is where the chaos ends and the engineering begins.</p>
+      </div>
+
+      <div class="bg-[#111] p-8 rounded-xl border border-[#333]">
+        <form action="#" method="POST" class="space-y-6">
+          <div class="grid grid-cols-2 gap-6">
+             <div>
+                <label class="block font-mono text-xs text-[#00FF94] tracking-wider mb-2" for="name">NAME</label>
+                <input class="w-full bg-black border border-[#333] text-white p-3 rounded focus:outline-none focus:border-[#00FF94]" type="text" id="name" name="name" placeholder="Full Name">
+             </div>
+             <div>
+                <label class="block font-mono text-xs text-[#00FF94] tracking-wider mb-2" for="website">WEBSITE</label>
+                <input class="w-full bg-black border border-[#333] text-white p-3 rounded focus:outline-none focus:border-[#00FF94]" type="url" id="website" name="website" placeholder="https://">
+             </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-6">
+             <div>
+                <label class="block font-mono text-xs text-[#00FF94] tracking-wider mb-2" for="revenue">ANNUAL REVENUE</label>
+                <select class="w-full bg-black border border-[#333] text-white p-3 rounded focus:outline-none focus:border-[#00FF94]" id="revenue" name="revenue">
+                  <option value="">Select Range</option>
+                  <option value="500k-1m">$500k - $1M</option>
+                  <option value="1m-5m">$1M - $5M</option>
+                  <option value="5m+">$5M+</option>
+                </select>
+             </div>
+             <div>
+                <label class="block font-mono text-xs text-[#00FF94] tracking-wider mb-2" for="budget">BUDGET</label>
+                <select class="w-full bg-black border border-[#333] text-white p-3 rounded focus:outline-none focus:border-[#00FF94]" id="budget" name="budget">
+                  <option value="">Select Budget</option>
+                  <option value="5k+">$5k+</option>
+                  <option value="10k+">$10k+</option>
+                  <option value="20k+">$20k+</option>
+                </select>
+             </div>
+          </div>
+
+          <div>
+            <label class="block font-mono text-xs text-[#00FF94] tracking-wider mb-2" for="problem">WHAT IS THE "FIRE" WE NEED TO PUT OUT?</label>
+            <textarea class="w-full bg-black border border-[#333] text-white p-3 rounded focus:outline-none focus:border-[#00FF94]" id="problem" name="problem" rows="4" placeholder="Zapier costs, Broken App, Data issues?"></textarea>
+          </div>
+
+          <button type="submit" class="w-full py-4 bg-[#00FF94] text-black font-black uppercase tracking-wider rounded border border-[#00FF94] hover:bg-transparent hover:text-[#00FF94] transition-all">SUBMIT APPLICATION & BOOK CALL</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>

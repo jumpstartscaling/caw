@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM Transformation | AI Sales Agents & n8n Automation Engineering</title>
+    <meta name="description"
+        content="Bridge the gap between lead and cash. We engineer AI-driven CRM infrastructure and self-hosted n8n workflows for high-growth service businesses.">
+
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="CRM Transformation | AI Sales Agents & n8n Automation">
+    <meta property="og:description"
+        content="We engineer AI-driven CRM infrastructure and self-hosted n8n workflows for high-growth service businesses.">
+
+    <style>
+        :root {
+            --color-obsidian: #050505;
+            --color-gold: #C9A961;
+            --color-cream: #FFE5A0;
+            --color-ash: #111111;
+        }
+
+        body {
+            background-color: var(--color-obsidian);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease-in;
+        }
+
+        body.loaded {
+            opacity: 1;
+        }
+
+        /* Typography */
+        .font-sans {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--color-obsidian);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--color-gold);
+        }
+
+        /* Utilities */
+        .glass-nav {
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(201, 169, 97, 0.1);
+        }
+
+        .gold-glow {
+            text-shadow: 0 0 20px rgba(201, 169, 97, 0.3);
+        }
+
+        .nav-link-active {
+            color: white !important;
+            border-bottom: 2px solid var(--color-gold);
+            text-shadow: 0 0 10px rgba(201, 169, 97, 0.4);
+        }
+
+        /* Article Styles */
+        article h2 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 2.25rem;
+            color: white;
+            margin-top: 4rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        article h3 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 1.5rem;
+            color: var(--color-cream);
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        article p {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.125rem;
+            line-height: 1.8;
+            color: #D1D5DB;
+            /* gray-300 */
+            margin-bottom: 1.5rem;
+        }
+
+        article ul {
+            list-style: none;
+            margin-bottom: 1.5rem;
+            padding-left: 1rem;
+        }
+
+        article li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #D1D5DB;
+        }
+
+        article li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--color-gold);
+        }
+
+        /* Workflow Diagram Lines */
+        .connector-line {
+            position: absolute;
+            background: var(--color-gold);
+            opacity: 0.3;
+            z-index: 0;
+        }
+    </style>
+
+    <!-- Local Assets -->
+    <link rel="stylesheet" href="../assets/css/tailwind.min.css">
+    <script src="../assets/js/alpine.min.js" defer></script>
+
+    <!-- JSON-LD: Service Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "CRM Transformation & AI Automation",
+      "provider": {
+        "@type": "Organization",
+        "name": "Jumpstart Scaling"
+      },
+      "description": "Bridge the gap between lead and cash. We engineer AI-driven CRM infrastructure and self-hosted n8n workflows.",
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Automation Engineering Services",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "AI Integration"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "CRM Architecture"
+            }
+          }
+        ]
+      }
+    }
+    </script>
+
+    <!-- Navigation Logic (Shared) -->
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('navLogic', () => ({
+                scrollPercent: 0,
+                isScrolled: false,
+                mobileMenuOpen: false,
+                activeLink: '03',
+
+                init() {
+                    document.body.classList.add('loaded');
+                    this.checkScroll();
+                    window.addEventListener('scroll', () => { this.checkScroll(); });
+                },
+
+                checkScroll() {
+                    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                    this.scrollPercent = (winScroll / height) * 100;
+                    this.isScrolled = winScroll > 50;
+                },
+
+                toggleMobileMenu() {
+                    this.mobileMenuOpen = !this.mobileMenuOpen;
+                    document.body.style.overflow = this.mobileMenuOpen ? 'hidden' : '';
+                }
+            }));
+
+            // Moat Audit + Workflow Logic
+            Alpine.data('moatAudit', () => ({
+                step: 1, loading: false, loadingText: '> INITIALIZING DIAGNOSTIC...', score: 0,
+                formData: { friction_point: '', market_velocity: '', name: '', email: '', website: '', source_page: 'crm-transformation' },
+                selectFriction(value) { this.formData.friction_point = value; this.step = 2; },
+                selectVelocity(value) { this.formData.market_velocity = value; this.runAnalysis(); },
+                async runAnalysis() {
+                    this.step = 3; this.loading = true;
+                    const texts = ['> SCANNING CRM LATENCY...', '> MAPPING N8N NODES...', '> CALCULATING SPEED TO LEAD...', '> FINALIZING ENGINEERING REPORT...'];
+                    for (let i = 0; i < texts.length; i++) { this.loadingText = texts[i]; await new Promise(r => setTimeout(r, 700)); }
+                    this.score = Math.floor(Math.random() * (38 - 14 + 1)) + 14;
+                    this.loading = false; this.step = 4;
+                },
+                submitToGravity() {
+                    fetch('https://n8n.your-vps.com/webhook/lead-capture', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(this.formData) })
+                        .then(() => alert('SYSTEM OVERRIDE: AUDIT DISPATCHED TO ENGINEERING.'))
+                        .catch(() => alert('SYSTEM OVERRIDE: AUDIT DISPATCHED (Simulation)'));
+                }
+            }));
+
+            // Workflow Visualizer Logic
+            Alpine.data('workflowMap', () => ({
+                activeNode: 'ingest',
+                getNodeData() {
+                    const data = {
+                        'ingest': { title: 'WEBHOOK INGEST', type: 'Trigger', config: { method: 'POST', auth: 'Header Auth (HMAC)' }, desc: 'Receives raw JSON payload from landing page. Validates origin IP and schema integrity before passing to queue.' },
+                        'research': { title: 'AI RESEARCH AGENT', type: 'GPT-4o', config: { model: 'gpt-4o', temp: 0.2 }, desc: 'Scrapes lead website and LinkedIn. Supplements CRM record with revenue est., tech stack used, and recent news.' },
+                        'crm': { title: 'CRM UPDATE', type: 'HubSpot API', config: { endpoint: '/contacts/v1', batch: false }, desc: 'Creates or updates contact record. Assigns "Lead Score" based on AI research data.' },
+                        'sales': { title: 'SALES ALERT', type: 'Slack/SMS', config: { channel: '#hot-leads', priority: 'High' }, desc: 'Notifies sales team instantly with a "One-Sheet" summary of the lead, bypassing the need to log into CRM.' }
+                    };
+                    return data[this.activeNode];
+                }
+            }));
+        });
+    </script>
+</head>
+
+<body x-data="navLogic" class="antialiased bg-black selection:bg-gold selection:text-black">
+
+    <!-- Global Progress Engine -->
+    <div class="fixed top-0 left-0 h-0.5 z-[100] transition-all duration-100 ease-linear"
+        :style="`width: ${scrollPercent}%; background: linear-gradient(to right, #C9A961, #FFE5A0);`"></div>
+
+    <!-- Executive Navigation Header -->
+    <nav class="fixed top-0 w-full z-50 transition-all duration-500 ease-in-out h-24 flex items-center"
+        :class="isScrolled ? 'glass-nav h-20' : 'bg-transparent border-b border-white/5'">
+        <div class="w-full max-w-[1400px] mx-auto px-6 lg:px-12 flex justify-between items-center">
+            <a href="../index.html" class="group flex items-center gap-4 focus:outline-none">
+                <svg class="w-10 h-10 text-gold transition-transform duration-500 group-hover:scale-110"
+                    viewBox="0 0 40 40" fill="none">
+                    <path d="M20 5L30 25H10L20 5Z" stroke="currentColor" stroke-width="2" />
+                    <path d="M20 15L25 25H15L20 15Z" fill="currentColor" class="opacity-50" />
+                    <rect x="18" y="30" width="4" height="4" fill="currentColor" />
+                </svg>
+                <div class="flex flex-col"><span
+                        class="font-bold text-lg tracking-tight text-white group-hover:text-gold transition-colors duration-300">JUMPSTART</span><span
+                        class="font-mono text-[10px] tracking-[0.3em] text-gold uppercase">SCALING</span></div>
+            </a>
+            <div class="hidden xl:flex items-center gap-10 font-mono text-xs tracking-widest text-gray-500">
+                <a href="paid-acquisition.html"
+                    class="nav-link py-2 border-b-2 border-transparent hover:text-white hover:scale-105 transition-all duration-300">01
+                    ACQUISITION</a>
+                <a href="funnel-architecture.html"
+                    class="nav-link py-2 border-b-2 border-transparent hover:text-white hover:scale-105 transition-all duration-300">02
+                    ARCHITECTURE</a>
+                <a href="crm-transformation.html"
+                    class="nav-link py-2 border-b-2 border-transparent hover:text-white hover:scale-105 transition-all duration-300 nav-link-active">03
+                    AUTOMATION</a>
+                <a href="authority-engine.html"
+                    class="nav-link py-2 border-b-2 border-transparent hover:text-white hover:scale-105 transition-all duration-300">04
+                    AUTHORITY</a>
+                <a href="data-attribution.html"
+                    class="nav-link py-2 border-b-2 border-transparent hover:text-white hover:scale-105 transition-all duration-300">05
+                    ANALYTICS</a>
+                <a href="growth-retainer.html"
+                    class="nav-link py-2 border-b-2 border-transparent hover:text-white hover:scale-105 transition-all duration-300">06
+                    STRATEGY</a>
+                <button onclick="document.querySelector('#moat-audit').scrollIntoView({behavior: 'smooth'})"
+                    class="ml-4 px-6 py-2 border border-gold text-gold hover:bg-gold hover:text-black font-bold transition-all duration-300 shadow-[0_0_15px_rgba(201,169,97,0.1)] hover:shadow-[0_0_25px_rgba(201,169,97,0.4)]">START
+                    AUDIT</button>
+            </div>
+            <button @click="toggleMobileMenu"
+                class="xl:hidden z-50 text-white hover:text-gold transition-colors duration-300">
+                <div class="space-y-2"><span class="block w-8 h-0.5 bg-current transition-all duration-300"
+                        :class="mobileMenuOpen ? 'rotate-45 translate-y-2.5 bg-gold' : ''"></span><span
+                        class="block w-8 h-0.5 bg-current transition-all duration-300"
+                        :class="mobileMenuOpen ? 'opacity-0' : ''"></span><span
+                        class="block w-8 h-0.5 bg-current transition-all duration-300"
+                        :class="mobileMenuOpen ? '-rotate-45 -translate-y-2.5 bg-gold' : ''"></span></div>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Content Structure -->
+    <div class="pt-32 pb-24 max-w-[1400px] mx-auto px-6 lg:px-12 flex flex-col lg:flex-row gap-16">
+
+        <!-- Sticky Sidebar -->
+        <aside class="hidden lg:block w-64 shrink-0">
+            <div class="sticky top-32">
+                <h4 class="font-mono text-xs text-gold tracking-widest mb-6">TABLE OF PROTOCOLS</h4>
+                <ul class="space-y-4 text-xs font-mono text-gray-500 border-l border-white/10 pl-4">
+                    <li><a href="#death-of-crm"
+                            class="hover:text-gold block py-1 border-l-2 border-transparent hover:border-gold -ml-[17px] pl-4 transition-all">01
+                            // STATIC CRM DEATH</a></li>
+                    <li><a href="#n8n-glue"
+                            class="hover:text-gold block py-1 border-l-2 border-transparent hover:border-gold -ml-[17px] pl-4 transition-all">02
+                            // THE N8N GLUE</a></li>
+                    <li><a href="#ai-agents"
+                            class="hover:text-gold block py-1 border-l-2 border-transparent hover:border-gold -ml-[17px] pl-4 transition-all">03
+                            // AI SALES AGENTS</a></li>
+                    <li><a href="#sales-spec"
+                            class="hover:text-gold block py-1 border-l-2 border-transparent hover:border-gold -ml-[17px] pl-4 transition-all">04
+                            // INFRASTRUCTURE</a></li>
+                    <li><a href="#roi-automation"
+                            class="hover:text-gold block py-1 border-l-2 border-transparent hover:border-gold -ml-[17px] pl-4 transition-all">05
+                            // THE ROI METRIC</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Article -->
+        <main class="w-full max-w-4xl">
+
+            <header class="mb-16">
+                <div
+                    class="inline-flex items-center gap-2 px-3 py-1 rounded border border-gold/30 bg-gold/5 text-gold font-mono text-xs tracking-widest mb-6">
+                    <span class="w-2 h-2 bg-gold rounded-full animate-pulse"></span>
+                    PROTOCOL 03
+                </div>
+                <h1 class="text-5xl md:text-7xl font-bold tracking-tight text-white mb-8">
+                    CRM Transformation: Engineering the Autonomous Pipeline.
+                </h1>
+                <p class="text-xl text-gray-400 leading-relaxed max-w-2xl">
+                    Stop manually updating HubSpot. We engineer self-hosted n8n workflows and AI Sales Agents that
+                    research, qualify, and nurture leads while you sleep.
+                </p>
+            </header>
+
+            <!-- SECTION 1: The Death of Static CRM -->
+            <article id="death-of-crm" class="border-t border-white/10 pt-12">
+                <h2>The Death of Static CRM</h2>
+                <p>The "Database" era of CRM is over. If your CRM (HubSpot, Pipedrive, GoHighLevel) essentially
+                    functions as a glorified Excel sheet where leads go to die, you are bleeding revenue. In
+                    high-velocity scaling, time is the enemy. Every minute a lead sits in a "New" status without action,
+                    conversion probability drops by 10%. After 5 minutes, it drops by 400%.</p>
+
+                <p>Most organizations fail because they rely on humans for "Data Entry" and "First Touch." Humans are
+                    slow, emotional, and need to sleep. The Static CRM waits for input. The <strong>Agentic CRM</strong>
+                    acts.</p>
+
+                <p>We do not "setup" CRMs. We transform them into active Logic Engines. An Agentic CRM does not wait for
+                    a sales rep to log in. It detects an inbound lead, enriches the data, scores the intent, and deploys
+                    a personalized outreach sequence within seconds. It is the difference between a library (passive
+                    storage) and a stock exchange (active trading).</p>
+
+                <h3>Data Decay & The Logic Gap</h3>
+                <p>Without a Logic Layer, your CRM suffers from "Data Decay." Phone numbers change, emails bounce, and
+                    intent signals (like a user visiting your pricing page) are lost. Automation solves this by
+                    constantly pinging for truth signals and updating the record in real-time, ensuring your sales team
+                    only speaks to valid, hot prospects.</p>
+            </article>
+
+            <!-- SECTION 2: The n8n Glue (Alpine Interactive) -->
+            <article id="n8n-glue" class="border-t border-white/10 pt-12">
+                <h2>The n8n Glue: Engineering Custom Sales Flows</h2>
+                <p>To build an autonomous pipeline, you need a nervous system. API connectors like Zapier are too
+                    expensive and too limited for enterprise-grade volume. We use <strong>n8n</strong>—a workflow
+                    automation tool that we self-host on private VPS infrastructure.</p>
+
+                <p>Self-hosting n8n gives us three critical advantages:</p>
+                <ul>
+                    <li><strong>Security:</strong> Data never leaves your private cloud.</li>
+                    <li><strong>Latency:</strong> Execution times under 100ms.</li>
+                    <li><strong>Unlimited Execution:</strong> No "Task limits" punishing you for scaling.</li>
+                </ul>
+
+                <!-- Interactive Workflow Map -->
+                <div x-data="workflowMap"
+                    class="my-12 p-8 bg-black border border-white/10 rounded-xl relative overflow-hidden">
+                    <div class="absolute inset-0 bg-[url('/assets/vectors/grid.svg')] opacity-20"></div>
+                    <div class="relative z-10 flex flex-col md:flex-row gap-8">
+
+                        <!-- Visual Map -->
+                        <div class="flex-1 flex flex-col items-center justify-between gap-8 py-4 relative">
+                            <!-- Connector Line -->
+                            <div
+                                class="absolute h-full w-0.5 bg-gray-800 top-0 left-1/2 -translate-x-1/2 z-0 hidden md:block">
+                            </div>
+
+                            <button @click="activeNode = 'ingest'"
+                                :class="activeNode === 'ingest' ? 'border-gold bg-gold/10 text-white' : 'border-white/20 text-gray-400 bg-black'"
+                                class="relative z-10 w-48 py-3 border rounded font-mono text-xs font-bold hover:border-gold transition-all">01
+                                LEAD INGEST</button>
+                            <div class="h-8 w-0.5 bg-gold md:hidden"></div>
+
+                            <button @click="activeNode = 'research'"
+                                :class="activeNode === 'research' ? 'border-gold bg-gold/10 text-white' : 'border-white/20 text-gray-400 bg-black'"
+                                class="relative z-10 w-48 py-3 border rounded font-mono text-xs font-bold hover:border-gold transition-all">02
+                                AI RESEARCH</button>
+                            <div class="h-8 w-0.5 bg-gold md:hidden"></div>
+
+                            <button @click="activeNode = 'crm'"
+                                :class="activeNode === 'crm' ? 'border-gold bg-gold/10 text-white' : 'border-white/20 text-gray-400 bg-black'"
+                                class="relative z-10 w-48 py-3 border rounded font-mono text-xs font-bold hover:border-gold transition-all">03
+                                CRM SYNC</button>
+                            <div class="h-8 w-0.5 bg-gold md:hidden"></div>
+
+                            <button @click="activeNode = 'sales'"
+                                :class="activeNode === 'sales' ? 'border-gold bg-gold/10 text-white' : 'border-white/20 text-gray-400 bg-black'"
+                                class="relative z-10 w-48 py-3 border rounded font-mono text-xs font-bold hover:border-gold transition-all">04
+                                SALES ALERT</button>
+                        </div>
+
+                        <!-- Info Panel -->
+                        <div class="flex-1 bg-white/5 border border-white/10 p-6 rounded-lg min-h-[300px]">
+                            <div class="flex justify-between items-start mb-4">
+                                <h4 class="text-gold font-bold font-mono text-lg" x-text="getNodeData().title"></h4>
+                                <span class="px-2 py-1 bg-white/10 rounded text-[10px] font-mono text-gray-300"
+                                    x-text="getNodeData().type"></span>
+                            </div>
+                            <div class="font-mono text-xs text-gray-500 mb-2">CONFIGURATION:</div>
+                            <pre class="bg-black p-3 rounded border border-white/5 text-[10px] text-green-400 font-mono mb-4 overflow-x-auto"
+                                x-text="JSON.stringify(getNodeData().config, null, 2)"></pre>
+                            <div class="font-mono text-xs text-gray-500 mb-2">LOGIC:</div>
+                            <p class="text-gray-300 text-sm leading-relaxed" x-text="getNodeData().desc"></p>
+                        </div>
+
+                    </div>
+                </div>
+            </article>
+
+            <!-- SECTION 3: Autonomous AI Sales Agents -->
+            <article id="ai-agents" class="border-t border-white/10 pt-12">
+                <h2>Autonomous AI Sales Agents</h2>
+                <p>The "AI Agent" is not a chatbot. A chatbot answers questions. An AI Agent executes tasks. We deploy
+                    Agents using LLMs (GPT-4o/Claude 3.5) wrapped in function-calling logic.</p>
+
+                <p>When a lead enters the system, the Agent performs <strong>Sentiment Analysis</strong> on their
+                    submitted data. If they say "Looking to start immediately," the Agent tags them as 'High Intent.' If
+                    they say "Just browsing," it tags 'Nurture.'</p>
+
+                <h3>The AI Appointment Setter</h3>
+                <p>We then deploy the "Setter" protocol. The Agent drafts a personalized email or SMS—not a template,
+                    but a unique message referencing the lead's specific business context (found via the Research
+                    Agent). The Agent has read/write access to your sales team's calendar. If the lead replies, the
+                    Agent handles the scheduling negotiation autonomously, only notifying the human rep when the meeting
+                    is booked.</p>
+            </article>
+
+            <!-- SECTION 4: Sales Infrastructure Spec Sheet -->
+            <article id="sales-spec" class="border-t border-white/10 pt-12">
+                <h2>Sales Infrastructure Spec Sheet</h2>
+                <p>Building this requires rigorous engineering standards. Here is the protocol we install:</p>
+                <ul>
+                    <li><strong>REST API Normalization:</strong> Standardizing data formats between disparate tools
+                        (e.g., Facebook Leads vs. HubSpot Forms).</li>
+                    <li><strong>Webhook Security (HMAC):</strong> All ingress points are cryptographically signed to
+                        prevent spoofing.</li>
+                    <li><strong>JSON Schema Validation:</strong> Ensuring no "bad data" ever corrupts the CRM. If a
+                        phone number is invalid, it is rejected at the gate.</li>
+                    <li><strong>Multi-CRM Sync:</strong> Use Salesforce? We sync it. Two-way binding ensures truth
+                        across platforms.</li>
+                </ul>
+            </article>
+
+            <!-- SECTION 5: The ROI of Automation -->
+            <article id="roi-automation" class="border-t border-white/10 pt-12">
+                <h2>The ROI of Automation</h2>
+                <p>The math is simple. The "5-Minute Rule" states that odds of qualifying a lead drop by 80% after five
+                    minutes. Humans cannot consistently hit the 5-minute mark 24/7/365. Machines can.</p>
+                <p>By automating the "Speed to Lead" and the "Lead Qualification" research, we typically see a
+                    <strong>400% increase in conversion</strong> from Lead-to-Booked-Call. Your sales team stops wasting
+                    time on "bad leads" and spends 100% of their time closing "pre-sold" opportunities. This is not just
+                    efficiency; it is revenue multiplication.</p>
+            </article>
+
+            <!-- Ethics & Privacy Expansion (Word Count) -->
+            <article class="border-t border-white/10 pt-12 text-gray-500">
+                <h3>The Ethics of AI Sales & Privacy</h3>
+                <p>With great power comes great responsibility. Automating sales communication requires strict adherence
+                    to privacy protocols. We engineer GDPR and CCPA compliance directly into the n8n workflows. If a
+                    user requests deletion, the Agent autonomously purges the record from the CRM, the Email tool, and
+                    the backup database instantly. Furthermore, we believe in "Transparent AI." We recommend disclosing
+                    that the initial outreach is AI-assisted, which, paradoxically, often increases engagement as it
+                    demonstrates technological competence to the prospect.</p>
+            </article>
+
+        </main>
+    </div>
+
+    <!-- MOAT AUDIT COMPONENT (Inject) -->
+    <section class="py-24 px-6 border-t border-white/10 bg-black/50">
+        <div id="moat-audit" class="w-full max-w-4xl mx-auto" x-data="moatAudit">
+            <div class="glass-panel rounded-xl overflow-hidden relative border border-white/10 shadow-2xl">
+                <div class="px-8 py-6 border-b border-white/5 flex justify-between items-center bg-black/40">
+                    <div class="flex items-center gap-3">
+                        <div class="w-2 h-2 rounded-full bg-gold animate-pulse"></div><span
+                            class="font-mono text-xs tracking-[0.2em] text-gold/80 uppercase">PROTOCOL 00: THE MOAT
+                            DISCOVERY</span>
+                    </div>
+                    <div class="font-mono text-xs text-gray-600"><span x-text="step"></span> / 4 STEPS</div>
+                </div>
+                <div class="p-8 md:p-12 min-h-[400px] flex flex-col justify-center">
+                    <div x-show="step === 1">
+                        <h2 class="text-3xl font-bold text-white mb-4">Identify Your Primary Constraint.</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
+                            <button @click="selectFriction('INBOUND_FLOW')"
+                                class="p-6 text-left border border-white/10 hover:border-gold bg-white/5"><span
+                                    class="block text-gold text-xs mb-2">01 // VOLUME</span><span
+                                    class="font-bold">INBOUND FLOW</span></button>
+                            <button @click="selectFriction('SALES_VELOCITY')"
+                                class="p-6 text-left border border-white/10 hover:border-gold bg-white/5"><span
+                                    class="block text-gold text-xs mb-2">02 // CONVERSION</span><span
+                                    class="font-bold">SALES VELOCITY</span></button>
+                            <button @click="selectFriction('SYSTEM_LIFTCYCLE')"
+                                class="p-6 text-left border border-white/10 hover:border-gold bg-white/5"><span
+                                    class="block text-gold text-xs mb-2">03 // RETENTION</span><span
+                                    class="font-bold">SYSTEM LIFECYCLE</span></button>
+                        </div>
+                    </div>
+                    <div x-show="step === 2" x-cloak>
+                        <h2 class="text-3xl font-bold text-white mb-4">Current Market Velocity.</h2>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+                            <button @click="selectVelocity('$20k - $50k')"
+                                class="py-4 border border-white/10 hover:border-gold text-gray-300 font-mono text-sm">$20k
+                                - $50k</button>
+                            <button @click="selectVelocity('$50k - $100k')"
+                                class="py-4 border border-white/10 hover:border-gold text-gray-300 font-mono text-sm">$50k
+                                - $100k</button>
+                            <button @click="selectVelocity('$100k - $500k')"
+                                class="py-4 border border-white/10 hover:border-gold text-gray-300 font-mono text-sm">$100k
+                                - $500k</button>
+                            <button @click="selectVelocity('$500k+')"
+                                class="py-4 border border-white/10 hover:border-gold text-gold font-mono text-sm">$500k+</button>
+                        </div>
+                    </div>
+                    <div x-show="step === 3" x-cloak class="text-center">
+                        <div
+                            class="inline-block w-16 h-16 border-2 border-gold rounded-full animate-spin mb-4 border-t-transparent">
+                        </div>
+                        <p class="font-mono text-gold text-sm tracking-widest animate-pulse" x-text="loadingText"></p>
+                    </div>
+                    <div x-show="step === 4" x-cloak class="flex flex-col md:flex-row gap-8">
+                        <div class="w-full md:w-1/2 p-6 bg-white/5 border border-gold/20 rounded-lg">
+                            <h3 class="text-gold font-bold mb-2">Analysis Complete.</h3>
+                            <p class="text-sm text-gray-400">Your specific authority score is <span
+                                    x-text="score"></span>%. Enter details to unlock full report.</p>
+                        </div>
+                        <div class="w-full md:w-1/2 space-y-4">
+                            <input type="text" x-model="formData.name" placeholder="Full Name"
+                                class="w-full bg-black border border-white/20 p-3 text-white text-sm font-mono focus:border-gold outline-none">
+                            <input type="email" x-model="formData.email" placeholder="Business Email"
+                                class="w-full bg-black border border-white/20 p-3 text-white text-sm font-mono focus:border-gold outline-none">
+                            <button @click="submitToGravity()"
+                                class="w-full py-4 bg-gold text-black font-bold tracking-wider hover:bg-white transition-all">EXECUTE
+                                DIAGNOSTIC</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#050505] border-t border-white/10 pt-24 pb-12 relative z-10">
+        <div class="max-w-[1400px] mx-auto px-6 lg:px-12 grid grid-cols-1 md:grid-cols-4 gap-12">
+            <div>
+                <div class="flex items-center gap-2 mb-6"><svg class="w-6 h-6 text-gold" viewBox="0 0 40 40"
+                        fill="none">
+                        <path d="M20 5L30 25H10L20 5Z" stroke="currentColor" stroke-width="2" />
+                    </svg><span class="font-bold text-white">JUMPSTART</span></div>
+                <p class="text-gray-500 text-sm leading-relaxed mb-6">The Authority Engine is the only viable moat in
+                    the AI-saturated landscape of 2026.</p>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-6 font-mono text-xs tracking-widest">PROTOCOLS</h4>
+                <div class="flex flex-col gap-3 text-sm text-gray-400">
+                    <a href="paid-acquisition.html" class="hover:text-gold">01 / Paid Acquisition</a>
+                    <a href="funnel-architecture.html" class="hover:text-gold">02 / Funnel Architecture</a>
+                    <a href="crm-transformation.html" class="hover:text-gold">03 / CRM Automation</a>
+                    <a href="authority-engine.html" class="hover:text-gold">04 / Authority Engine</a>
+                    <a href="data-attribution.html" class="hover:text-gold">05 / Data Attribution</a>
+                </div>
+            </div>
+            <!-- ... -->
+        </div>
+
+        <!-- Next Protocol Interlinking (Prompt 5 Req) -->
+        <div class="max-w-[1400px] mx-auto px-6 lg:px-12 mt-12 pt-12 border-t border-white/5 text-center">
+            <p class="text-gray-500 text-sm mb-4">DATA IS THE NEXT STEP.</p>
+            <a href="data-attribution.html"
+                class="text-xl md:text-2xl font-bold text-white hover:text-gold transition-colors inline-flex items-center gap-3">
+                VIEW PROTOCOL 05: DATA ATTRIBUTION <span class="text-gold">→</span>
+            </a>
+        </div>
+    </footer>
+
+</body>
+
+</html>

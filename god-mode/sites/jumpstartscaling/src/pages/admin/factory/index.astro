@@ -1,0 +1,22 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+---
+<AdminLayout title="Factory Kanban">
+  <h2 class="text-xl font-bold mb-4">Generation Jobs</h2>
+  <div id="table-wrap"><p class="text-gray-400">Loading...</p></div>
+  <script>
+    const base = () => window.__ADMIN_API_BASE__ || '';
+    async function load() {
+      try {
+        const r = await fetch(base() + '/api/generation-jobs?limit=200');
+        const rows = await r.json();
+        if (!r.ok) { document.getElementById('table-wrap').innerHTML = `<p class="text-red-400">API error</p>`; return; }
+        const arr = Array.isArray(rows) ? rows : [];
+        const html = arr.length ? `<table><thead><tr><th>ID</th><th>Status</th><th>Target</th><th>Progress</th><th>Site</th></tr></thead><tbody>${arr.map(j => `<tr><td>${j.id}</td><td>${j.status ?? '-'}</td><td>${j.target_quantity ?? '-'}</td><td>${j.progress ?? 0}</td><td>${j.site_id ?? '-'}</td></tr>`).join('')}</tbody></table>` : '<p class="text-gray-400">No jobs yet.</p>';
+        document.getElementById('table-wrap').innerHTML = html;
+      } catch (e) { document.getElementById('table-wrap').innerHTML = `<p class="text-red-400">Error: ${e.message}</p>`; }
+    }
+    load();
+  </script>
+  <p class="mt-4"><a href="/jumpstart/admin/factory/articles" class="text-gold">Generated Articles</a></p>
+</AdminLayout>

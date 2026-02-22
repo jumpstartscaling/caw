@@ -1,0 +1,37 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+---
+<AdminLayout title="Geo Intelligence">
+  <h2 class="text-xl font-bold mb-4">Geo Intelligence</h2>
+  <button onclick="showAddForm()" class="mb-4">+ Add Geo Cluster</button>
+  <div id="add-form" class="hidden mb-4 p-4 bg-gray-900 rounded border border-gray-800">
+    <input id="cluster_key" placeholder="Cluster Key" class="mr-2 mb-2" />
+    <input id="city" placeholder="City" class="mr-2 mb-2" />
+    <input id="state" placeholder="State" class="mr-2 mb-2 w-20" />
+    <input id="population" placeholder="Population" class="mr-2 mb-2 w-24" type="number" />
+    <button onclick="addGeo()">Save</button>
+    <button onclick="document.getElementById('add-form').classList.add('hidden')" class="ml-2 bg-gray-600">Cancel</button>
+  </div>
+  <div id="table-wrap"><p class="text-gray-400">Loading...</p></div>
+  <script>
+    const base = () => window.__ADMIN_API_BASE__ || '';
+    async function load() {
+      try {
+        const r = await fetch(base() + '/api/geo-intelligence?limit=200');
+        const rows = await r.json();
+        if (!r.ok) { document.getElementById('table-wrap').innerHTML = `<p class="text-red-400">API error</p>`; return; }
+        const arr = Array.isArray(rows) ? rows : [];
+        const html = arr.length ? `<table><thead><tr><th>ID</th><th>Cluster</th><th>City</th><th>State</th><th>Pop</th><th></th></tr></thead><tbody>${arr.map(g => `<tr><td>${g.id}</td><td>${g.cluster_key ?? '-'}</td><td>${g.city ?? '-'}</td><td>${g.state ?? '-'}</td><td>${g.population ?? '-'}</td><td><button class="danger" onclick="del(${g.id})">Delete</button></td></tr>`).join('')}</tbody></table>` : '<p class="text-gray-400">No geo entries yet.</p>';
+        document.getElementById('table-wrap').innerHTML = html;
+      } catch (e) { document.getElementById('table-wrap').innerHTML = `<p class="text-red-400">Error: ${e.message}</p>`; }
+    }
+    function showAddForm() { document.getElementById('add-form').classList.remove('hidden'); }
+    async function addGeo() {
+      const pop = document.getElementById('population').value;
+      await fetch(base() + '/api/geo-intelligence', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ cluster_key: document.getElementById('cluster_key').value, city: document.getElementById('city').value, state: document.getElementById('state').value, population: pop ? parseInt(pop) : null }) });
+      load(); document.getElementById('add-form').classList.add('hidden');
+    }
+    async function del(id) { if (confirm('Delete?')) { await fetch(base() + `/api/geo-intelligence/${id}`, { method: 'DELETE' }); load(); } }
+    load();
+  </script>
+</AdminLayout>

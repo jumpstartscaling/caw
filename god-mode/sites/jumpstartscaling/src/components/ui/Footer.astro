@@ -1,0 +1,47 @@
+---
+// src/components/ui/Footer.astro - Consistent footer across sites
+const currentYear = new Date().getFullYear();
+const MAIN_SITE = 'https://jumpstartscaling.com';
+---
+
+<footer class="relative z-10 pt-32 pb-12 border-t border-white/5 bg-[#050505]">
+    <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-20">
+            <div class="col-span-1 md:col-span-1">
+                <a href={MAIN_SITE} class="flex items-center gap-3 mb-8">
+                    <div class="w-10 h-10 bg-[#E8C677] rounded flex items-center justify-center text-black font-black">JS</div>
+                    <span class="font-bold text-xl text-white">Jumpstart<span class="text-[#E8C677]">Scaling</span></span>
+                </a>
+                <p class="text-white/60 text-sm leading-relaxed">Growth engineering for companies serious about predictable revenue.</p>
+            </div>
+            <div>
+                <h3 class="text-xs font-mono uppercase tracking-widest text-[#E8C677] mb-8">Capabilities</h3>
+                <ul class="space-y-4 text-sm text-white/70">
+                    <li><a href={`${MAIN_SITE}/services/paid-acquisition`} class="hover:text-white transition">Paid Acquisition</a></li>
+                    <li><a href={`${MAIN_SITE}/services/funnel-architecture`} class="hover:text-white transition">Funnel Architecture</a></li>
+                    <li><a href={`${MAIN_SITE}/services/crm-transformation`} class="hover:text-white transition">CRM Transformation</a></li>
+                    <li><a href={`${MAIN_SITE}/services/growth-retainer`} class="hover:text-white transition">Growth Retainer</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-xs font-mono uppercase tracking-widest text-[#E8C677] mb-8">Resources</h3>
+                <ul class="space-y-4 text-sm text-white/70">
+                    <li><a href={`${MAIN_SITE}/intel`} class="hover:text-white transition">Intel & Insights</a></li>
+                    <li><a href={`${MAIN_SITE}/audit`} class="hover:text-white transition">Moat Audit</a></li>
+                    <li><a href={`${MAIN_SITE}/resources/calculators`} class="hover:text-white transition">ROI Calculators</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-xs font-mono uppercase tracking-widest text-[#E8C677] mb-8">Direct</h3>
+                <a href="mailto:hello@jumpstartscaling.com" class="text-white hover:text-[#E8C677] transition-colors font-medium">hello@jumpstartscaling.com</a>
+            </div>
+        </div>
+        <div class="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+            <p class="text-white/50 text-xs">&copy; {currentYear} Jumpstart Scaling. All rights reserved.</p>
+            <div class="flex gap-8 text-white/50 text-xs">
+                <a href={`${MAIN_SITE}/terms`} class="hover:text-white transition">Terms</a>
+                <a href={`${MAIN_SITE}/privacy`} class="hover:text-white transition">Privacy</a>
+            </div>
+        </div>
+    </div>
+</footer>

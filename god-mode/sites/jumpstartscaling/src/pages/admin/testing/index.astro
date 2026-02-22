@@ -1,0 +1,27 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+---
+<AdminLayout title="Test Suite">
+  <h2 class="text-xl font-bold mb-4">Diagnostics</h2>
+  <div id="health" class="mb-4"><p class="text-gray-400">Checking...</p></div>
+  <p class="text-gray-400 mb-4">Tests:</p>
+  <ul class="list-disc list-inside text-gray-300 space-y-1">
+    <li><a href="/jumpstart/admin/testing/connection" class="text-gold">Connection</a> — Ping API health</li>
+    <li><a href="/jumpstart/admin/testing/schema" class="text-gold">Schema</a> — Debug config</li>
+    <li><a href="/jumpstart/admin/testing/render" class="text-gold">Render</a> — Block preview</li>
+    <li><a href="/jumpstart/admin/testing/results" class="text-gold">Results</a> — Test output</li>
+  </ul>
+  <script>
+    const base = () => window.__ADMIN_API_BASE__ || '';
+    async function load() {
+      try {
+        const r = await fetch(base() + '/api/health');
+        const d = await r.json();
+        document.getElementById('health').innerHTML = r.ok ? `<p class="text-green-400">API: ${d.status ?? 'ok'}</p>` : '<p class="text-red-400">API unreachable</p>';
+      } catch (e) {
+        document.getElementById('health').innerHTML = `<p class="text-red-400">Error: ${e.message}</p>`;
+      }
+    }
+    load();
+  </script>
+</AdminLayout>
