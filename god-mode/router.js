@@ -149,6 +149,7 @@ const COMPRESSIBLE = new Set(['text/html', 'text/css', 'text/javascript', 'appli
 const RESOLVE_CACHE = new Map();
 const RESOLVE_TTL_MS = 60_000;
 const SSR_TENANT_PORT = process.env.SSR_TENANT_PORT || 8101;
+const STANDALONE_DOMAINS = ['chrisamaya.work', 'www.chrisamaya.work'];
 
 function getSiteRoot(hostname, urlPath) {
     const domain = hostname.split(':')[0];
@@ -161,10 +162,7 @@ function getSiteRoot(hostname, urlPath) {
         }
     }
     const root = DOMAIN_MAP[domain] || DOMAIN_MAP['localhost'];
-    // Tenant template uses Astro base '/chrisamaya' — assets at /chrisamaya/_astro/
-    const isChrisamayaDomain = domain === 'chrisamaya.work' || domain === 'www.chrisamaya.work';
-    const stripPrefix = isChrisamayaDomain && root.includes('tenant') ? '/chrisamaya' : null;
-    return { root, stripPrefix };
+    return { root, stripPrefix: null };
 }
 
 function isKnownDomain(hostname) {
@@ -569,6 +567,16 @@ const server = http.createServer((req, res) => {
             res.writeHead(500, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ error: 'Proxy failed', detail: String(err) }));
         });
+        return;
+    }
+
+    // --- STANDALONE DOMAINS: chrisamaya.work runs on its own app (caw-jump/caw), not JFactory ---
+    if (STANDALONE_DOMAINS.includes(hostname)) {
+        res.writeHead(503, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({
+            error: 'chrisamaya.work is a standalone app',
+            hint: 'Remove chrisamaya.work from JFactory domains. Assign it only to the caw app (caw-jump/caw).',
+        }));
         return;
     }
 

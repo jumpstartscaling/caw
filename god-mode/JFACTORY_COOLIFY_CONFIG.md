@@ -42,7 +42,7 @@ JFACTORY_BRANCH=fix/jfactory-deploy node scripts/configure-coolify-via-api.mjs -
 | Field | Value |
 |-------|-------|
 | **Name** | JFactory |
-| **Description** | God-mode router + jumpstartscaling + chrisamaya sites |
+| **Description** | God-mode router + jumpstartscaling (chrisamaya.work is standalone caw app) |
 | **Build Pack** | Dockerfile |
 
 **Routing (path-based preview):**
@@ -57,16 +57,16 @@ JFACTORY_BRANCH=fix/jfactory-deploy node scripts/configure-coolify-via-api.mjs -
 
 **Preview (path-based):** `factory.jumpstartscaling.com` only — sites at `/jumpstart` and `/chrisamaya`.
 
-**Production (when ready):** Add tenant domains:
+**Production:** JFactory domains only:
 
 | Domain |
 |--------|
 | `factory.jumpstartscaling.com` |
 | `www.factory.jumpstartscaling.com` |
-| `chrisamaya.work` (when tenant goes live) |
-| `www.chrisamaya.work` |
+| `jumpstartscaling.com` |
+| `www.jumpstartscaling.com` |
 
-**Note:** Sites use preview paths until ready for production; then point domain to tenant.
+**Note:** `chrisamaya.work` and `www.chrisamaya.work` are served only by the standalone caw app (caw-jump/caw, port 4321). Do **not** add them to JFactory domains.
 
 ---
 
@@ -141,8 +141,9 @@ Add these (replace placeholders with real values):
    - Remove `https://coolify.io`
    - Add: `factory.jumpstartscaling.com`
    - Add: `www.factory.jumpstartscaling.com`
-   - Add: `chrisamaya.work`
-   - Add: `www.chrisamaya.work`
+   - Add: `jumpstartscaling.com`
+   - Add: `www.jumpstartscaling.com`
+   - Do **not** add `chrisamaya.work` or `www.chrisamaya.work` (those belong to the caw app only)
    - Direction: Allow www & non-www
 
 3. **Configuration → Environment Variables**
@@ -171,6 +172,21 @@ If `https://factory.jumpstartscaling.com/admin/` returns 404:
 1. **`GOD_MODE_API_URL` not set** — Add `GOD_MODE_API_URL=https://api.jumpstartscaling.com` in JFactory env vars, save, and redeploy. After the change, hitting `/admin/` without it will show a 503 with setup instructions instead of 404.
 2. **God-mode API not deployed** — Deploy the `god-mode-api` app first at `api.jumpstartscaling.com`. Test: `curl -I https://api.jumpstartscaling.com/health` should return 200.
 3. **Admin login** — Go to `/admin/login` and log in with `ADMIN_USERNAME` and `ADMIN_PASSWORD` (god-mode-api env vars). `ADMIN_KEY` is for API access only (n8n, scripts).
+
+---
+
+## chrisamaya.work Standalone App (caw-jump/caw)
+
+The chrisamaya.work site can run as a **standalone Coolify app** (no JFactory). Uses direct Postgres; no god-mode API.
+
+**Create app via script:**
+```bash
+# Requires COOLIFY_TOKEN in .env.local
+node scripts/create-chrisamaya-coolify-app.mjs          # Create only
+node scripts/create-chrisamaya-coolify-app.mjs --deploy # Create + deploy
+```
+
+Script creates app in same project as god-mode, copies DATABASE_URL from god-mode-api, sets domains `chrisamaya.work`, `www.chrisamaya.work`. Repo: `https://github.com/caw-jump/caw`, port 4321.
 
 ---
 

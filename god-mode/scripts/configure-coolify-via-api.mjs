@@ -77,15 +77,15 @@ async function main() {
     await api('PATCH', `/applications/${APPS.JFactory}`, {
       ports_exposes: '8100',
       custom_docker_run_options: '',
-      base_directory: '', // repo root (tenant template at sites/tenant; god-mode/ has old chrisamaya)
+      base_directory: 'god-mode',
       build_pack: 'dockerfile',
       dockerfile_location: 'Dockerfile',
       git_branch: jfactoryBranch,
     });
-    console.log(`  ✅ Port 8100, base_directory='' (repo root), branch ${jfactoryBranch}`);
+    console.log(`  ✅ Port 8100, base_directory=god-mode, branch ${jfactoryBranch}`);
 
     await api('PATCH', `/applications/${APPS.JFactory}`, {
-      domains: 'https://factory.jumpstartscaling.com,https://www.factory.jumpstartscaling.com,https://chrisamaya.work,https://www.chrisamaya.work',
+      domains: 'https://factory.jumpstartscaling.com,https://www.factory.jumpstartscaling.com,https://jumpstartscaling.com,https://www.jumpstartscaling.com',
     });
     console.log('  ✅ Domains set');
 
