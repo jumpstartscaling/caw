@@ -85,7 +85,7 @@ async function main() {
     console.log(`  ✅ Port 8100, base_directory=god-mode, branch ${jfactoryBranch}`);
 
     await api('PATCH', `/applications/${APPS.JFactory}`, {
-      domains: 'https://factory.jumpstartscaling.com,https://www.factory.jumpstartscaling.com,https://jumpstartscaling.com,https://www.jumpstartscaling.com',
+      domains: 'https://factory.jumpstartscaling.com,https://www.factory.jumpstartscaling.com',
     });
     console.log('  ✅ Domains set');
 
