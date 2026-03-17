@@ -1,9 +1,12 @@
+<%
+  const theme = footer?.theme || nav?.theme || {};
+%>
 <!DOCTYPE html>
 <html lang="en" data-palette="<%= palette || 'emerald' %>">
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <meta name="theme-color" content="#050505"/>
+  <meta name="theme-color" content="<%= theme.bg_deep || '#050505' %>"/>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
   <title><%= title === siteName ? title : title + ' | ' + siteName %></title>
   <meta name="description" content="<%= description || 'Stop hiring freelancers. Start building an empire.' %>"/>
@@ -11,13 +14,13 @@
   <style>
     /* ── Reset & base ────────────────────────────────────────── */
     :root{
-      --bg-deep:#0B0B0F;
-      --neon-green:#00FF94;
-      --neon-blue:#00B8FF;
-      --neon-pink:#FF00FF;
-      --accent:#E8C677;
-      --text-muted:rgba(255,255,255,0.70);
-      --border-subtle:rgba(255,255,255,0.08);
+      --bg-deep:<%= theme.bg_deep || '#0B0B0F' %>;
+      --neon-green:<%= theme.neon_green || '#00FF94' %>;
+      --neon-blue:<%= theme.neon_blue || '#00B8FF' %>;
+      --neon-pink:<%= theme.neon_pink || '#FF00FF' %>;
+      --accent:<%= theme.accent || '#E8C677' %>;
+      --text-muted:<%= theme.text_muted || 'rgba(255,255,255,0.70)' %>;
+      --border-subtle:<%= theme.border_subtle || 'rgba(255,255,255,0.08)' %>;
     }
     *{box-sizing:border-box;margin:0;padding:0}
     html{background:var(--bg-deep);color:#fff;scroll-behavior:smooth}

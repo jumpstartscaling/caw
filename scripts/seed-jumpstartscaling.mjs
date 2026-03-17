@@ -36,6 +36,28 @@ const THEME = {
   footer: {
     tagline: 'Growth engineering for companies serious about predictable revenue.',
     copyright: 'Jumpstart Scaling',
+    resources: [
+      { label: 'Free Audit', href: '/audit' },
+      { label: 'Calculator Hub', href: '/resources/calculators' },
+      { label: 'Market Intel', href: '/blog' },
+    ],
+    direct_links: [
+      { label: 'Book a Strategy Call', href: '/contact' },
+    ],
+    legal_links: [
+      { label: 'Terms', href: '/terms' },
+      { label: 'Privacy', href: '/privacy' },
+    ],
+    email: 'hello@jumpstartscaling.com',
+    theme: {
+      bg_deep: '#050505',
+      neon_green: '#E8C677',
+      neon_blue: '#6EB3FF',
+      neon_pink: '#D889FF',
+      accent: '#E8C677',
+      text_muted: 'rgba(255,255,255,0.74)',
+      border_subtle: 'rgba(232,198,119,0.22)',
+    },
   },
 };
 
@@ -174,7 +196,17 @@ const pages = [
           submit_source: 'JumpstartScaling',
         },
       },
-      { block_type: 'survey', data: { section_title: 'Ready to turn insights into revenue?' } },
+      {
+        block_type: 'survey',
+        data: {
+          section_title: 'Ready to turn insights into revenue?',
+          primary_label: 'Fill out the audit form above',
+          primary_href: '#audit',
+          secondary_label: 'open the full Moat Audit',
+          secondary_href: '/audit',
+          connector: 'or',
+        },
+      },
     ],
   },
   {
@@ -250,7 +282,17 @@ const pages = [
     title: 'Free Growth Calculators | Jumpstart Scaling',
     blocks: [
       { block_type: 'hero', data: { badge: 'CALCULATORS', headline: 'Premium Growth Calculators', subhead: 'CAC, LTV, churn, break-even ROAS, retention cohorts, and MRR forecast tools.', cta_label: '< OPEN_TOOLSET />', cta_href: '#calculators' } },
-      { block_type: 'calculator', data: { section_title: 'Growth Calculator Hub' } },
+      {
+        block_type: 'calculator',
+        data: {
+          section_title: 'Growth Calculator Hub',
+          text: 'Choose a calculator route from the DB-defined tool map below.',
+          links: [
+            { label: 'Open Tools Index', href: '/tools', description: 'Browse all scenario tools and calculators.' },
+            { label: 'Run a Free Audit', href: '/audit', description: 'Get a prioritized growth roadmap after using the tools.' },
+          ],
+        },
+      },
       { block_type: 'value_prop', data: { title: 'How teams use this hub', body: '<p>Use acquisition tools to benchmark efficiency, retention tools to model compounding value, and forecasting tools to plan 12-month growth scenarios.</p>' } },
       { block_type: 'cta', data: { heading: 'Ready to turn metrics into execution?', text: 'Use the tools to diagnose. Use the audit to prioritize. Use strategy to scale.', href: '/audit', label: 'Get Your Free Audit' } },
     ],
@@ -437,7 +479,17 @@ for (const tool of TOOL_PAGES) {
           body: `<p>This ${tool.category} model is designed for fast scenario planning. Run multiple assumptions, compare outputs, and use the results to guide tactical decisions.</p><p class="mt-3">For full implementation support, pair this with a free Moat Audit.</p>`,
         },
       },
-      { block_type: 'calculator', data: { section_title: tool.title } },
+      {
+        block_type: 'calculator',
+        data: {
+          section_title: tool.title,
+          text: tool.description,
+          links: [
+            { label: 'Back to all tools', href: '/tools', description: 'Explore more scenario calculators by category.' },
+            { label: 'Get implementation help', href: '/contact', description: 'Turn this model into an execution plan.' },
+          ],
+        },
+      },
       {
         block_type: 'icon_bullets',
         data: {

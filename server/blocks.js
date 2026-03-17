@@ -188,10 +188,52 @@ function renderBlock(block) {
   <div class="container mx-auto px-6">${title ? `<h2 class="text-2xl font-bold text-center mb-12">${esc(title)}</h2>` : ''}<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">${items}</div></div>
 </section>`;
     }
-    case 'calculator':
-      return `<section id="projects" class="py-24" style="background:#050505;color:#fff"><div class="container mx-auto px-6"><h2 class="text-3xl font-bold text-center mb-12">${esc(d.section_title || 'Engineering Resources')}</h2><div class="max-w-4xl mx-auto p-8 rounded-2xl border border-white/10"><p class="text-white/70 text-center">Calculator tools available at <a href="https://jumpstartscaling.com/resources/calculators" class="text-[#00FF94]">jumpstartscaling.com/resources/calculators</a></p></div></div></section>`;
-    case 'survey':
-      return `<section id="contact" class="py-24" style="background:#000;color:#fff"><div class="container mx-auto px-6"><h2 class="text-3xl font-bold text-center mb-12">${esc(d.section_title || "Let's Build It Right.")}</h2><p class="text-center text-white/70"><a href="#audit" class="text-[#00FF94] underline">Fill out the Technical Strategy form above</a> or <a href="https://jumpstartscaling.com/audit" class="text-[#00FF94] underline">take the full Moat Audit</a>.</p></div></section>`;
+    case 'calculator': {
+      const sectionTitle = d.section_title || 'Engineering Resources';
+      const text = d.text || d.description || '';
+      let links = Array.isArray(d.links) ? d.links : [];
+      if (!links.length && d.href) {
+        links = [{ href: d.href, label: d.label || 'Open calculator', description: d.link_description || '' }];
+      }
+      if (!links.length) {
+        links = [{ href: '/resources/calculators', label: 'Open calculators', description: '' }];
+      }
+      const linksHtml = links.map((link) => {
+        const href = link.href || '#';
+        const label = link.label || 'Open';
+        const desc = link.description || '';
+        return `<a href="${esc(href)}" style="display:block;padding:1rem;border:1px solid rgba(255,255,255,.12);border-radius:.5rem;text-decoration:none;min-height:44px"><span style="color:var(--neon-green);font-weight:700">${esc(label)}</span>${desc ? `<p style="color:rgba(255,255,255,.65);font-size:.86rem;margin-top:.35rem">${esc(desc)}</p>` : ''}</a>`;
+      }).join('');
+      return `
+<section id="projects" class="py-24" style="background:#050505;color:#fff">
+  <div class="container mx-auto px-6">
+    <h2 class="text-3xl font-bold text-center mb-12">${esc(sectionTitle)}</h2>
+    <div class="max-w-4xl mx-auto p-8 rounded-2xl border border-white/10">
+      ${text ? `<p class="text-white/70 text-center" style="margin-bottom:1.25rem">${esc(text)}</p>` : ''}
+      <div class="grid md:grid-cols-2 gap-6">${linksHtml}</div>
+    </div>
+  </div>
+</section>`;
+    }
+    case 'survey': {
+      const sectionTitle = d.section_title || "Let's Build It Right.";
+      const primaryLabel = d.primary_label || 'Fill out the strategy form above';
+      const primaryHref = d.primary_href || '#audit';
+      const secondaryLabel = d.secondary_label || 'take the full audit';
+      const secondaryHref = d.secondary_href || '/audit';
+      const connector = d.connector || 'or';
+      return `
+<section id="contact" class="py-24" style="background:#000;color:#fff">
+  <div class="container mx-auto px-6">
+    <h2 class="text-3xl font-bold text-center mb-12">${esc(sectionTitle)}</h2>
+    <p class="text-center text-white/70">
+      <a href="${esc(primaryHref)}" style="color:var(--neon-green);text-decoration:underline">${esc(primaryLabel)}</a>
+      ${esc(connector)}
+      <a href="${esc(secondaryHref)}" style="color:var(--neon-green);text-decoration:underline">${esc(secondaryLabel)}</a>.
+    </p>
+  </div>
+</section>`;
+    }
     case 'diagnosis': {
       const eyebrow = d.eyebrow || '';
       const title = d.title || '';

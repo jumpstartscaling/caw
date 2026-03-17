@@ -37,7 +37,7 @@
       <a href="/" aria-label="<%= siteName || 'Home' %> — Home"
         style="display:flex;align-items:center;gap:.75rem;text-decoration:none">
         <div
-          style="width:40px;height:40px;background:linear-gradient(135deg,#00FF94,#00BC6D);border-radius:.5rem;display:flex;align-items:center;justify-content:center;flex-shrink:0"
+          style="width:40px;height:40px;background:linear-gradient(135deg,var(--neon-green),var(--neon-blue));border-radius:.5rem;display:flex;align-items:center;justify-content:center;flex-shrink:0"
           aria-hidden="true">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#050505" stroke-width="3"
             aria-hidden="true" focusable="false">
@@ -45,7 +45,7 @@
           </svg>
         </div>
         <span style="font-weight:700;font-size:1.1rem;color:#fff">
-          <%= first %><span style="color:#00FF94">
+          <%= first %><span style="color:var(--neon-green)">
               <%= rest %>
             </span>
         </span>
@@ -92,7 +92,7 @@
 
         <li>
           <a href="<%= ctaHref %>"
-            style="display:inline-flex;align-items:center;padding:.6rem 1.4rem;background:#00FF94;color:#050505;font-weight:700;font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;border-radius:.5rem;min-height:44px;white-space:nowrap">
+            style="display:inline-flex;align-items:center;padding:.6rem 1.4rem;background:var(--neon-green);color:#050505;font-weight:700;font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;border-radius:.5rem;min-height:44px;white-space:nowrap">
             <%= ctaLabel %>
           </a>
         </li>
