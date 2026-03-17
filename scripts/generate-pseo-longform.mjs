@@ -286,15 +286,32 @@ async function insertUsageEvents(pool, pageSlug, events) {
       hash,
     });
   }
-  for (const event of deduped.values()) {
-    await pool.query(
-      `INSERT INTO pseo_element_usage
+  const rows = Array.from(deduped.values());
+  if (rows.length === 0) return;
+  await pool.query(
+    `INSERT INTO pseo_element_usage
        (site_prefix, page_slug, element_group, element_key, source_table, element_value, element_hash)
-       VALUES ($1, $2, $3, $4, $5, $6, $7)
-       ON CONFLICT (site_prefix, page_slug, element_group, element_hash) DO NOTHING`,
-      [SITE_PREFIX, pageSlug, event.elementGroup, event.elementKey, event.sourceTable, event.value, event.hash]
-    );
-  }
+     SELECT *
+     FROM UNNEST(
+       $1::text[],
+       $2::text[],
+       $3::text[],
+       $4::text[],
+       $5::text[],
+       $6::text[],
+       $7::text[]
+     )
+     ON CONFLICT (site_prefix, page_slug, element_group, element_hash) DO NOTHING`,
+    [
+      rows.map(() => SITE_PREFIX),
+      rows.map(() => pageSlug),
+      rows.map((r) => r.elementGroup),
+      rows.map((r) => r.elementKey),
+      rows.map((r) => r.sourceTable || ''),
+      rows.map((r) => r.value),
+      rows.map((r) => r.hash),
+    ]
+  );
 }
 
 const pool = makePool();
