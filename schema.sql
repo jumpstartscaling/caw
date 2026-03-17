@@ -77,3 +77,46 @@ CREATE INDEX IF NOT EXISTS idx_jss_articles_status ON jss_articles (status);
 CREATE INDEX IF NOT EXISTS idx_jss_articles_category ON jss_articles (category);
 CREATE INDEX IF NOT EXISTS idx_jss_articles_published ON jss_articles (published_at DESC)
   WHERE status = 'published';
+
+-- Shared pSEO element usage tracking (all tenants)
+CREATE TABLE IF NOT EXISTS pseo_element_usage (
+  id BIGSERIAL PRIMARY KEY,
+  site_prefix TEXT NOT NULL,
+  page_slug TEXT NOT NULL,
+  element_group TEXT NOT NULL,
+  element_key TEXT NOT NULL,
+  source_table TEXT,
+  element_value TEXT NOT NULL,
+  element_hash TEXT NOT NULL,
+  used_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_pseo_element_usage_unique
+  ON pseo_element_usage (site_prefix, page_slug, element_group, element_hash);
+CREATE INDEX IF NOT EXISTS idx_pseo_element_usage_group_key
+  ON pseo_element_usage (site_prefix, element_group, element_key);
+
+CREATE OR REPLACE VIEW pseo_element_usage_stats AS
+SELECT
+  site_prefix,
+  element_group,
+  element_key,
+  element_hash,
+  MIN(used_at) AS first_used_at,
+  MAX(used_at) AS last_used_at,
+  COUNT(*)::int AS usage_count,
+  COUNT(DISTINCT page_slug)::int AS page_count,
+  ARRAY_AGG(DISTINCT page_slug ORDER BY page_slug) AS pages
+FROM pseo_element_usage
+GROUP BY site_prefix, element_group, element_key, element_hash;
+
+CREATE OR REPLACE VIEW pseo_element_usage_rollup AS
+SELECT
+  site_prefix,
+  element_group,
+  element_key,
+  COUNT(*)::int AS total_usage_count,
+  COUNT(DISTINCT element_hash)::int AS unique_element_count,
+  COUNT(DISTINCT page_slug)::int AS page_count
+FROM pseo_element_usage
+GROUP BY site_prefix, element_group, element_key;

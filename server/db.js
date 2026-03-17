@@ -1,4 +1,5 @@
 import pg from 'pg';
+import { createHash } from 'crypto';
 
 let pool = null;
 
@@ -14,6 +15,93 @@ const articlesTable = `${SITE_PREFIX}_articles`;
 const seedTable = `${SITE_PREFIX}_seed`;
 const DEFAULT_SITE_NAME = SITE_PREFIX === 'jss' ? 'Jumpstart Scaling' : 'Chris Amaya';
 const DEFAULT_AUTOGEN_SOURCE = SITE_PREFIX === 'jss' ? 'JumpstartScaling_AutoGen' : 'ChrisAmayaWork_AutoGen';
+let pseoUsageInfraEnsured = false;
+
+function hashUsageValue(value) {
+  return createHash('sha1').update(String(value || '')).digest('hex');
+}
+
+async function ensurePseoUsageInfra(p) {
+  if (pseoUsageInfraEnsured) return;
+  await p.query(`
+    CREATE TABLE IF NOT EXISTS pseo_element_usage (
+      id BIGSERIAL PRIMARY KEY,
+      site_prefix TEXT NOT NULL,
+      page_slug TEXT NOT NULL,
+      element_group TEXT NOT NULL,
+      element_key TEXT NOT NULL,
+      source_table TEXT,
+      element_value TEXT NOT NULL,
+      element_hash TEXT NOT NULL,
+      used_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    );
+  `);
+  await p.query(`
+    CREATE UNIQUE INDEX IF NOT EXISTS idx_pseo_element_usage_unique
+    ON pseo_element_usage (site_prefix, page_slug, element_group, element_hash);
+  `);
+  await p.query(`
+    CREATE INDEX IF NOT EXISTS idx_pseo_element_usage_group_key
+    ON pseo_element_usage (site_prefix, element_group, element_key);
+  `);
+  await p.query(`
+    CREATE OR REPLACE VIEW pseo_element_usage_stats AS
+    SELECT
+      site_prefix,
+      element_group,
+      element_key,
+      element_hash,
+      MIN(used_at) AS first_used_at,
+      MAX(used_at) AS last_used_at,
+      COUNT(*)::int AS usage_count,
+      COUNT(DISTINCT page_slug)::int AS page_count,
+      ARRAY_AGG(DISTINCT page_slug ORDER BY page_slug) AS pages
+    FROM pseo_element_usage
+    GROUP BY site_prefix, element_group, element_key, element_hash;
+  `);
+  await p.query(`
+    CREATE OR REPLACE VIEW pseo_element_usage_rollup AS
+    SELECT
+      site_prefix,
+      element_group,
+      element_key,
+      COUNT(*)::int AS total_usage_count,
+      COUNT(DISTINCT element_hash)::int AS unique_element_count,
+      COUNT(DISTINCT page_slug)::int AS page_count
+    FROM pseo_element_usage
+    GROUP BY site_prefix, element_group, element_key;
+  `);
+  pseoUsageInfraEnsured = true;
+}
+
+async function recordPseoElementUsage(p, pageSlug, elements) {
+  if (!elements || elements.length === 0) return;
+  await ensurePseoUsageInfra(p);
+  const deduped = new Map();
+  for (const e of elements) {
+    const elementValue = String(e.value || '').trim();
+    if (!elementValue) continue;
+    const elementHash = hashUsageValue(elementValue);
+    const key = `${SITE_PREFIX}|${pageSlug}|${e.group || 'unknown'}|${elementHash}`;
+    if (deduped.has(key)) continue;
+    deduped.set(key, {
+      group: e.group || 'unknown',
+      elementKey: e.key || 'generic',
+      sourceTable: e.sourceTable || null,
+      value: elementValue,
+      hash: elementHash,
+    });
+  }
+  for (const e of deduped.values()) {
+    await p.query(
+      `INSERT INTO pseo_element_usage
+       (site_prefix, page_slug, element_group, element_key, source_table, element_value, element_hash)
+       VALUES ($1, $2, $3, $4, $5, $6, $7)
+       ON CONFLICT (site_prefix, page_slug, element_group, element_hash) DO NOTHING`,
+      [SITE_PREFIX, pageSlug, e.group, e.elementKey, e.sourceTable, e.value, e.hash]
+    );
+  }
+}
 
 export function getSitePrefix() {
   return SITE_PREFIX;
@@ -385,6 +473,10 @@ export async function getPseoPage(slug) {
     );
     if (!cm.rows[0]) return null;
     const row = cm.rows[0];
+    const usageEvents = [];
+    const trackUsage = (group, key, value, sourceTable) => {
+      usageEvents.push({ group, key, value, sourceTable });
+    };
 
     // Get geo intelligence
     const geoKey = `${row.city.toLowerCase().replace(/[^a-z]/g, '-')}-${row.state.toLowerCase()}`;
@@ -393,6 +485,8 @@ export async function getPseoPage(slug) {
       [geoKey]
     );
     const geoData = geo.rows[0]?.data || { city: row.city, state: row.state, county: '', landmark: '', tech_scene_description: '' };
+    trackUsage('geo', 'cluster_key', geoKey, 'geo_intelligence');
+    trackUsage('geo', 'city_state', `${row.city}, ${row.state}`, 'locations');
 
     // Get spintax dictionaries
     const spintaxRows = await p.query('SELECT category, data FROM spintax_dictionaries');
@@ -473,98 +567,165 @@ export async function getPseoPage(slug) {
       // Spintax dictionary categories
       for (const [cat, variants] of Object.entries(spintax)) {
         const regex = new RegExp(`\\{${cat}\\}`, 'gi');
-        out = out.replace(regex, () => pick(variants));
+        out = out.replace(regex, () => {
+          const selected = pick(variants);
+          trackUsage('spintax', cat, selected, 'spintax_dictionaries');
+          return selected;
+        });
       }
       // Handle {Option1|Option2|Option3} inline spintax
-      out = out.replace(/\{([^{}]+\|[^{}]+)\}/g, (_, choices) => pick(choices.split('|')));
+      out = out.replace(/\{([^{}]+\|[^{}]+)\}/g, (_, choices) => {
+        const selected = pick(choices.split('|'));
+        trackUsage('inline_spintax', 'inline_choice', selected, 'inline');
+        return selected;
+      });
       return out;
     }
 
     function pickFragment(type) {
       const pool = fragments[type];
-      return pool ? resolve(pick(pool)) : '';
+      if (!pool || pool.length === 0) return '';
+      const selected = resolve(pick(pool));
+      trackUsage('fragment', type, selected, 'content_fragments');
+      return selected;
     }
 
     // Assemble blocks
     const blocks = [];
+    const offerData = pick(offers.technical_strategy_session || offers.audit || [{ headline: 'Technical Strategy Session', button_text: 'INITIATE_HANDSHAKE_PROTOCOL' }]);
+    trackUsage('offer', offerData.block_type || 'audit_offer', JSON.stringify(offerData), 'offer_blocks');
 
-    // Hero
-    const heroText = pickFragment('hero_section') || `${row.service_type} ${row.sub_niche} in ${row.city}, ${row.state}`;
-    blocks.push({
-      block_type: 'hero',
-      data: {
-        badge: `${row.service_type.toUpperCase()} IN ${row.city.toUpperCase()}, ${row.state}`,
-        headline: heroText.replace(/^##\s*/, ''),
-        subhead: resolve(pickFragment('intro_hook') || `Expert ${row.service_type} ${row.sub_niche} solutions for ${row.city} businesses.`),
-        cta_label: '< GET_STARTED />',
-        cta_href: '#audit',
-        warning_text: `// ${row.city.toUpperCase()}, ${row.state} — ${row.service_type.toUpperCase()} SPECIALIST`,
-      },
-    });
-
-    // Problem section
-    const problemText = pickFragment('problem_agitation');
-    if (problemText) {
-      blocks.push({
-        block_type: 'terminal_problem',
-        data: {
-          eyebrow: `// THE_PROBLEM_IN_${row.city.toUpperCase().replace(/\s/g, '_')}`,
-          title: problemText.replace(/^##\s*/, ''),
-          body: resolve(`Agencies in ${row.city} face the same scaling bottleneck. ${pick(spintax.pain_agitation || spintax.b2b_pain_points || ['Your current stack is holding you back.'])}`),
-          bullets: (spintax.b2b_pain_points || []).slice(0, 3).map((b) => `⚠ ${b}`),
-          terminal_logs: [
-            { time: '09:01', msg: `[${row.city.toUpperCase()}] ${pick(spintax.b2b_pain_points || ['System bottleneck detected'])}` },
-            { time: '09:05', msg: `[AUDIT] ${row.service_type} gap identified in current stack` },
-          ],
-          status_text: '_ REQUIRES_ARCHITECT',
-        },
-      });
+    function localizeDeep(value) {
+      if (typeof value === 'string') return resolve(value);
+      if (Array.isArray(value)) return value.map(localizeDeep);
+      if (value && typeof value === 'object') {
+        const out = {};
+        for (const [k, v] of Object.entries(value)) out[k] = localizeDeep(v);
+        return out;
+      }
+      return value;
     }
 
-    // Solution cards
-    blocks.push({
-      block_type: 'solution_cards',
-      data: {
-        eyebrow: '// THE_SOLUTION',
-        title: `${row.service_type} ${row.sub_niche} for ${row.city}`,
-        cards: [
-          { title: `< ${row.service_type.toUpperCase().replace(/\s/g, '_')} />`, body: resolve(pick(spintax.tech_value_props || ['Custom-built for your exact needs.'])), border_color: 'neon-blue' },
-          { title: '< SOVEREIGN_INFRA />', body: resolve('Self-hosted on your own VPS. Zero vendor lock-in. Infinite scale. ' + pick(spintax.tech_value_props || [''])), border_color: 'neon-green' },
-          { title: '< GROWTH_ENGINE />', body: resolve(pick(spintax.results_quantified || ['Proven results for scaling agencies.'])), border_color: 'neon-pink' },
-        ],
-      },
-    });
+    const baseCandidates = [
+      `services/${row.service_slug}`,
+      `services/custom-apps/${row.service_slug}`,
+      `solutions/${row.service_slug}`,
+      `service/${row.service_slug}`,
+    ];
+    const baseTemplateQ = await p.query(
+      `SELECT slug, title, blocks
+       FROM ${contentTable}
+       WHERE slug = ANY($1::text[])
+       ORDER BY array_position($1::text[], slug)
+       LIMIT 1`,
+      [baseCandidates]
+    );
+    const baseTemplate = baseTemplateQ.rows[0] || null;
 
-    // Geo bridge
-    const geoBridge = pickFragment('geo_bridge');
-    if (geoBridge || geoData.tech_scene_description) {
+    if (baseTemplate && Array.isArray(baseTemplate.blocks) && baseTemplate.blocks.length > 0) {
+      trackUsage('base_template', 'service_base_page', baseTemplate.slug, contentTable);
+      const localizedBaseBlocks = baseTemplate.blocks.map((block) => {
+        const data = localizeDeep(block.data || {});
+        if (block.block_type === 'hero') {
+          data.badge = `${row.service_type.toUpperCase()} • ${row.city.toUpperCase()}, ${row.state}`;
+          data.headline = resolve(data.headline || `${row.service_type} ${row.sub_niche} in ${row.city}, ${row.state}`);
+          data.subhead = resolve(`${data.subhead || ''} ${pickFragment('intro_hook') || ''}`.trim() || `Specialized delivery for ${row.city}, ${row.state}.`);
+          data.warning_text = `// LOCAL_EXECUTION_IN_${row.city.toUpperCase().replace(/\s/g, '_')}`;
+        }
+        if (block.block_type === 'audit_form') {
+          data.submit_source = `pSEO_${SITE_PREFIX}_${row.city}_${row.service_type}`.replace(/\s/g, '_');
+          data.subhead = resolve(data.subhead || `${row.service_type} ${row.sub_niche} consultation for ${row.city} businesses.`);
+        }
+        return { block_type: block.block_type, data };
+      });
+      blocks.push(...localizedBaseBlocks);
       blocks.push({
         block_type: 'value_prop',
         data: {
-          title: `Why ${row.city}, ${row.state}`,
-          body: `<p>${resolve(geoBridge || geoData.tech_scene_description)}</p>${geoData.landmark ? `<p class="mt-3">Located near <strong>${geoData.landmark}</strong>, we understand the ${row.city} market and build systems that scale with the local economy.</p>` : ''}${geoData.notable_companies ? `<p class="mt-3"><strong>Serving:</strong> ${geoData.notable_companies}</p>` : ''}`,
+          title: `Localized Market Context: ${row.city}, ${row.state}`,
+          body: `<p>${resolve(pickFragment('geo_bridge') || geoData.tech_scene_description || `We localize ${row.service_type} execution to ${row.city}.`)}</p>${geoData.landmark ? `<p class="mt-3">Priority zone near <strong>${geoData.landmark}</strong>.</p>` : ''}${geoData.notable_companies ? `<p class="mt-3"><strong>Notable local companies:</strong> ${geoData.notable_companies}</p>` : ''}`,
         },
       });
-    }
-
-    // Methodology
-    const methodText = pickFragment('methodology');
-    if (methodText) {
       blocks.push({
-        block_type: 'icon_bullets',
+        block_type: 'value_prop',
         data: {
-          title: 'The Process',
-          bullets: [
-            { icon: '🔍', title: 'Discovery', text: `We audit your ${row.city} operations and map every integration point.` },
-            { icon: '📐', title: 'Architecture', text: resolve('Schema, API contracts, and infrastructure locked in 48 hours.') },
-            { icon: '🚀', title: 'Deploy', text: resolve(`Production-grade ${row.service_type} live in 14 days. ${pick(spintax.results_quantified || [''])}`) },
+          title: 'Execution Angle',
+          body: `<p>${resolve(pick(spintax.tech_value_props || ['Custom-built for your exact growth model.']))}</p><p class="mt-3">${resolve(pick(spintax.results_quantified || ['Measured outcomes with clear attribution.']))}</p>`,
+        },
+      });
+    } else {
+      // Fallback: full synthetic assembly if no base service page exists for this tenant.
+      const heroText = pickFragment('hero_section') || `${row.service_type} ${row.sub_niche} in ${row.city}, ${row.state}`;
+      blocks.push({
+        block_type: 'hero',
+        data: {
+          badge: `${row.service_type.toUpperCase()} IN ${row.city.toUpperCase()}, ${row.state}`,
+          headline: heroText.replace(/^##\s*/, ''),
+          subhead: resolve(pickFragment('intro_hook') || `Expert ${row.service_type} ${row.sub_niche} solutions for ${row.city} businesses.`),
+          cta_label: '< GET_STARTED />',
+          cta_href: '#audit',
+          warning_text: `// ${row.city.toUpperCase()}, ${row.state} — ${row.service_type.toUpperCase()} SPECIALIST`,
+        },
+      });
+      const problemText = pickFragment('problem_agitation');
+      if (problemText) {
+        blocks.push({
+          block_type: 'terminal_problem',
+          data: {
+            eyebrow: `// THE_PROBLEM_IN_${row.city.toUpperCase().replace(/\s/g, '_')}`,
+            title: problemText.replace(/^##\s*/, ''),
+            body: resolve(`Agencies in ${row.city} face the same scaling bottleneck. ${pick(spintax.pain_agitation || spintax.b2b_pain_points || ['Your current stack is holding you back.'])}`),
+            bullets: (spintax.b2b_pain_points || []).slice(0, 3).map((b) => `⚠ ${b}`),
+            terminal_logs: [
+              { time: '09:01', msg: `[${row.city.toUpperCase()}] ${pick(spintax.b2b_pain_points || ['System bottleneck detected'])}` },
+              { time: '09:05', msg: `[AUDIT] ${row.service_type} gap identified in current stack` },
+            ],
+            status_text: '_ REQUIRES_ARCHITECT',
+          },
+        });
+      }
+      blocks.push({
+        block_type: 'solution_cards',
+        data: {
+          eyebrow: '// THE_SOLUTION',
+          title: `${row.service_type} ${row.sub_niche} for ${row.city}`,
+          cards: [
+            { title: `< ${row.service_type.toUpperCase().replace(/\s/g, '_')} />`, body: resolve(pick(spintax.tech_value_props || ['Custom-built for your exact needs.'])), border_color: 'neon-blue' },
+            { title: '< SOVEREIGN_INFRA />', body: resolve('Self-hosted on your own VPS. Zero vendor lock-in. Infinite scale. ' + pick(spintax.tech_value_props || [''])), border_color: 'neon-green' },
+            { title: '< GROWTH_ENGINE />', body: resolve(pick(spintax.results_quantified || ['Proven results for scaling agencies.'])), border_color: 'neon-pink' },
+          ],
+        },
+      });
+      blocks.push({
+        block_type: 'authority',
+        data: {
+          title: resolve(pick(spintax.social_proof || ['Trusted by scaling agencies.'])),
+          body: `<p>${resolve(pick(spintax.case_study_tease || ['']))}</p>`,
+          stats: [
+            { value: '14 days', label: 'Average Delivery' },
+            { value: '50+', label: 'Systems Built' },
+            { value: '$10M+', label: 'Revenue Supported' },
           ],
         },
       });
     }
 
-    // Related articles
+    if (!blocks.some((b) => b.block_type === 'audit_form')) {
+      blocks.push({
+        block_type: 'audit_form',
+        data: {
+          title: resolve(offerData.headline || 'Technical Strategy Session'),
+          subhead: `${row.service_type} ${row.sub_niche} consultation for ${row.city} businesses.`,
+          form_title: offerData.button_text || 'INITIATE_HANDSHAKE_PROTOCOL',
+          submit_source: `pSEO_${SITE_PREFIX}_${row.city}_${row.service_type}`.replace(/\s/g, '_'),
+        },
+      });
+    }
+
     if (relatedArticles.length > 0) {
+      for (const article of relatedArticles) {
+        trackUsage('related_article', 'blog_slug', article.slug, articlesTable);
+      }
       const articleLinks = relatedArticles.map((a) => `<li style="margin-bottom:.75rem"><a href="/blog/${a.slug}" style="color:#00FF94;text-decoration:underline;font-weight:700">${a.title}</a>${a.excerpt ? `<br><span style="color:rgba(255,255,255,.5);font-size:.875rem">${a.excerpt}</span>` : ''}</li>`).join('');
       blocks.push({
         block_type: 'value_prop',
@@ -572,35 +733,8 @@ export async function getPseoPage(slug) {
       });
     }
 
-    // Social proof
-    blocks.push({
-      block_type: 'authority',
-      data: {
-        title: resolve(pick(spintax.social_proof || ['Trusted by scaling agencies.'])),
-        body: `<p>${resolve(pick(spintax.case_study_tease || ['']))}</p>`,
-        stats: [
-          { value: '14 days', label: 'Average Delivery' },
-          { value: '50+', label: 'Systems Built' },
-          { value: '$10M+', label: 'Revenue Supported' },
-        ],
-      },
-    });
-
-    // Audit form
-    const offerData = pick(offers.technical_strategy_session || offers.audit || [{ headline: 'Technical Strategy Session', button_text: 'INITIATE_HANDSHAKE_PROTOCOL' }]);
-    blocks.push({
-      block_type: 'audit_form',
-      data: {
-        title: resolve(offerData.headline || 'Technical Strategy Session'),
-        subhead: `${row.service_type} ${row.sub_niche} consultation for ${row.city} businesses.`,
-        form_title: offerData.button_text || 'INITIATE_HANDSHAKE_PROTOCOL',
-        submit_source: `pSEO_${row.city}_${row.service_type}`.replace(/\s/g, '_'),
-      },
-    });
-
-    // Interlinking: Other Services in this City
     const otherServicesQ = await p.query(
-      `SELECT cm.slug, cm.title, ps.service_type, ps.sub_niche
+      `SELECT cm.slug, ps.service_type, ps.sub_niche
        FROM content_matrix cm
        JOIN pseo_services ps ON ps.id = cm.service_id
        JOIN locations l ON l.id = cm.location_id
@@ -609,9 +743,10 @@ export async function getPseoPage(slug) {
       [row.city, row.state, slug]
     );
     if (otherServicesQ.rows.length > 0) {
-      const linkGrid = otherServicesQ.rows.map(s =>
-        `<a href="/${s.slug}" style="display:block;padding:.75rem 1rem;border:1px solid rgba(255,255,255,.08);border-radius:.375rem;text-decoration:none;color:#fff;font-size:.9rem;font-weight:600;transition:border-color .2s,background .2s" onmouseover="this.style.borderColor='rgba(0,255,148,.3)';this.style.background='rgba(0,255,148,.03)'" onmouseout="this.style.borderColor='rgba(255,255,255,.08)';this.style.background='transparent'">${s.service_type} ${s.sub_niche}</a>`
-      ).join('');
+      const linkGrid = otherServicesQ.rows.map((s) => {
+        trackUsage('interlink', 'same_city_other_service', s.slug, 'content_matrix');
+        return `<a href="/${s.slug}" style="display:block;padding:.75rem 1rem;border:1px solid rgba(255,255,255,.08);border-radius:.375rem;text-decoration:none;color:#fff;font-size:.9rem;font-weight:600;transition:border-color .2s,background .2s" onmouseover="this.style.borderColor='rgba(0,255,148,.3)';this.style.background='rgba(0,255,148,.03)'" onmouseout="this.style.borderColor='rgba(255,255,255,.08)';this.style.background='transparent'">${s.service_type} ${s.sub_niche}</a>`;
+      }).join('');
       blocks.push({
         block_type: 'value_prop',
         data: {
@@ -621,9 +756,8 @@ export async function getPseoPage(slug) {
       });
     }
 
-    // Interlinking: Same Service in Nearby Cities
     const nearbyCitiesQ = await p.query(
-      `SELECT cm.slug, cm.title, l.city, l.state
+      `SELECT cm.slug, l.city, l.state
        FROM content_matrix cm
        JOIN locations l ON l.id = cm.location_id
        JOIN pseo_services ps ON ps.id = cm.service_id
@@ -632,9 +766,10 @@ export async function getPseoPage(slug) {
       [row.service_type, row.sub_niche, row.city, row.state]
     );
     if (nearbyCitiesQ.rows.length > 0) {
-      const cityGrid = nearbyCitiesQ.rows.map(c =>
-        `<a href="/${c.slug}" style="display:block;padding:.75rem 1rem;border:1px solid rgba(255,255,255,.08);border-radius:.375rem;text-decoration:none;color:#fff;font-size:.9rem;font-weight:600;transition:border-color .2s,background .2s" onmouseover="this.style.borderColor='rgba(0,255,148,.3)';this.style.background='rgba(0,255,148,.03)'" onmouseout="this.style.borderColor='rgba(255,255,255,.08)';this.style.background='transparent'">${c.city}, ${c.state}</a>`
-      ).join('');
+      const cityGrid = nearbyCitiesQ.rows.map((c) => {
+        trackUsage('interlink', 'same_service_other_city', c.slug, 'content_matrix');
+        return `<a href="/${c.slug}" style="display:block;padding:.75rem 1rem;border:1px solid rgba(255,255,255,.08);border-radius:.375rem;text-decoration:none;color:#fff;font-size:.9rem;font-weight:600;transition:border-color .2s,background .2s" onmouseover="this.style.borderColor='rgba(0,255,148,.3)';this.style.background='rgba(0,255,148,.03)'" onmouseout="this.style.borderColor='rgba(255,255,255,.08)';this.style.background='transparent'">${c.city}, ${c.state}</a>`;
+      }).join('');
       blocks.push({
         block_type: 'value_prop',
         data: {
@@ -644,16 +779,17 @@ export async function getPseoPage(slug) {
       });
     }
 
-    // CTA
-    blocks.push({
-      block_type: 'cta',
-      data: {
-        heading: resolve(pick(spintax.cta_strong || ['Book your strategy session.'])),
-        text: resolve(pick(spintax.final_close || ['The next move is yours.'])),
-        label: 'Book a Strategy Call',
-        href: '/contact',
-      },
-    });
+    if (!blocks.some((b) => b.block_type === 'cta')) {
+      blocks.push({
+        block_type: 'cta',
+        data: {
+          heading: resolve(pick(spintax.cta_strong || ['Book your strategy session.'])),
+          text: resolve(pick(spintax.final_close || ['The next move is yours.'])),
+          label: 'Book a Strategy Call',
+          href: '/contact',
+        },
+      });
+    }
 
     // Save to ${contentTable} permanently
     await p.query(
@@ -662,6 +798,7 @@ export async function getPseoPage(slug) {
        ON CONFLICT (slug) DO NOTHING`,
       [slug, row.title, JSON.stringify(blocks), palette, JSON.stringify(nav), JSON.stringify(footer)]
     );
+    await recordPseoElementUsage(p, slug, usageEvents);
 
     return {
       page: { id: slug, title: row.title, slug },
