@@ -8,6 +8,126 @@ function esc(s) {
     .replace(/"/g, '&quot;');
 }
 
+function escJsJson(value) {
+  return JSON.stringify(value || []).replace(/</g, '\\u003c');
+}
+
+function renderDbSurvey(d, defaultFormType) {
+  const sectionTitle = d.section_title || 'Survey';
+  const intro = d.intro || '';
+  const submitLabel = d.submit_label || 'Submit';
+  const submitSource = d.submit_source || 'Survey';
+  const formType = d.form_type || defaultFormType;
+  const questions = Array.isArray(d.questions) ? d.questions : [];
+  if (!questions.length) return '';
+  const surveyId = `survey-${Math.random().toString(36).slice(2, 10)}`;
+  const questionsJson = escJsJson(questions);
+  return `
+<section class="py-24" style="background:#050505;color:#fff">
+  <div class="container mx-auto px-6">
+    <div class="max-w-3xl mx-auto p-8 rounded-2xl border border-white/10">
+      <h2 class="text-3xl font-bold text-center mb-4">${esc(sectionTitle)}</h2>
+      ${intro ? `<p class="text-white/70 text-center" style="margin-bottom:1.25rem">${esc(intro)}</p>` : ''}
+      <div id="${surveyId}" data-source="${esc(submitSource)}" data-form-type="${esc(formType)}" data-submit-label="${esc(submitLabel)}">
+        <div class="text-sm text-white/60 text-center mb-4" data-survey-progress></div>
+        <div data-survey-question></div>
+        <div class="flex" style="gap:.75rem;justify-content:space-between;margin-top:1rem">
+          <button type="button" data-survey-prev style="padding:.65rem 1rem;border-radius:.45rem;border:1px solid rgba(255,255,255,.2);background:transparent;color:#fff">Back</button>
+          <button type="button" data-survey-next style="padding:.65rem 1rem;border-radius:.45rem;border:none;background:var(--neon-green);color:#050505;font-weight:700">Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function() {
+      var root = document.getElementById('${surveyId}');
+      if (!root) return;
+      var source = root.getAttribute('data-source') || 'Survey';
+      var formType = root.getAttribute('data-form-type') || 'survey';
+      var submitLabel = root.getAttribute('data-submit-label') || 'Submit';
+      var progressEl = root.querySelector('[data-survey-progress]');
+      var questionEl = root.querySelector('[data-survey-question]');
+      var prevBtn = root.querySelector('[data-survey-prev]');
+      var nextBtn = root.querySelector('[data-survey-next]');
+      var questions = ${questionsJson};
+      var answers = {};
+      var idx = 0;
+
+      function getValue(q) { return answers[q.id] || ''; }
+      function setValue(q, v) { answers[q.id] = v; }
+      function requiredMissing(q) { return !!q.required && !String(getValue(q) || '').trim(); }
+      function render() {
+        var q = questions[idx];
+        progressEl.textContent = 'Step ' + (idx + 1) + ' of ' + questions.length;
+        var val = getValue(q);
+        var html = '<label style="display:block;font-weight:700;margin-bottom:.5rem">' + (q.label || '') + '</label>';
+        if (q.help_text) html += '<p style="color:rgba(255,255,255,.6);font-size:.9rem;margin-bottom:.6rem">' + q.help_text + '</p>';
+        if (q.type === 'single' && Array.isArray(q.options)) {
+          html += q.options.map(function(opt) {
+            var selected = val === opt;
+            return '<button type="button" data-opt=\"' + String(opt).replace(/"/g, '&quot;') + '\" style="display:block;width:100%;text-align:left;padding:.7rem .8rem;margin-top:.5rem;border-radius:.45rem;border:1px solid ' + (selected ? 'var(--neon-green)' : 'rgba(255,255,255,.2)') + ';background:' + (selected ? 'rgba(255,255,255,.06)' : 'transparent') + ';color:#fff">' + opt + '</button>';
+          }).join('');
+        } else if (q.type === 'textarea') {
+          html += '<textarea data-input rows="4" placeholder="' + (q.placeholder || '') + '" style="width:100%;background:#111;border:1px solid rgba(255,255,255,.25);color:#fff;padding:.65rem .9rem;font-size:.875rem;border-radius:.25rem;resize:vertical;min-height:100px">' + (val || '') + '</textarea>';
+        } else {
+          var inputType = q.type === 'email' ? 'email' : 'text';
+          html += '<input data-input type="' + inputType + '" value="' + (val || '') + '" placeholder="' + (q.placeholder || '') + '" style="width:100%;background:#111;border:1px solid rgba(255,255,255,.25);color:#fff;padding:.65rem .9rem;font-size:.875rem;border-radius:.25rem" />';
+        }
+        if (requiredMissing(q)) html += '<p style="color:#ff6b6b;font-size:.82rem;margin-top:.5rem">This field is required.</p>';
+        questionEl.innerHTML = html;
+        prevBtn.disabled = idx === 0;
+        prevBtn.style.opacity = idx === 0 ? '.5' : '1';
+        nextBtn.textContent = idx === questions.length - 1 ? submitLabel : 'Next';
+
+        questionEl.querySelectorAll('[data-opt]').forEach(function(btn) {
+          btn.addEventListener('click', function() { setValue(q, btn.getAttribute('data-opt')); render(); });
+        });
+        var input = questionEl.querySelector('[data-input]');
+        if (input) input.addEventListener('input', function() { setValue(q, input.value); });
+      }
+
+      async function submit() {
+        var payload = Object.assign({}, answers, { source: source, form_type: formType });
+        nextBtn.disabled = true;
+        var old = nextBtn.textContent;
+        nextBtn.textContent = 'Submitting...';
+        try {
+          var r = await fetch('/api/submit-lead', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          if (!r.ok) throw new Error('submit failed');
+          questionEl.innerHTML = '<p style="color:var(--neon-green);font-weight:700">Submitted successfully.</p>';
+          progressEl.textContent = '';
+          prevBtn.style.display = 'none';
+          nextBtn.style.display = 'none';
+        } catch (e) {
+          nextBtn.disabled = false;
+          nextBtn.textContent = old;
+          questionEl.insertAdjacentHTML('beforeend', '<p style="color:#ff6b6b;font-size:.82rem;margin-top:.5rem">Submission failed. Try again.</p>');
+        }
+      }
+
+      prevBtn.addEventListener('click', function() {
+        if (idx > 0) { idx -= 1; render(); }
+      });
+
+      nextBtn.addEventListener('click', function() {
+        var q = questions[idx];
+        var input = questionEl.querySelector('[data-input]');
+        if (input) setValue(q, input.value);
+        if (requiredMissing(q)) { render(); return; }
+        if (idx === questions.length - 1) { submit(); return; }
+        idx += 1; render();
+      });
+
+      render();
+    })();
+  </script>
+</section>`;
+}
+
 function renderBlock(block) {
   const d = block.data || {};
   switch (block.block_type) {
@@ -216,6 +336,7 @@ function renderBlock(block) {
 </section>`;
     }
     case 'survey': {
+      if (Array.isArray(d.questions) && d.questions.length) return renderDbSurvey(d, 'survey');
       const sectionTitle = d.section_title || "Let's Build It Right.";
       const primaryLabel = d.primary_label || 'Fill out the strategy form above';
       const primaryHref = d.primary_href || '#audit';
@@ -234,6 +355,8 @@ function renderBlock(block) {
   </div>
 </section>`;
     }
+    case 'audit_survey':
+      return renderDbSurvey(d, 'audit_survey');
     case 'diagnosis': {
       const eyebrow = d.eyebrow || '';
       const title = d.title || '';
