@@ -30,3 +30,5 @@ Standard commands are in `README.md` and `package.json` scripts. Key sequence:
 - Many dependencies in `package.json` (Astro, React, Three.js, etc.) are legacy from an abandoned frontend in `trash/`. Only `fastify`, `@fastify/view`, `@fastify/static`, `ejs`, and `pg` are used by the active SSR server.
 - `npm run dev` uses `node --watch` for hot reload. Restarting the process is needed after installing new deps.
 - There is no lint or test configuration in this project. No ESLint, no test framework.
+- The `db:seed:jss` script does not exist in `package.json`. Only `db:seed` is available.
+- Docker and `fuse-overlayfs` are pre-installed in the VM snapshot. The update script only refreshes `node_modules` when the cache is stale; Docker/Postgres startup must be done manually each session (see steps 1-2 above).
