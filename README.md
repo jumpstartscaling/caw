@@ -30,6 +30,12 @@ Seed Jumpstart Scaling tenant:
 DATABASE_URL=... npm run db:seed:jss
 ```
 
+Generate long-form pSEO pages (default `SITE_PREFIX=jss`, 5 services per article+city, ~2000 words/page):
+
+```bash
+SITE_PREFIX=jss DATABASE_URL=... NODE_TLS_REJECT_UNAUTHORIZED=0 npm run pseo:generate:longform
+```
+
 Set `SITE_PREFIX` per deployment:
 
 - `SITE_PREFIX=caw` for chrisamaya.work

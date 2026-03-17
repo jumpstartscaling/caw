@@ -28,6 +28,30 @@ const DEFAULT_SITE_DESCRIPTION = process.env.SITE_DESCRIPTION
     : 'Stop hiring freelancers. Start building an empire.');
 const DEFAULT_LEAD_SOURCE = process.env.LEAD_SOURCE || (TENANT_PREFIX === 'jss' ? 'JumpstartScaling' : 'ChrisAmayaWork');
 
+function getCalculatorLinksFromPage(pageData) {
+  const blocks = pageData?.blocks || [];
+  for (const block of blocks) {
+    if (block?.block_type === 'calculator' && Array.isArray(block?.data?.links) && block.data.links.length > 0) {
+      return block.data.links.slice(0, 6).map((link) => ({
+        href: link.href || '/resources/calculators',
+        label: link.label || 'Calculator',
+        description: link.description || '',
+      }));
+    }
+  }
+  return [
+    { href: '/resources/calculators', label: 'Calculator Hub', description: 'Model growth scenarios before implementation.' },
+    { href: '/tools', label: 'Tool Index', description: 'Browse all calculators and scenario tools.' },
+  ];
+}
+
+function renderCalculatorGrid(links, heading = 'Planning Calculators') {
+  const cards = (links || []).map((link) => (
+    `<a href="${link.href}" style="display:block;padding:.95rem;border:1px solid rgba(255,255,255,.12);border-radius:.55rem;text-decoration:none;transition:border-color .2s" onmouseover="this.style.borderColor='rgba(0,255,148,.35)'" onmouseout="this.style.borderColor='rgba(255,255,255,.12)'"><h4 style="font-size:.95rem;font-weight:700;color:#fff;margin-bottom:.25rem">${link.label}</h4>${link.description ? `<p style="font-size:.8rem;color:rgba(255,255,255,.55);margin:0">${link.description}</p>` : ''}</a>`
+  )).join('');
+  return `<section style="background:#050505;padding:1rem 0 4rem"><div style="max-width:1400px;margin:0 auto;padding:0 1.5rem"><h3 style="font-family:ui-monospace,monospace;font-size:.95rem;color:#00FF94;margin-bottom:1rem">// ${heading.toUpperCase().replace(/[^A-Z0-9 ]/g, '')}</h3><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.75rem">${cards}</div></div></section>`;
+}
+
 await fastify.register(fastifyView, {
   engine: { ejs },
   root: join(ROOT, 'views'),
@@ -224,15 +248,16 @@ fastify.get('/blog/rss.xml', async (req, reply) => {
 
 // Main directory: /locations
 fastify.get('/locations', async (req, reply) => {
-  const [locations, pageData] = await Promise.all([getAllLocations(), getPageData('')]);
+  const [locations, pageData, calculatorPage] = await Promise.all([getAllLocations(), getPageData(''), getPageData('resources/calculators')]);
   const nav = pageData?.nav || {}; const footer = pageData?.footer || {};
+  const calculatorGrid = renderCalculatorGrid(getCalculatorLinksFromPage(calculatorPage), 'Location planning calculators');
   const byState = {};
   for (const l of locations) { if (!byState[l.state]) byState[l.state] = []; byState[l.state].push(l); }
   const stateCards = Object.entries(byState).sort().map(([state, cities]) => {
     const links = cities.map(c => `<a href="/locations/${c.slug}" style="display:block;padding:.4rem 0;color:rgba(255,255,255,.7);font-size:.9rem;text-decoration:none;transition:color .2s" onmouseover="this.style.color='#00FF94'" onmouseout="this.style.color='rgba(255,255,255,.7)'">${c.city}</a>`).join('');
     return `<div style="padding:1.25rem;border:1px solid rgba(255,255,255,.08);border-radius:.5rem"><h3 style="font-family:ui-monospace,monospace;font-size:.85rem;color:#00B8FF;text-transform:uppercase;margin-bottom:.75rem">${state}</h3>${links}</div>`;
   }).join('');
-  const body = `<section style="background:#050505;padding:6rem 0 2rem"><div style="max-width:1400px;margin:0 auto;padding:0 1.5rem;text-align:center"><span style="display:inline-block;font-family:ui-monospace,monospace;font-size:.85rem;color:#00FF94;border:1px solid rgba(0,255,148,.3);padding:.4rem 1rem;margin-bottom:1.5rem;text-transform:uppercase">LOCATIONS</span><h1 style="font-size:2.5rem;font-weight:900;color:#fff;margin-bottom:.5rem;letter-spacing:-2px">Service Areas</h1><p style="color:rgba(255,255,255,.5);font-family:ui-monospace,monospace;margin-bottom:2rem">${locations.length} cities across the US</p></div></section><section style="background:#050505;padding:2rem 0 4rem"><div style="max-width:1400px;margin:0 auto;padding:0 1.5rem"><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem">${stateCards}</div></div></section>`;
+  const body = `<section style="background:#050505;padding:6rem 0 2rem"><div style="max-width:1400px;margin:0 auto;padding:0 1.5rem;text-align:center"><span style="display:inline-block;font-family:ui-monospace,monospace;font-size:.85rem;color:#00FF94;border:1px solid rgba(0,255,148,.3);padding:.4rem 1rem;margin-bottom:1.5rem;text-transform:uppercase">LOCATIONS</span><h1 style="font-size:2.5rem;font-weight:900;color:#fff;margin-bottom:.5rem;letter-spacing:-2px">Service Areas</h1><p style="color:rgba(255,255,255,.5);font-family:ui-monospace,monospace;margin-bottom:2rem">${locations.length} cities across the US</p></div></section><section style="background:#050505;padding:2rem 0 4rem"><div style="max-width:1400px;margin:0 auto;padding:0 1.5rem"><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem">${stateCards}</div></div></section>${calculatorGrid}`;
   return reply.viewAsync('page.ejs', { title: `Service Areas | ${DEFAULT_SITE_NAME}`, description: DEFAULT_SITE_DESCRIPTION, siteName: footer?.copyright || DEFAULT_SITE_NAME, nav, footer, palette: 'emerald', blocksHtml: body, currentPath: '/locations' });
 });
 
@@ -240,20 +265,22 @@ fastify.get('/locations', async (req, reply) => {
 fastify.get('/locations/:slug', async (req, reply) => {
   const { location, geo, pages } = await getLocationPages(req.params.slug);
   if (!location) { reply.code(404); return reply.viewAsync('404.ejs', { siteName: DEFAULT_SITE_NAME, currentPath: req.url, suggestions: [], nav: {}, footer: {} }); }
-  const pageData = await getPageData('');
+  const [pageData, calculatorPage] = await Promise.all([getPageData(''), getPageData('resources/calculators')]);
   const nav = pageData?.nav || {}; const footer = pageData?.footer || {};
+  const calculatorGrid = renderCalculatorGrid(getCalculatorLinksFromPage(calculatorPage), `${location.city} calculators`);
   const serviceCards = pages.map(p => `<a href="/${p.slug}" style="display:block;padding:1rem;border:1px solid rgba(255,255,255,.08);border-radius:.5rem;text-decoration:none;transition:border-color .2s" onmouseover="this.style.borderColor='rgba(0,255,148,.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,.08)'"><h4 style="font-size:.95rem;font-weight:700;color:#fff;margin-bottom:.2rem">${p.service_type} ${p.sub_niche}</h4>${p.description ? `<p style="font-size:.8rem;color:rgba(255,255,255,.5);margin:.25rem 0 .4rem;line-height:1.4" class="description">${p.description}</p>` : ''}<span style="font-size:.75rem;color:rgba(255,255,255,.4);font-family:ui-monospace,monospace">/${p.slug}</span></a>`).join('');
   const geoInfo = geo.landmark ? `<p style="color:rgba(255,255,255,.5);font-size:.9rem;margin-bottom:.5rem">Near <strong style="color:#fff">${geo.landmark}</strong>${geo.county ? ` · ${geo.county} County` : ''}</p>` : '';
-  const body = `<section style="background:#050505;padding:6rem 0 2rem"><div style="max-width:1400px;margin:0 auto;padding:0 1.5rem;text-align:center"><span style="display:inline-block;font-family:ui-monospace,monospace;font-size:.85rem;color:#00FF94;border:1px solid rgba(0,255,148,.3);padding:.4rem 1rem;margin-bottom:1.5rem;text-transform:uppercase">${location.state}</span><h1 style="font-size:2.5rem;font-weight:900;color:#fff;margin-bottom:.5rem;letter-spacing:-2px">Services in ${location.city}, ${location.state}</h1>${geoInfo}<p style="color:rgba(255,255,255,.4);font-family:ui-monospace,monospace;font-size:.85rem">${pages.length} services available</p><a href="/locations" style="display:inline-block;margin-top:1rem;font-size:.8rem;color:rgba(255,255,255,.4);font-family:ui-monospace,monospace;text-decoration:none">&larr; All Locations</a></div></section><section style="background:#050505;padding:2rem 0 4rem"><div style="max-width:1400px;margin:0 auto;padding:0 1.5rem"><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:.75rem">${serviceCards}</div></div></section>`;
+  const body = `<section style="background:#050505;padding:6rem 0 2rem"><div style="max-width:1400px;margin:0 auto;padding:0 1.5rem;text-align:center"><span style="display:inline-block;font-family:ui-monospace,monospace;font-size:.85rem;color:#00FF94;border:1px solid rgba(0,255,148,.3);padding:.4rem 1rem;margin-bottom:1.5rem;text-transform:uppercase">${location.state}</span><h1 style="font-size:2.5rem;font-weight:900;color:#fff;margin-bottom:.5rem;letter-spacing:-2px">Services in ${location.city}, ${location.state}</h1>${geoInfo}<p style="color:rgba(255,255,255,.4);font-family:ui-monospace,monospace;font-size:.85rem">${pages.length} services available</p><a href="/locations" style="display:inline-block;margin-top:1rem;font-size:.8rem;color:rgba(255,255,255,.4);font-family:ui-monospace,monospace;text-decoration:none">&larr; All Locations</a></div></section><section style="background:#050505;padding:2rem 0 4rem"><div style="max-width:1400px;margin:0 auto;padding:0 1.5rem"><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:.75rem">${serviceCards}</div></div></section>${calculatorGrid}`;
   return reply.viewAsync('page.ejs', { title: `Services in ${location.city}, ${location.state} | ${DEFAULT_SITE_NAME}`, description: DEFAULT_SITE_DESCRIPTION, siteName: footer?.copyright || DEFAULT_SITE_NAME, nav, footer, palette: 'emerald', blocksHtml: body, currentPath: `/locations/${req.params.slug}` });
 });
 
 // Main services directory: /solutions
 fastify.get('/solutions', async (req, reply) => {
-  const [services, pageData] = await Promise.all([getAllServices(), getPageData('')]);
+  const [services, pageData, calculatorPage] = await Promise.all([getAllServices(), getPageData(''), getPageData('resources/calculators')]);
   const nav = pageData?.nav || {}; const footer = pageData?.footer || {};
+  const calculatorGrid = renderCalculatorGrid(getCalculatorLinksFromPage(calculatorPage), 'Solution planning calculators');
   const cards = services.map(s => `<a href="/solutions/${s.slug}" style="display:block;padding:1.25rem;border:1px solid rgba(255,255,255,.08);border-radius:.5rem;text-decoration:none;transition:border-color .2s,background .2s" onmouseover="this.style.borderColor='rgba(0,255,148,.3)';this.style.background='rgba(0,255,148,.02)'" onmouseout="this.style.borderColor='rgba(255,255,255,.08)';this.style.background='transparent'"><h3 style="font-size:1.05rem;font-weight:700;color:#fff;margin-bottom:.25rem">${s.service_type}</h3><p style="font-size:.8rem;color:rgba(255,255,255,.5);margin:0">${s.sub_niche}</p></a>`).join('');
-  const body = `<section style="background:#050505;padding:6rem 0 2rem"><div style="max-width:1400px;margin:0 auto;padding:0 1.5rem;text-align:center"><span style="display:inline-block;font-family:ui-monospace,monospace;font-size:.85rem;color:#00FF94;border:1px solid rgba(0,255,148,.3);padding:.4rem 1rem;margin-bottom:1.5rem;text-transform:uppercase">SOLUTIONS</span><h1 style="font-size:2.5rem;font-weight:900;color:#fff;margin-bottom:.5rem;letter-spacing:-2px">What I Build</h1><p style="color:rgba(255,255,255,.5);font-family:ui-monospace,monospace;margin-bottom:2rem">${services.length} service categories across 50 cities</p></div></section><section style="background:#050505;padding:2rem 0 4rem"><div style="max-width:1400px;margin:0 auto;padding:0 1.5rem"><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem">${cards}</div></div></section>`;
+  const body = `<section style="background:#050505;padding:6rem 0 2rem"><div style="max-width:1400px;margin:0 auto;padding:0 1.5rem;text-align:center"><span style="display:inline-block;font-family:ui-monospace,monospace;font-size:.85rem;color:#00FF94;border:1px solid rgba(0,255,148,.3);padding:.4rem 1rem;margin-bottom:1.5rem;text-transform:uppercase">SOLUTIONS</span><h1 style="font-size:2.5rem;font-weight:900;color:#fff;margin-bottom:.5rem;letter-spacing:-2px">What I Build</h1><p style="color:rgba(255,255,255,.5);font-family:ui-monospace,monospace;margin-bottom:2rem">${services.length} service categories across 50 cities</p></div></section><section style="background:#050505;padding:2rem 0 4rem"><div style="max-width:1400px;margin:0 auto;padding:0 1.5rem"><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem">${cards}</div></div></section>${calculatorGrid}`;
   return reply.viewAsync('page.ejs', { title: `Solutions | ${DEFAULT_SITE_NAME}`, description: DEFAULT_SITE_DESCRIPTION, siteName: footer?.copyright || DEFAULT_SITE_NAME, nav, footer, palette: 'emerald', blocksHtml: body, currentPath: '/solutions' });
 });
 
@@ -261,15 +288,16 @@ fastify.get('/solutions', async (req, reply) => {
 fastify.get('/solutions/:slug', async (req, reply) => {
   const { service, pages } = await getServicePages(req.params.slug);
   if (!service) { reply.code(404); return reply.viewAsync('404.ejs', { siteName: DEFAULT_SITE_NAME, currentPath: req.url, suggestions: [], nav: {}, footer: {} }); }
-  const pageData = await getPageData('');
+  const [pageData, calculatorPage] = await Promise.all([getPageData(''), getPageData('resources/calculators')]);
   const nav = pageData?.nav || {}; const footer = pageData?.footer || {};
+  const calculatorGrid = renderCalculatorGrid(getCalculatorLinksFromPage(calculatorPage), `${service.service_type} calculators`);
   const byState = {};
   for (const p of pages) { if (!byState[p.state]) byState[p.state] = []; byState[p.state].push(p); }
   const stateGroups = Object.entries(byState).sort().map(([state, cities]) => {
     const links = cities.map(c => `<a href="/${c.slug}" style="display:block;padding:.5rem .75rem;color:rgba(255,255,255,.7);font-size:.9rem;text-decoration:none;border:1px solid rgba(255,255,255,.06);border-radius:.375rem;transition:all .2s" onmouseover="this.style.borderColor='rgba(0,255,148,.3)';this.style.color='#00FF94'" onmouseout="this.style.borderColor='rgba(255,255,255,.06)';this.style.color='rgba(255,255,255,.7)'">${c.city}, ${c.state}</a>`).join('');
     return `<div><h3 style="font-family:ui-monospace,monospace;font-size:.8rem;color:#00B8FF;text-transform:uppercase;margin-bottom:.5rem">${state}</h3><div style="display:grid;gap:.4rem">${links}</div></div>`;
   }).join('');
-  const body = `<section style="background:#050505;padding:6rem 0 2rem"><div style="max-width:1400px;margin:0 auto;padding:0 1.5rem;text-align:center"><span style="display:inline-block;font-family:ui-monospace,monospace;font-size:.85rem;color:#00FF94;border:1px solid rgba(0,255,148,.3);padding:.4rem 1rem;margin-bottom:1.5rem;text-transform:uppercase">${service.service_type}</span><h1 style="font-size:2.5rem;font-weight:900;color:#fff;margin-bottom:.5rem;letter-spacing:-2px">${service.service_type} ${service.sub_niche}</h1><p style="color:rgba(255,255,255,.5);font-family:ui-monospace,monospace;margin-bottom:1rem">Available in ${pages.length} cities</p><a href="/solutions" style="display:inline-block;font-size:.8rem;color:rgba(255,255,255,.4);font-family:ui-monospace,monospace;text-decoration:none">&larr; All Solutions</a></div></section><section style="background:#050505;padding:2rem 0 4rem"><div style="max-width:1400px;margin:0 auto;padding:0 1.5rem"><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1.5rem">${stateGroups}</div></div></section>`;
+  const body = `<section style="background:#050505;padding:6rem 0 2rem"><div style="max-width:1400px;margin:0 auto;padding:0 1.5rem;text-align:center"><span style="display:inline-block;font-family:ui-monospace,monospace;font-size:.85rem;color:#00FF94;border:1px solid rgba(0,255,148,.3);padding:.4rem 1rem;margin-bottom:1.5rem;text-transform:uppercase">${service.service_type}</span><h1 style="font-size:2.5rem;font-weight:900;color:#fff;margin-bottom:.5rem;letter-spacing:-2px">${service.service_type} ${service.sub_niche}</h1><p style="color:rgba(255,255,255,.5);font-family:ui-monospace,monospace;margin-bottom:1rem">Available in ${pages.length} cities</p><a href="/solutions" style="display:inline-block;font-size:.8rem;color:rgba(255,255,255,.4);font-family:ui-monospace,monospace;text-decoration:none">&larr; All Solutions</a></div></section><section style="background:#050505;padding:2rem 0 4rem"><div style="max-width:1400px;margin:0 auto;padding:0 1.5rem"><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1.5rem">${stateGroups}</div></div></section>${calculatorGrid}`;
   return reply.viewAsync('page.ejs', { title: `${service.service_type} ${service.sub_niche} | ${DEFAULT_SITE_NAME}`, description: DEFAULT_SITE_DESCRIPTION, siteName: footer?.copyright || DEFAULT_SITE_NAME, nav, footer, palette: 'emerald', blocksHtml: body, currentPath: `/solutions/${req.params.slug}` });
 });
 

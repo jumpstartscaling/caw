@@ -11,7 +11,8 @@
     "astro": "astro",
     "db:up": "docker compose up -d postgres",
     "db:seed": "node scripts/seed-chrisamaya.mjs",
-    "db:seed:jss": "node scripts/seed-jumpstartscaling.mjs"
+    "db:seed:jss": "node scripts/seed-jumpstartscaling.mjs",
+    "pseo:generate:longform": "node scripts/generate-pseo-longform.mjs"
   },
   "dependencies": {
     "@fastify/static": "^9.0.0",

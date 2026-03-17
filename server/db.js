@@ -509,6 +509,14 @@ export async function getPseoPage(slug) {
       offers[o.block_type].push(o.data);
     }
 
+    // Calculator/tool pages for calculator grid blocks
+    const calcRows = await p.query(
+      `SELECT slug, title FROM ${contentTable}
+       WHERE slug = 'resources/calculators' OR slug LIKE 'tools/%'
+       ORDER BY slug LIMIT 16`
+    );
+    const calculatorPages = calcRows.rows || [];
+
     // Get related articles
     const serviceKeywords = row.service_slug.split('-').filter((w) => w.length > 3);
     let relatedArticles = [];
@@ -780,6 +788,28 @@ export async function getPseoPage(slug) {
     }
 
     if (!blocks.some((b) => b.block_type === 'cta')) {
+      const toolPages = calculatorPages.filter((row) => String(row.slug || '').startsWith('tools/'));
+      const pickedTools = toolPages.sort(() => 0.5 - Math.random()).slice(0, 3);
+      const calcLinks = [
+        {
+          href: '/resources/calculators',
+          label: 'Open Growth Calculator Hub',
+          description: `Model ${row.service_type.toLowerCase()} scenarios for ${row.city}.`,
+        },
+        ...pickedTools.map((tool) => ({ href: `/${tool.slug}`, label: tool.title || tool.slug, description: `Scenario planning for ${row.service_type}.` })),
+      ];
+      for (const link of calcLinks) {
+        trackUsage('calculator', 'calculator_link', link.href, contentTable);
+      }
+      blocks.push({
+        block_type: 'calculator',
+        data: {
+          section_title: 'Planning Calculators',
+          text: `Use these tools before implementation in ${row.city}, ${row.state}.`,
+          links: calcLinks,
+        },
+      });
+
       blocks.push({
         block_type: 'cta',
         data: {
