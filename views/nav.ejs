@@ -90,6 +90,17 @@
           </li>
         <% } %>
 
+        <% if (growthTools.length) { %>
+          <li class="nav-dropdown">
+            <button type="button" aria-haspopup="true" aria-expanded="false">Tools</button>
+            <ul class="nav-dropdown-menu" role="menu" aria-label="Growth tools">
+              <% growthTools.forEach(function(item){ %>
+                <li role="none"><a href="<%= item.href %>" role="menuitem"><%= item.name %></a></li>
+              <% }); %>
+            </ul>
+          </li>
+        <% } %>
+
         <li>
           <a href="<%= ctaHref %>"
             style="display:inline-flex;align-items:center;padding:.6rem 1.4rem;background:var(--neon-green);color:#050505;font-weight:700;font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;border-radius:.5rem;min-height:44px;white-space:nowrap">

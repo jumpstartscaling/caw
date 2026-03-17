@@ -52,6 +52,14 @@ function renderCalculatorGrid(links, heading = 'Planning Calculators') {
   return `<section style="background:#050505;padding:1rem 0 4rem"><div style="max-width:1400px;margin:0 auto;padding:0 1.5rem"><h3 style="font-family:ui-monospace,monospace;font-size:.95rem;color:#00FF94;margin-bottom:1rem">// ${heading.toUpperCase().replace(/[^A-Z0-9 ]/g, '')}</h3><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.75rem">${cards}</div></div></section>`;
 }
 
+function humanizeSlug(slug) {
+  return String(slug || '')
+    .split('-')
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ');
+}
+
 await fastify.register(fastifyView, {
   engine: { ejs },
   root: join(ROOT, 'views'),
@@ -299,6 +307,110 @@ fastify.get('/solutions/:slug', async (req, reply) => {
   }).join('');
   const body = `<section style="background:#050505;padding:6rem 0 2rem"><div style="max-width:1400px;margin:0 auto;padding:0 1.5rem;text-align:center"><span style="display:inline-block;font-family:ui-monospace,monospace;font-size:.85rem;color:#00FF94;border:1px solid rgba(0,255,148,.3);padding:.4rem 1rem;margin-bottom:1.5rem;text-transform:uppercase">${service.service_type}</span><h1 style="font-size:2.5rem;font-weight:900;color:#fff;margin-bottom:.5rem;letter-spacing:-2px">${service.service_type} ${service.sub_niche}</h1><p style="color:rgba(255,255,255,.5);font-family:ui-monospace,monospace;margin-bottom:1rem">Available in ${pages.length} cities</p><a href="/solutions" style="display:inline-block;font-size:.8rem;color:rgba(255,255,255,.4);font-family:ui-monospace,monospace;text-decoration:none">&larr; All Solutions</a></div></section><section style="background:#050505;padding:2rem 0 4rem"><div style="max-width:1400px;margin:0 auto;padding:0 1.5rem"><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1.5rem">${stateGroups}</div></div></section>${calculatorGrid}`;
   return reply.viewAsync('page.ejs', { title: `${service.service_type} ${service.sub_niche} | ${DEFAULT_SITE_NAME}`, description: DEFAULT_SITE_DESCRIPTION, siteName: footer?.copyright || DEFAULT_SITE_NAME, nav, footer, palette: 'emerald', blocksHtml: body, currentPath: `/solutions/${req.params.slug}` });
+});
+
+// Long-form pSEO discovery index: /insights
+fastify.get('/insights', async (req, reply) => {
+  const p = getPool();
+  const [pageData, calculatorPage] = await Promise.all([getPageData(''), getPageData('resources/calculators')]);
+  const nav = pageData?.nav || {};
+  const footer = pageData?.footer || {};
+  const calculatorGrid = renderCalculatorGrid(getCalculatorLinksFromPage(calculatorPage), 'Insights planning calculators');
+
+  let articleCards = '';
+  let recentCards = '';
+  let totalPages = 0;
+  if (p) {
+    const [groups, recent, total] = await Promise.all([
+      p.query(
+        `SELECT
+           split_part(slug, '/', 2) AS article_slug,
+           COUNT(*)::int AS page_count,
+           COUNT(DISTINCT COALESCE(local_seo->>'city',''))::int AS city_count,
+           AVG(COALESCE((local_seo->>'longform_words')::int, 0))::int AS avg_words
+         FROM ${TENANT_TABLES.content}
+         WHERE source = 'pseo-longform' AND slug LIKE 'insights/%/%'
+         GROUP BY 1
+         ORDER BY page_count DESC, article_slug`
+      ),
+      p.query(
+        `SELECT slug, title,
+                COALESCE(local_seo->>'city','') AS city,
+                COALESCE(local_seo->>'state','') AS state,
+                COALESCE(local_seo->>'service_type','') AS service_type
+         FROM ${TENANT_TABLES.content}
+         WHERE source = 'pseo-longform' AND slug LIKE 'insights/%/%'
+         ORDER BY created_at DESC
+         LIMIT 24`
+      ),
+      p.query(
+        `SELECT COUNT(*)::int AS n
+         FROM ${TENANT_TABLES.content}
+         WHERE source = 'pseo-longform' AND slug LIKE 'insights/%/%'`
+      ),
+    ]);
+    totalPages = total.rows[0]?.n || 0;
+    articleCards = groups.rows.map((row) =>
+      `<a href="/insights/${row.article_slug}" style="display:block;padding:1rem;border:1px solid rgba(255,255,255,.1);border-radius:.5rem;text-decoration:none;background:rgba(255,255,255,.01);transition:border-color .2s" onmouseover="this.style.borderColor='rgba(0,255,148,.35)'" onmouseout="this.style.borderColor='rgba(255,255,255,.1)'"><h3 style="font-size:1rem;font-weight:700;color:#fff;margin-bottom:.4rem">${humanizeSlug(row.article_slug)}</h3><p style="font-size:.8rem;color:rgba(255,255,255,.6);margin:0">${row.page_count} pages · ${row.city_count} cities · avg ${row.avg_words || 0} words</p><p style="font-size:.75rem;color:rgba(255,255,255,.45);margin-top:.45rem">/insights/${row.article_slug}</p></a>`
+    ).join('');
+    recentCards = recent.rows.map((row) =>
+      `<a href="/${row.slug}" style="display:block;padding:.85rem;border:1px solid rgba(255,255,255,.1);border-radius:.5rem;text-decoration:none;transition:border-color .2s" onmouseover="this.style.borderColor='rgba(0,255,148,.35)'" onmouseout="this.style.borderColor='rgba(255,255,255,.1)'"><h4 style="font-size:.92rem;color:#fff;font-weight:700;margin-bottom:.3rem">${row.title}</h4><p style="font-size:.78rem;color:rgba(255,255,255,.55);margin:0">${row.service_type}${row.city ? ` · ${row.city}, ${row.state}` : ''}</p></a>`
+    ).join('');
+  }
+
+  const body = `<section style="background:#050505;padding:6rem 0 2rem"><div style="max-width:1400px;margin:0 auto;padding:0 1.5rem;text-align:center"><span style="display:inline-block;font-family:ui-monospace,monospace;font-size:.85rem;color:#00FF94;border:1px solid rgba(0,255,148,.3);padding:.4rem 1rem;margin-bottom:1.5rem;text-transform:uppercase">INSIGHTS_EXPLORER</span><h1 style="font-size:2.5rem;font-weight:900;color:#fff;margin-bottom:.5rem;letter-spacing:-2px">Long-Form pSEO Insights</h1><p style="color:rgba(255,255,255,.5);font-family:ui-monospace,monospace">${totalPages} localized pages available</p></div></section><section style="background:#050505;padding:1rem 0 2rem"><div style="max-width:1400px;margin:0 auto;padding:0 1.5rem"><h2 style="font-family:ui-monospace,monospace;font-size:.95rem;color:#00B8FF;margin-bottom:1rem">// BY_ARTICLE</h2><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:.8rem">${articleCards || '<p style="color:rgba(255,255,255,.6)">No insight groups yet.</p>'}</div></div></section><section style="background:#050505;padding:1rem 0 3rem"><div style="max-width:1400px;margin:0 auto;padding:0 1.5rem"><h2 style="font-family:ui-monospace,monospace;font-size:.95rem;color:#00B8FF;margin-bottom:1rem">// RECENT_PAGES</h2><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:.7rem">${recentCards || '<p style="color:rgba(255,255,255,.6)">No recent pages yet.</p>'}</div></div></section>${calculatorGrid}`;
+
+  return reply.viewAsync('page.ejs', {
+    title: `Insights Explorer | ${DEFAULT_SITE_NAME}`,
+    description: 'Browse long-form localized service pages by article, city, and service.',
+    siteName: footer?.copyright || DEFAULT_SITE_NAME,
+    nav, footer, palette: 'emerald', blocksHtml: body, currentPath: '/insights',
+  });
+});
+
+// Article-level pSEO discovery: /insights/:articleSlug
+fastify.get('/insights/:articleSlug', async (req, reply) => {
+  const p = getPool();
+  const articleSlug = String(req.params.articleSlug || '').trim();
+  const [pageData, calculatorPage] = await Promise.all([getPageData(''), getPageData('resources/calculators')]);
+  const nav = pageData?.nav || {};
+  const footer = pageData?.footer || {};
+  const calculatorGrid = renderCalculatorGrid(getCalculatorLinksFromPage(calculatorPage), `${humanizeSlug(articleSlug)} calculators`);
+  let rows = [];
+  if (p) {
+    const result = await p.query(
+      `SELECT slug, title,
+              COALESCE(local_seo->>'city','') AS city,
+              COALESCE(local_seo->>'state','') AS state,
+              COALESCE(local_seo->>'service_type','') AS service_type,
+              COALESCE(local_seo->>'sub_niche','') AS sub_niche,
+              COALESCE((local_seo->>'longform_words')::int, 0) AS words
+       FROM ${TENANT_TABLES.content}
+       WHERE source = 'pseo-longform'
+         AND slug LIKE ('insights/' || $1 || '/%')
+       ORDER BY state, city, service_type
+       LIMIT 600`,
+      [articleSlug]
+    );
+    rows = result.rows;
+  }
+
+  if (!rows.length) {
+    reply.code(404);
+    return reply.viewAsync('404.ejs', { siteName: DEFAULT_SITE_NAME, currentPath: req.url, suggestions: [], nav, footer });
+  }
+
+  const cards = rows.map((row) =>
+    `<a href="/${row.slug}" style="display:block;padding:.9rem;border:1px solid rgba(255,255,255,.1);border-radius:.5rem;text-decoration:none;transition:border-color .2s" onmouseover="this.style.borderColor='rgba(0,255,148,.35)'" onmouseout="this.style.borderColor='rgba(255,255,255,.1)'"><h4 style="font-size:.95rem;font-weight:700;color:#fff;margin-bottom:.2rem">${row.service_type}${row.sub_niche ? ` ${row.sub_niche}` : ''}</h4><p style="font-size:.78rem;color:rgba(255,255,255,.6);margin:0">${row.city}, ${row.state} · ${row.words} words</p><p style="font-size:.72rem;color:rgba(255,255,255,.42);margin-top:.35rem">/${row.slug}</p></a>`
+  ).join('');
+
+  const body = `<section style="background:#050505;padding:6rem 0 2rem"><div style="max-width:1400px;margin:0 auto;padding:0 1.5rem;text-align:center"><span style="display:inline-block;font-family:ui-monospace,monospace;font-size:.85rem;color:#00FF94;border:1px solid rgba(0,255,148,.3);padding:.4rem 1rem;margin-bottom:1.5rem;text-transform:uppercase">ARTICLE_CLUSTER</span><h1 style="font-size:2.3rem;font-weight:900;color:#fff;margin-bottom:.5rem;letter-spacing:-1px">${humanizeSlug(articleSlug)}</h1><p style="color:rgba(255,255,255,.5);font-family:ui-monospace,monospace">${rows.length} localized pages</p><a href="/insights" style="display:inline-block;margin-top:1rem;font-size:.8rem;color:rgba(255,255,255,.5);font-family:ui-monospace,monospace;text-decoration:none">&larr; Back to insights explorer</a></div></section><section style="background:#050505;padding:1rem 0 3rem"><div style="max-width:1400px;margin:0 auto;padding:0 1.5rem"><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:.75rem">${cards}</div></div></section>${calculatorGrid}`;
+  return reply.viewAsync('page.ejs', {
+    title: `${humanizeSlug(articleSlug)} Insights | ${DEFAULT_SITE_NAME}`,
+    description: 'Browse localized service pages generated for this article cluster.',
+    siteName: footer?.copyright || DEFAULT_SITE_NAME,
+    nav, footer, palette: 'emerald', blocksHtml: body, currentPath: `/insights/${articleSlug}`,
+  });
 });
 
 // Homepage with recent articles
