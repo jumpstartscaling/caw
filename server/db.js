@@ -2,6 +2,32 @@ import pg from 'pg';
 
 let pool = null;
 
+function normalizeSitePrefix(raw) {
+  const value = String(raw || 'caw').trim().toLowerCase();
+  if (!/^[a-z][a-z0-9_]*$/.test(value)) return 'caw';
+  return value;
+}
+
+const SITE_PREFIX = normalizeSitePrefix(process.env.SITE_PREFIX);
+const contentTable = `${SITE_PREFIX}_content`;
+const articlesTable = `${SITE_PREFIX}_articles`;
+const seedTable = `${SITE_PREFIX}_seed`;
+const DEFAULT_SITE_NAME = SITE_PREFIX === 'jss' ? 'Jumpstart Scaling' : 'Chris Amaya';
+const DEFAULT_AUTOGEN_SOURCE = SITE_PREFIX === 'jss' ? 'JumpstartScaling_AutoGen' : 'ChrisAmayaWork_AutoGen';
+
+export function getSitePrefix() {
+  return SITE_PREFIX;
+}
+
+export function getTenantTables() {
+  return {
+    prefix: SITE_PREFIX,
+    content: contentTable,
+    articles: articlesTable,
+    seed: seedTable,
+  };
+}
+
 export function getPool() {
   if (!process.env.DATABASE_URL) return null;
   if (!pool) {
@@ -21,7 +47,7 @@ export async function getPageData(slug) {
   const normalized = (slug || '').trim().replace(/^\/+|\/+$/g, '').replace(/^index$/, '') || '';
   try {
     const r = await p.query(
-      `SELECT slug, title, blocks, palette, nav, footer, local_seo FROM caw_content WHERE slug = $1 LIMIT 1`,
+      `SELECT slug, title, blocks, palette, nav, footer, local_seo FROM ${contentTable} WHERE slug = $1 LIMIT 1`,
       [normalized]
     );
     const row = r.rows[0];
@@ -54,7 +80,7 @@ export async function getArticles({ category, limit = 20, offset = 0 } = {}) {
     params.push(limit, offset);
     const r = await p.query(
       `SELECT slug, title, excerpt, category, tags, author, og_image, published_at
-       FROM caw_articles WHERE ${where}
+       FROM ${articlesTable} WHERE ${where}
        ORDER BY published_at DESC NULLS LAST
        LIMIT $${params.length - 1} OFFSET $${params.length}`,
       params
@@ -72,7 +98,7 @@ export async function getArticle(slug) {
   try {
     const r = await p.query(
       `SELECT slug, title, excerpt, content, category, tags, author, og_image, published_at
-       FROM caw_articles WHERE slug = $1 AND status = 'published' LIMIT 1`,
+       FROM ${articlesTable} WHERE slug = $1 AND status = 'published' LIMIT 1`,
       [slug]
     );
     return r.rows[0] || null;
@@ -91,13 +117,13 @@ export async function searchContent(query, limit = 30) {
       p.query(
         `SELECT slug, title, excerpt, category, tags, published_at,
                 ts_rank(to_tsvector('english', title || ' ' || COALESCE(excerpt,'') || ' ' || content), plainto_tsquery('english', $1)) AS rank
-         FROM caw_articles WHERE status = 'published'
+         FROM ${articlesTable} WHERE status = 'published'
            AND (title ILIKE $2 OR excerpt ILIKE $2 OR content ILIKE $2)
          ORDER BY rank DESC, published_at DESC LIMIT $3`,
         [query, q, limit]
       ),
       p.query(
-        `SELECT slug, title FROM caw_content
+        `SELECT slug, title FROM ${contentTable}
          WHERE title ILIKE $1 OR blocks::text ILIKE $1
          ORDER BY slug LIMIT 10`,
         [q]
@@ -116,7 +142,7 @@ export async function getRelatedArticles(slug, category, limit = 3) {
   try {
     const r = await p.query(
       `SELECT slug, title, excerpt, category, tags, published_at
-       FROM caw_articles
+       FROM ${articlesTable}
        WHERE status = 'published' AND slug != $1 AND category = $2
        ORDER BY published_at DESC LIMIT $3`,
       [slug, category, limit]
@@ -124,7 +150,7 @@ export async function getRelatedArticles(slug, category, limit = 3) {
     if (r.rows.length < limit) {
       const fill = await p.query(
         `SELECT slug, title, excerpt, category, tags, published_at
-         FROM caw_articles
+         FROM ${articlesTable}
          WHERE status = 'published' AND slug != $1 AND slug != ALL($2::text[])
          ORDER BY published_at DESC LIMIT $3`,
         [slug, r.rows.map((x) => x.slug), limit - r.rows.length]
@@ -144,14 +170,14 @@ export async function getArticleNav(slug) {
   try {
     const [prev, next] = await Promise.all([
       p.query(
-        `SELECT slug, title FROM caw_articles
-         WHERE status = 'published' AND published_at < (SELECT published_at FROM caw_articles WHERE slug = $1)
+        `SELECT slug, title FROM ${articlesTable}
+         WHERE status = 'published' AND published_at < (SELECT published_at FROM ${articlesTable} WHERE slug = $1)
          ORDER BY published_at DESC LIMIT 1`,
         [slug]
       ),
       p.query(
-        `SELECT slug, title FROM caw_articles
-         WHERE status = 'published' AND published_at > (SELECT published_at FROM caw_articles WHERE slug = $1)
+        `SELECT slug, title FROM ${articlesTable}
+         WHERE status = 'published' AND published_at > (SELECT published_at FROM ${articlesTable} WHERE slug = $1)
          ORDER BY published_at ASC LIMIT 1`,
         [slug]
       ),
@@ -169,7 +195,7 @@ export async function getCategoryCounts() {
   try {
     const r = await p.query(
       `SELECT category, COUNT(*)::int AS count
-       FROM caw_articles WHERE status = 'published'
+       FROM ${articlesTable} WHERE status = 'published'
        GROUP BY category ORDER BY count DESC`
     );
     const counts = {};
@@ -187,7 +213,7 @@ export async function getRecentArticles(limit = 5) {
   try {
     const r = await p.query(
       `SELECT slug, title, excerpt, category, tags, published_at
-       FROM caw_articles WHERE status = 'published'
+       FROM ${articlesTable} WHERE status = 'published'
        ORDER BY published_at DESC LIMIT $1`,
       [limit]
     );
@@ -211,13 +237,13 @@ export async function findBestRedirect(slug) {
     const parts = slug.split('/');
     for (let i = parts.length; i >= 1; i--) {
       const partial = parts.slice(0, i).join('/');
-      const r = await p.query('SELECT slug FROM caw_content WHERE slug = $1 LIMIT 1', [partial]);
+      const r = await p.query(`SELECT slug FROM ${contentTable} WHERE slug = $1 LIMIT 1`, [partial]);
       if (r.rows[0]) return { slug: r.rows[0].slug, type: 'page' };
     }
 
     // 2. Check articles exact slug
     const artExact = await p.query(
-      "SELECT slug FROM caw_articles WHERE status = 'published' AND slug = $1 LIMIT 1",
+      `SELECT slug FROM ${articlesTable} WHERE status = 'published' AND slug = $1 LIMIT 1`,
       [slug]
     );
     if (artExact.rows[0]) return { slug: `blog/${artExact.rows[0].slug}`, type: 'article' };
@@ -229,7 +255,7 @@ export async function findBestRedirect(slug) {
     if (likeConditions.length > 0) {
       const pageMatch = await p.query(
         `SELECT slug, (${likeConditions.map((c) => `CASE WHEN ${c} THEN 1 ELSE 0 END`).join(' + ')}) AS score
-         FROM caw_content WHERE ${likeConditions.join(' OR ')}
+         FROM ${contentTable} WHERE ${likeConditions.join(' OR ')}
          ORDER BY score DESC, length(slug) ASC LIMIT 1`,
         likeParams
       );
@@ -243,7 +269,7 @@ export async function findBestRedirect(slug) {
     if (artLikeConditions.length > 0) {
       const artMatch = await p.query(
         `SELECT slug, (${artLikeConditions.map((c) => `CASE WHEN ${c} THEN 1 ELSE 0 END`).join(' + ')}) AS score
-         FROM caw_articles WHERE status = 'published' AND (${artLikeConditions.join(' OR ')})
+         FROM ${articlesTable} WHERE status = 'published' AND (${artLikeConditions.join(' OR ')})
          ORDER BY score DESC LIMIT 1`,
         likeParams
       );
@@ -394,7 +420,7 @@ export async function getPseoPage(slug) {
     let relatedArticles = [];
     if (serviceKeywords.length > 0) {
       const artQ = await p.query(
-        `SELECT slug, title, excerpt FROM caw_articles
+        `SELECT slug, title, excerpt FROM ${articlesTable}
          WHERE status = 'published' AND (${serviceKeywords.map((_, i) => `(title ILIKE $${i + 1} OR slug ILIKE $${i + 1})`).join(' OR ')})
          ORDER BY published_at DESC LIMIT 3`,
         serviceKeywords.map((k) => `%${k}%`)
@@ -403,7 +429,7 @@ export async function getPseoPage(slug) {
     }
 
     // Get nav/footer from existing page
-    const template = await p.query('SELECT nav, footer, palette FROM caw_content LIMIT 1');
+    const template = await p.query(`SELECT nav, footer, palette FROM ${contentTable} LIMIT 1`);
     const nav = template.rows[0]?.nav || {};
     const footer = template.rows[0]?.footer || {};
     const palette = template.rows[0]?.palette || 'emerald';
@@ -629,9 +655,9 @@ export async function getPseoPage(slug) {
       },
     });
 
-    // Save to caw_content permanently
+    // Save to ${contentTable} permanently
     await p.query(
-      `INSERT INTO caw_content (slug, title, blocks, palette, nav, footer, source, created_at)
+      `INSERT INTO ${contentTable} (slug, title, blocks, palette, nav, footer, source, created_at)
        VALUES ($1, $2, $3::jsonb, $4, $5::jsonb, $6::jsonb, 'pseo', NOW())
        ON CONFLICT (slug) DO NOTHING`,
       [slug, row.title, JSON.stringify(blocks), palette, JSON.stringify(nav), JSON.stringify(footer)]
@@ -665,16 +691,16 @@ export async function autoGeneratePage(slug) {
   try {
     // Build a readable title from the slug
     const titleWords = slug.split(/[-_\/]/).filter((w) => w.length > 0).map((w) => w.charAt(0).toUpperCase() + w.slice(1));
-    const title = titleWords.join(' ') + ' | Chris Amaya';
+    const title = `${titleWords.join(' ')} | ${DEFAULT_SITE_NAME}`;
 
     // Find the best matching existing page to use as a template for nav/footer
-    const template = await p.query('SELECT nav, footer, palette FROM caw_content LIMIT 1');
+    const template = await p.query(`SELECT nav, footer, palette FROM ${contentTable} LIMIT 1`);
     const nav = template.rows[0]?.nav || {};
     const footer = template.rows[0]?.footer || {};
     const palette = template.rows[0]?.palette || 'emerald';
 
     // Search all pages for blocks whose data matches our keywords
-    const allPages = await p.query('SELECT slug, blocks FROM caw_content');
+    const allPages = await p.query(`SELECT slug, blocks FROM ${contentTable}`);
     const scoredBlocks = [];
 
     for (const page of allPages.rows) {
@@ -737,7 +763,7 @@ export async function autoGeneratePage(slug) {
     if (!picked.audit_form) {
       picked.audit_form = {
         block_type: 'audit_form',
-        data: { title: 'Technical Strategy Session', subhead: "Let's audit your stack and find the bottleneck.", form_title: 'INITIATE_HANDSHAKE_PROTOCOL', submit_source: 'ChrisAmayaWork_AutoGen' },
+        data: { title: 'Technical Strategy Session', subhead: "Let's audit your stack and find the bottleneck.", form_title: 'INITIATE_HANDSHAKE_PROTOCOL', submit_source: DEFAULT_AUTOGEN_SOURCE },
       };
     }
 
@@ -749,7 +775,7 @@ export async function autoGeneratePage(slug) {
     let relatedArticles = [];
     if (articleKeywords.length > 0) {
       const artQ = await p.query(
-        `SELECT slug, title, excerpt FROM caw_articles
+        `SELECT slug, title, excerpt FROM ${articlesTable}
          WHERE status = 'published' AND (${articleKeywords.map((_, i) => `(title ILIKE $${i + 1} OR slug ILIKE $${i + 1})`).join(' OR ')})
          ORDER BY published_at DESC LIMIT 5`,
         articleKeywords
@@ -775,7 +801,7 @@ export async function autoGeneratePage(slug) {
 
     // Save to database permanently with source tracking
     await p.query(
-      `INSERT INTO caw_content (slug, title, blocks, palette, nav, footer, source, created_at)
+      `INSERT INTO ${contentTable} (slug, title, blocks, palette, nav, footer, source, created_at)
        VALUES ($1, $2, $3::jsonb, $4, $5::jsonb, $6::jsonb, 'auto', NOW())
        ON CONFLICT (slug) DO NOTHING`,
       [slug, title, JSON.stringify(blocks), palette, JSON.stringify(nav), JSON.stringify(footer)]
@@ -812,7 +838,7 @@ export async function getArticlesForService(serviceSlug) {
   try {
     const r = await p.query(
       `SELECT slug, title, excerpt, category, published_at
-       FROM caw_articles WHERE status = 'published' AND category = $1
+       FROM ${articlesTable} WHERE status = 'published' AND category = $1
        ORDER BY published_at DESC LIMIT 3`,
       [cat]
     );

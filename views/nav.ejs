@@ -34,7 +34,7 @@
     <div class="container flex items-center" style="justify-content:space-between">
 
       <!-- Logo -->
-      <a href="/" aria-label="Chris Amaya — Home"
+      <a href="/" aria-label="<%= siteName || 'Home' %> — Home"
         style="display:flex;align-items:center;gap:.75rem;text-decoration:none">
         <div
           style="width:40px;height:40px;background:linear-gradient(135deg,#00FF94,#00BC6D);border-radius:.5rem;display:flex;align-items:center;justify-content:center;flex-shrink:0"
@@ -53,8 +53,9 @@
 
       <!-- Desktop nav -->
       <ul id="desktop-nav" role="list" aria-label="Site navigation">
-
-        <li><a href="/blog" style="color:rgba(255,255,255,.9);min-height:44px;display:flex;align-items:center;font-size:.82rem">Blog</a></li>
+        <% portfolio.forEach(function(item){ %>
+          <li><a href="<%= item.href %>" style="color:rgba(255,255,255,.9);min-height:44px;display:flex;align-items:center;font-size:.82rem"><%= item.name %></a></li>
+        <% }); %>
 
         <% if (customApps.length) { %>
           <li class="nav-dropdown">
@@ -89,9 +90,6 @@
           </li>
         <% } %>
 
-        <li><a href="/guide/how-i-build" style="color:rgba(255,255,255,.9);min-height:44px;display:flex;align-items:center;font-size:.82rem">How I Build</a></li>
-        <li><a href="/search" style="color:rgba(255,255,255,.9);min-height:44px;display:flex;align-items:center;font-size:.82rem">Search</a></li>
-
         <li>
           <a href="<%= ctaHref %>"
             style="display:inline-flex;align-items:center;padding:.6rem 1.4rem;background:#00FF94;color:#050505;font-weight:700;font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;border-radius:.5rem;min-height:44px;white-space:nowrap">
@@ -119,10 +117,9 @@
 
       <div class="drawer-section">
         <span class="drawer-label">Navigate</span>
-        <a href="/">Home</a>
-        <a href="/blog">Blog & Knowledge Base</a>
-        <a href="/guide/how-i-build">How I Build</a>
-        <a href="/search">Search</a>
+        <% portfolio.forEach(function(item){ %>
+          <a href="<%= item.href %>"><%= item.name %></a>
+        <% }); %>
       </div>
 
       <% if (customApps.length) { %>

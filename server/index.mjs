@@ -9,7 +9,7 @@ import fastifyStatic from '@fastify/static';
 import ejs from 'ejs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
-import { getPageData, getPool, getArticles, getArticle, searchContent, getRelatedArticles, getArticleNav, getCategoryCounts, getRecentArticles, getArticlesForService, findBestRedirect, getPseoPage, autoGeneratePage, getAllLocations, getAllServices, getServicePages, getLocationPages } from './db.js';
+import { getPageData, getPool, getArticles, getArticle, searchContent, getRelatedArticles, getArticleNav, getCategoryCounts, getRecentArticles, getArticlesForService, findBestRedirect, getPseoPage, autoGeneratePage, getAllLocations, getAllServices, getServicePages, getLocationPages, getSitePrefix, getTenantTables } from './db.js';
 import { renderBlocks } from './blocks.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -19,6 +19,14 @@ const fastify = Fastify({ logger: false });
 const PORT = parseInt(process.env.PORT || '4321', 10);
 const HOST = process.env.HOST || '0.0.0.0';
 const SITE_URL = process.env.SITE_URL || 'https://chrisamaya.work';
+const TENANT_PREFIX = getSitePrefix();
+const TENANT_TABLES = getTenantTables();
+const DEFAULT_SITE_NAME = process.env.SITE_NAME || (TENANT_PREFIX === 'jss' ? 'Jumpstart Scaling' : 'Chris Amaya');
+const DEFAULT_SITE_DESCRIPTION = process.env.SITE_DESCRIPTION
+  || (TENANT_PREFIX === 'jss'
+    ? 'Growth engineering for companies serious about predictable revenue.'
+    : 'Stop hiring freelancers. Start building an empire.');
+const DEFAULT_LEAD_SOURCE = process.env.LEAD_SOURCE || (TENANT_PREFIX === 'jss' ? 'JumpstartScaling' : 'ChrisAmayaWork');
 
 await fastify.register(fastifyView, {
   engine: { ejs },
@@ -45,7 +53,7 @@ fastify.post('/api/submit-lead', async (req, reply) => {
   } else if (ct.includes('application/x-www-form-urlencoded')) {
     data = req.body || {};
   }
-  const source = data.source || 'ChrisAmayaWork';
+  const source = data.source || DEFAULT_LEAD_SOURCE;
   const formType = data.form_type || data.formType || 'unknown';
   try {
     const r = await p.query(
@@ -72,15 +80,15 @@ fastify.post('/api/submit-lead', async (req, reply) => {
   }
 });
 
-// API: health — confirms DB control and whether caw_content is loaded
+// API: health — confirms DB control and whether tenant content is loaded
 fastify.get('/api/health', async () => {
   const hasUrl = !!process.env.DATABASE_URL;
   const p = getPool();
   if (!p) return { ok: false, error: 'DATABASE_URL not set', db_controlled: true };
   try {
-    const r = await p.query('SELECT COUNT(*)::int as n FROM caw_content');
+    const r = await p.query(`SELECT COUNT(*)::int as n FROM ${TENANT_TABLES.content}`);
     const n = r.rows[0]?.n ?? 0;
-    return { ok: true, db_controlled: true, caw_content_rows: n, content_loaded: n > 0 };
+    return { ok: true, db_controlled: true, site_prefix: TENANT_PREFIX, content_table: TENANT_TABLES.content, content_rows: n, content_loaded: n > 0 };
   } catch (e) {
     return { ok: false, error: e.message, db_controlled: true };
   }
@@ -90,8 +98,8 @@ fastify.get('/health', async (req, reply) => {
   const p = getPool();
   if (!p) return reply.status(503).send({ ok: false, error: 'DATABASE_URL not set' });
   try {
-    const r = await p.query('SELECT COUNT(*)::int as n FROM caw_content');
-    return { ok: true, caw_content_rows: r.rows[0]?.n ?? 0 };
+    const r = await p.query(`SELECT COUNT(*)::int as n FROM ${TENANT_TABLES.content}`);
+    return { ok: true, site_prefix: TENANT_PREFIX, content_table: TENANT_TABLES.content, content_rows: r.rows[0]?.n ?? 0 };
   } catch (e) {
     return reply.status(503).send({ ok: false, error: e.message });
   }
@@ -102,11 +110,11 @@ async function handlePage(req, reply, slug) {
   const pageData = await getPageData(slug);
   if (!pageData) {
     reply.code(404);
-    return reply.viewAsync('404.ejs', { siteName: 'Chris Amaya', currentPath: req.url.split('?')[0] || '/' });
+    return reply.viewAsync('404.ejs', { siteName: DEFAULT_SITE_NAME, currentPath: req.url.split('?')[0] || '/' });
   }
 
   const { page, blocks, palette, nav, footer } = pageData;
-  const siteName = footer?.copyright || 'Chris Amaya';
+  const siteName = footer?.copyright || DEFAULT_SITE_NAME;
   let blocksHtml = renderBlocks(blocks);
 
   // Inject related articles for service pages
@@ -123,8 +131,8 @@ async function handlePage(req, reply, slug) {
   }
 
   return reply.viewAsync('page.ejs', {
-    title: page.title || 'Chris Amaya',
-    description: 'Stop hiring freelancers. Start building an empire.',
+    title: page.title || DEFAULT_SITE_NAME,
+    description: DEFAULT_SITE_DESCRIPTION,
     siteName,
     nav: nav || {},
     footer: footer || {},
@@ -134,7 +142,7 @@ async function handlePage(req, reply, slug) {
   });
 }
 
-// Blog listing — shows articles from caw_articles + the blog landing page blocks
+// Blog listing — shows articles from tenant articles + the blog landing page blocks
 fastify.get('/blog', async (req, reply) => {
   const category = req.query.category || null;
   const [articles, categoryCounts, pageData] = await Promise.all([
@@ -147,21 +155,21 @@ fastify.get('/blog', async (req, reply) => {
   const palette = pageData?.palette || 'emerald';
   const blocksHtml = pageData ? renderBlocks(pageData.blocks) : '';
   return reply.viewAsync('blog.ejs', {
-    title: category ? `${category.charAt(0).toUpperCase() + category.slice(1)} Articles | Chris Amaya` : (pageData?.page?.title || 'Blog | Chris Amaya'),
-    description: 'Architecture, AI Systems, and Growth Engineering.',
-    siteName: footer?.copyright || 'Chris Amaya',
+    title: category ? `${category.charAt(0).toUpperCase() + category.slice(1)} Articles | ${DEFAULT_SITE_NAME}` : (pageData?.page?.title || `Blog | ${DEFAULT_SITE_NAME}`),
+    description: DEFAULT_SITE_DESCRIPTION,
+    siteName: footer?.copyright || DEFAULT_SITE_NAME,
     nav, footer, palette, blocksHtml, articles, categoryCounts,
     currentPath: '/blog',
     activeCategory: category,
   });
 });
 
-// Single article — rendered from caw_articles with related + nav
+// Single article — rendered from tenant articles with related + nav
 fastify.get('/blog/:slug', async (req, reply) => {
   const article = await getArticle(req.params.slug);
   if (!article) {
     reply.code(404);
-    return reply.viewAsync('404.ejs', { siteName: 'Chris Amaya', currentPath: req.url.split('?')[0] });
+    return reply.viewAsync('404.ejs', { siteName: DEFAULT_SITE_NAME, currentPath: req.url.split('?')[0] });
   }
   const [related, articleNav, pageData] = await Promise.all([
     getRelatedArticles(article.slug, article.category, 3),
@@ -174,9 +182,9 @@ fastify.get('/blog/:slug', async (req, reply) => {
   const wordCount = (article.content || '').replace(/<[^>]*>/g, '').split(/\s+/).length;
   const readingTime = Math.max(1, Math.round(wordCount / 230));
   return reply.viewAsync('article.ejs', {
-    title: `${article.title} | Chris Amaya`,
+    title: `${article.title} | ${DEFAULT_SITE_NAME}`,
     description: article.excerpt || '',
-    siteName: footer?.copyright || 'Chris Amaya',
+    siteName: footer?.copyright || DEFAULT_SITE_NAME,
     nav, footer, palette, article, related, articleNav, readingTime,
     currentPath: `/blog/${article.slug}`,
   });
@@ -193,9 +201,9 @@ fastify.get('/search', async (req, reply) => {
   const footer = pageData?.footer || {};
   const palette = pageData?.palette || 'emerald';
   return reply.viewAsync('search.ejs', {
-    title: q ? `Search: ${q} | Chris Amaya` : 'Search | Chris Amaya',
+    title: q ? `Search: ${q} | ${DEFAULT_SITE_NAME}` : `Search | ${DEFAULT_SITE_NAME}`,
     description: 'Search across all content.',
-    siteName: footer?.copyright || 'Chris Amaya',
+    siteName: footer?.copyright || DEFAULT_SITE_NAME,
     nav, footer, palette, query: q, results,
     currentPath: '/search',
   });
@@ -209,7 +217,7 @@ fastify.get('/blog/rss.xml', async (req, reply) => {
     return `<item><title><![CDATA[${a.title}]]></title><link>${SITE_URL}/blog/${a.slug}</link><description><![CDATA[${a.excerpt || ''}]]></description><pubDate>${date}</pubDate><category>${a.category || ''}</category><guid>${SITE_URL}/blog/${a.slug}</guid></item>`;
   }).join('\n');
   reply.header('Content-Type', 'application/rss+xml; charset=utf-8');
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">\n<channel>\n<title>Chris Amaya — Blog</title>\n<link>${SITE_URL}/blog</link>\n<description>Architecture, AI Systems, and Growth Engineering.</description>\n<atom:link href="${SITE_URL}/blog/rss.xml" rel="self" type="application/rss+xml"/>\n${items}\n</channel>\n</rss>`;
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">\n<channel>\n<title>${DEFAULT_SITE_NAME} — Blog</title>\n<link>${SITE_URL}/blog</link>\n<description>${DEFAULT_SITE_DESCRIPTION}</description>\n<atom:link href="${SITE_URL}/blog/rss.xml" rel="self" type="application/rss+xml"/>\n${items}\n</channel>\n</rss>`;
 });
 
 // ── pSEO Directory Routes ──────────────────────────────────
@@ -225,19 +233,19 @@ fastify.get('/locations', async (req, reply) => {
     return `<div style="padding:1.25rem;border:1px solid rgba(255,255,255,.08);border-radius:.5rem"><h3 style="font-family:ui-monospace,monospace;font-size:.85rem;color:#00B8FF;text-transform:uppercase;margin-bottom:.75rem">${state}</h3>${links}</div>`;
   }).join('');
   const body = `<section style="background:#050505;padding:6rem 0 2rem"><div style="max-width:1400px;margin:0 auto;padding:0 1.5rem;text-align:center"><span style="display:inline-block;font-family:ui-monospace,monospace;font-size:.85rem;color:#00FF94;border:1px solid rgba(0,255,148,.3);padding:.4rem 1rem;margin-bottom:1.5rem;text-transform:uppercase">LOCATIONS</span><h1 style="font-size:2.5rem;font-weight:900;color:#fff;margin-bottom:.5rem;letter-spacing:-2px">Service Areas</h1><p style="color:rgba(255,255,255,.5);font-family:ui-monospace,monospace;margin-bottom:2rem">${locations.length} cities across the US</p></div></section><section style="background:#050505;padding:2rem 0 4rem"><div style="max-width:1400px;margin:0 auto;padding:0 1.5rem"><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem">${stateCards}</div></div></section>`;
-  return reply.viewAsync('page.ejs', { title: 'Service Areas | Chris Amaya', description: 'Custom software architecture in 50+ US cities.', siteName: footer?.copyright || 'Chris Amaya', nav, footer, palette: 'emerald', blocksHtml: body, currentPath: '/locations' });
+  return reply.viewAsync('page.ejs', { title: `Service Areas | ${DEFAULT_SITE_NAME}`, description: DEFAULT_SITE_DESCRIPTION, siteName: footer?.copyright || DEFAULT_SITE_NAME, nav, footer, palette: 'emerald', blocksHtml: body, currentPath: '/locations' });
 });
 
 // Single location directory: /locations/austin-tx
 fastify.get('/locations/:slug', async (req, reply) => {
   const { location, geo, pages } = await getLocationPages(req.params.slug);
-  if (!location) { reply.code(404); return reply.viewAsync('404.ejs', { siteName: 'Chris Amaya', currentPath: req.url, suggestions: [], nav: {}, footer: {} }); }
+  if (!location) { reply.code(404); return reply.viewAsync('404.ejs', { siteName: DEFAULT_SITE_NAME, currentPath: req.url, suggestions: [], nav: {}, footer: {} }); }
   const pageData = await getPageData('');
   const nav = pageData?.nav || {}; const footer = pageData?.footer || {};
   const serviceCards = pages.map(p => `<a href="/${p.slug}" style="display:block;padding:1rem;border:1px solid rgba(255,255,255,.08);border-radius:.5rem;text-decoration:none;transition:border-color .2s" onmouseover="this.style.borderColor='rgba(0,255,148,.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,.08)'"><h4 style="font-size:.95rem;font-weight:700;color:#fff;margin-bottom:.2rem">${p.service_type} ${p.sub_niche}</h4>${p.description ? `<p style="font-size:.8rem;color:rgba(255,255,255,.5);margin:.25rem 0 .4rem;line-height:1.4" class="description">${p.description}</p>` : ''}<span style="font-size:.75rem;color:rgba(255,255,255,.4);font-family:ui-monospace,monospace">/${p.slug}</span></a>`).join('');
   const geoInfo = geo.landmark ? `<p style="color:rgba(255,255,255,.5);font-size:.9rem;margin-bottom:.5rem">Near <strong style="color:#fff">${geo.landmark}</strong>${geo.county ? ` · ${geo.county} County` : ''}</p>` : '';
   const body = `<section style="background:#050505;padding:6rem 0 2rem"><div style="max-width:1400px;margin:0 auto;padding:0 1.5rem;text-align:center"><span style="display:inline-block;font-family:ui-monospace,monospace;font-size:.85rem;color:#00FF94;border:1px solid rgba(0,255,148,.3);padding:.4rem 1rem;margin-bottom:1.5rem;text-transform:uppercase">${location.state}</span><h1 style="font-size:2.5rem;font-weight:900;color:#fff;margin-bottom:.5rem;letter-spacing:-2px">Services in ${location.city}, ${location.state}</h1>${geoInfo}<p style="color:rgba(255,255,255,.4);font-family:ui-monospace,monospace;font-size:.85rem">${pages.length} services available</p><a href="/locations" style="display:inline-block;margin-top:1rem;font-size:.8rem;color:rgba(255,255,255,.4);font-family:ui-monospace,monospace;text-decoration:none">&larr; All Locations</a></div></section><section style="background:#050505;padding:2rem 0 4rem"><div style="max-width:1400px;margin:0 auto;padding:0 1.5rem"><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:.75rem">${serviceCards}</div></div></section>`;
-  return reply.viewAsync('page.ejs', { title: `Services in ${location.city}, ${location.state} | Chris Amaya`, description: `Custom software architecture in ${location.city}, ${location.state}.`, siteName: footer?.copyright || 'Chris Amaya', nav, footer, palette: 'emerald', blocksHtml: body, currentPath: `/locations/${req.params.slug}` });
+  return reply.viewAsync('page.ejs', { title: `Services in ${location.city}, ${location.state} | ${DEFAULT_SITE_NAME}`, description: DEFAULT_SITE_DESCRIPTION, siteName: footer?.copyright || DEFAULT_SITE_NAME, nav, footer, palette: 'emerald', blocksHtml: body, currentPath: `/locations/${req.params.slug}` });
 });
 
 // Main services directory: /solutions
@@ -246,13 +254,13 @@ fastify.get('/solutions', async (req, reply) => {
   const nav = pageData?.nav || {}; const footer = pageData?.footer || {};
   const cards = services.map(s => `<a href="/solutions/${s.slug}" style="display:block;padding:1.25rem;border:1px solid rgba(255,255,255,.08);border-radius:.5rem;text-decoration:none;transition:border-color .2s,background .2s" onmouseover="this.style.borderColor='rgba(0,255,148,.3)';this.style.background='rgba(0,255,148,.02)'" onmouseout="this.style.borderColor='rgba(255,255,255,.08)';this.style.background='transparent'"><h3 style="font-size:1.05rem;font-weight:700;color:#fff;margin-bottom:.25rem">${s.service_type}</h3><p style="font-size:.8rem;color:rgba(255,255,255,.5);margin:0">${s.sub_niche}</p></a>`).join('');
   const body = `<section style="background:#050505;padding:6rem 0 2rem"><div style="max-width:1400px;margin:0 auto;padding:0 1.5rem;text-align:center"><span style="display:inline-block;font-family:ui-monospace,monospace;font-size:.85rem;color:#00FF94;border:1px solid rgba(0,255,148,.3);padding:.4rem 1rem;margin-bottom:1.5rem;text-transform:uppercase">SOLUTIONS</span><h1 style="font-size:2.5rem;font-weight:900;color:#fff;margin-bottom:.5rem;letter-spacing:-2px">What I Build</h1><p style="color:rgba(255,255,255,.5);font-family:ui-monospace,monospace;margin-bottom:2rem">${services.length} service categories across 50 cities</p></div></section><section style="background:#050505;padding:2rem 0 4rem"><div style="max-width:1400px;margin:0 auto;padding:0 1.5rem"><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem">${cards}</div></div></section>`;
-  return reply.viewAsync('page.ejs', { title: 'Solutions | Chris Amaya', description: '36 custom software services across 50 US cities.', siteName: footer?.copyright || 'Chris Amaya', nav, footer, palette: 'emerald', blocksHtml: body, currentPath: '/solutions' });
+  return reply.viewAsync('page.ejs', { title: `Solutions | ${DEFAULT_SITE_NAME}`, description: DEFAULT_SITE_DESCRIPTION, siteName: footer?.copyright || DEFAULT_SITE_NAME, nav, footer, palette: 'emerald', blocksHtml: body, currentPath: '/solutions' });
 });
 
 // Single service directory: /solutions/custom-saas-development
 fastify.get('/solutions/:slug', async (req, reply) => {
   const { service, pages } = await getServicePages(req.params.slug);
-  if (!service) { reply.code(404); return reply.viewAsync('404.ejs', { siteName: 'Chris Amaya', currentPath: req.url, suggestions: [], nav: {}, footer: {} }); }
+  if (!service) { reply.code(404); return reply.viewAsync('404.ejs', { siteName: DEFAULT_SITE_NAME, currentPath: req.url, suggestions: [], nav: {}, footer: {} }); }
   const pageData = await getPageData('');
   const nav = pageData?.nav || {}; const footer = pageData?.footer || {};
   const byState = {};
@@ -262,7 +270,7 @@ fastify.get('/solutions/:slug', async (req, reply) => {
     return `<div><h3 style="font-family:ui-monospace,monospace;font-size:.8rem;color:#00B8FF;text-transform:uppercase;margin-bottom:.5rem">${state}</h3><div style="display:grid;gap:.4rem">${links}</div></div>`;
   }).join('');
   const body = `<section style="background:#050505;padding:6rem 0 2rem"><div style="max-width:1400px;margin:0 auto;padding:0 1.5rem;text-align:center"><span style="display:inline-block;font-family:ui-monospace,monospace;font-size:.85rem;color:#00FF94;border:1px solid rgba(0,255,148,.3);padding:.4rem 1rem;margin-bottom:1.5rem;text-transform:uppercase">${service.service_type}</span><h1 style="font-size:2.5rem;font-weight:900;color:#fff;margin-bottom:.5rem;letter-spacing:-2px">${service.service_type} ${service.sub_niche}</h1><p style="color:rgba(255,255,255,.5);font-family:ui-monospace,monospace;margin-bottom:1rem">Available in ${pages.length} cities</p><a href="/solutions" style="display:inline-block;font-size:.8rem;color:rgba(255,255,255,.4);font-family:ui-monospace,monospace;text-decoration:none">&larr; All Solutions</a></div></section><section style="background:#050505;padding:2rem 0 4rem"><div style="max-width:1400px;margin:0 auto;padding:0 1.5rem"><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1.5rem">${stateGroups}</div></div></section>`;
-  return reply.viewAsync('page.ejs', { title: `${service.service_type} ${service.sub_niche} | Chris Amaya`, description: `${service.service_type} ${service.sub_niche} in 50+ US cities.`, siteName: footer?.copyright || 'Chris Amaya', nav, footer, palette: 'emerald', blocksHtml: body, currentPath: `/solutions/${req.params.slug}` });
+  return reply.viewAsync('page.ejs', { title: `${service.service_type} ${service.sub_niche} | ${DEFAULT_SITE_NAME}`, description: DEFAULT_SITE_DESCRIPTION, siteName: footer?.copyright || DEFAULT_SITE_NAME, nav, footer, palette: 'emerald', blocksHtml: body, currentPath: `/solutions/${req.params.slug}` });
 });
 
 // Homepage with recent articles
@@ -273,14 +281,14 @@ fastify.get('/', async (req, reply) => {
   ]);
   if (!pageData) {
     reply.code(404);
-    return reply.viewAsync('404.ejs', { siteName: 'Chris Amaya', currentPath: '/' });
+    return reply.viewAsync('404.ejs', { siteName: DEFAULT_SITE_NAME, currentPath: '/' });
   }
   const { page, blocks, palette, nav, footer } = pageData;
   const blocksHtml = renderBlocks(blocks);
-  const siteName = footer?.copyright || 'Chris Amaya';
+  const siteName = footer?.copyright || DEFAULT_SITE_NAME;
   return reply.viewAsync('homepage.ejs', {
-    title: page.title || 'Chris Amaya',
-    description: 'Stop hiring freelancers. Start building an empire.',
+    title: page.title || DEFAULT_SITE_NAME,
+    description: DEFAULT_SITE_DESCRIPTION,
     siteName, nav: nav || {}, footer: footer || {}, palette: palette || 'emerald',
     blocksHtml, recentArticles, currentPath: '/',
   });
@@ -330,7 +338,7 @@ fastify.setNotFoundHandler(async (req, reply) => {
     return reply.status(404).send('Not found');
   }
 
-  // Try serving from caw_content first
+  // Try serving from tenant content first
   const pageData = await getPageData(slug);
   if (pageData) return handlePage(req, reply, slug);
 
@@ -373,10 +381,10 @@ fastify.setNotFoundHandler(async (req, reply) => {
     const pseo = await getPseoPage(slug);
     if (pseo) {
       const { page, blocks, palette, nav: pNav, footer: pFooter, meta_description } = pseo;
-      const siteName = pFooter?.copyright || 'Chris Amaya';
+      const siteName = pFooter?.copyright || DEFAULT_SITE_NAME;
       const blocksHtml = renderBlocks(blocks);
       return reply.viewAsync('page.ejs', {
-        title: page.title || 'Chris Amaya',
+        title: page.title || DEFAULT_SITE_NAME,
         description: meta_description || 'Custom architecture and sovereign infrastructure.',
         siteName,
         nav: pNav || {},
@@ -393,10 +401,10 @@ fastify.setNotFoundHandler(async (req, reply) => {
     const generated = await autoGeneratePage(slug);
     if (generated) {
       const { page, blocks, palette, nav: gNav, footer: gFooter } = generated;
-      const siteName = gFooter?.copyright || 'Chris Amaya';
+      const siteName = gFooter?.copyright || DEFAULT_SITE_NAME;
       const blocksHtml = renderBlocks(blocks);
       return reply.viewAsync('page.ejs', {
-        title: page.title || 'Chris Amaya',
+        title: page.title || DEFAULT_SITE_NAME,
         description: 'Custom architecture and sovereign infrastructure for scaling agencies.',
         siteName,
         nav: gNav || {},
@@ -417,7 +425,7 @@ fastify.setNotFoundHandler(async (req, reply) => {
   const footerData = anyPage?.footer || {};
   reply.code(404);
   return reply.viewAsync('404.ejs', {
-    siteName: 'Chris Amaya',
+    siteName: DEFAULT_SITE_NAME,
     currentPath: pathname,
     suggestions,
     nav: navData,
@@ -427,7 +435,7 @@ fastify.setNotFoundHandler(async (req, reply) => {
 
 try {
   await fastify.listen({ port: PORT, host: HOST });
-  console.log(`chrisamaya.work SSR on http://${HOST}:${PORT}`);
+  console.log(`SSR (${TENANT_PREFIX}) on http://${HOST}:${PORT}`);
 } catch (err) {
   console.error(err);
   process.exit(1);

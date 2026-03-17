@@ -1,11 +1,12 @@
 <% const tagline=footer?.tagline || 'The Unicorn Developer.' ; const copyrightName=footer?.copyright || siteName
-  || 'Chris Amaya' ; const year=new Date().getFullYear(); const MAIN='https://jumpstartscaling.com' ; %>
+  || 'Chris Amaya' ; const year=new Date().getFullYear(); const MAIN='https://jumpstartscaling.com' ; const
+  sitePart=(siteName || copyrightName || 'Chris Amaya').split(' '); const first=sitePart[0] || ''; const rest=sitePart.slice(1).join(' ') || ''; %>
   <footer>
     <div class="container">
       <div class="grid gap-8 mb-12" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr))">
         <div>
           <a href="/" style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem;text-decoration:none"
-            aria-label="Chris Amaya — Home">
+            aria-label="<%= siteName || copyrightName %> — Home">
             <div
               style="width:40px;height:40px;background:#00FF94;border-radius:.25rem;display:flex;align-items:center;justify-content:center;color:#000;flex-shrink:0"
               aria-hidden="true">
@@ -14,8 +15,8 @@
                 <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
               </svg>
             </div>
-            <span style="font-weight:700;font-size:1.1rem;color:#fff">Chris <span
-                style="color:#00FF94">Amaya</span></span>
+            <span style="font-weight:700;font-size:1.1rem;color:#fff"><%= first %> <span
+                style="color:#00FF94"><%= rest %></span></span>
           </a>
           <p style="font-size:.875rem;color:rgba(255,255,255,0.70)">
             <%= tagline %>

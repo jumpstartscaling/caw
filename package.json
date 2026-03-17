@@ -10,7 +10,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "db:up": "docker compose up -d postgres",
-    "db:seed": "node scripts/seed-chrisamaya.mjs"
+    "db:seed": "node scripts/seed-chrisamaya.mjs",
+    "db:seed:jss": "node scripts/seed-jumpstartscaling.mjs"
   },
   "dependencies": {
     "@fastify/static": "^9.0.0",
