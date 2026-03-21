@@ -1,44 +1,26 @@
-node_modules
-dist
+# Dependencies
+node_modules/
+
+# Build (legacy Astro — now in trash/)
+dist/
+.astro/
+
+# Environment
 .env
 .env.local
 .env.*.local
-ADMIN_KEY_NOTE.txt
-.DS_Store
-.astro
-npm-debug.log
-yarn-error.log
-coverage
-.vscode
-.idea
+
+# IDE
+.vscode/
+.idea/
 *.swp
 *.swo
+*~
+
+# OS
+.DS_Store
 Thumbs.db
 
-# Python
-__pycache__/
-*.py[cod]
-*.pyc
-
-# Large files and build artifacts
-*.tar.gz
-*.mp4
-*.zip
-.next/
-**/node_modules/
-.payload/
+# Logs
 *.log
-
-# Docker volumes
-postgres_data/
-redis_data/
-directus_uploads/
-
-# Secrets
-.secrets/
-*.secret
-*.key
-
-# Old files
-universe/
-payload-v2/
+npm-debug.log*

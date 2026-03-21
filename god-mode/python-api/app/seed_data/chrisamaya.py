@@ -18,27 +18,44 @@ DEFAULT_THEME = {
     },
     "scripts": ["scroll-progress", "particles", "animation-observer"],
     "nav": {
+        "cta": {
+            "href": "#audit",
+            "label": "INITIATE_HANDSHAKE"
+        },
         "portfolio": [
-            {"name": "About Me", "href": "/#about"},
-            {"name": "Projects", "href": "/#projects"},
-            {"name": "Blog", "href": "/blog"},
-            {"name": "How I Build", "href": "/guide/how-i-build"},
-            {"name": "Knowledge Base", "href": "/knowledge-base"},
-            {"name": "Search", "href": "/search"},
-            {"name": "Contact", "href": "/#contact"},
+            {"href": "/#hook", "name": "The Problem"},
+            {"href": "/#solution", "name": "Architecture"},
+            {"href": "/blog", "name": "Blog"},
+            {"href": "/guide/how-i-build", "name": "How I Build"},
+            {"href": "/pricing", "name": "Pricing"},
+            {"href": "/knowledge-base", "name": "Knowledge Base"},
+            {"href": "/search", "name": "Search"}
+        ],
+        "solutions": [
+            {"href": "/solutions", "name": "All Solutions"},
+            {"href": "/solutions/custom-saas-development", "name": "Custom SaaS"},
+            {"href": "/solutions/private-ai-automation-system", "name": "Private AI Systems"},
+            {"href": "/solutions/zapier-replacement-workflow", "name": "Zapier Replacement"},
+            {"href": "/solutions/programmatic-seo-engine", "name": "Programmatic SEO"},
+            {"href": "/solutions/crm-transformation", "name": "CRM Transformation"},
+            {"href": "/solutions/headless-cms-architecture", "name": "Headless CMS"},
+            {"href": "/solutions", "name": "View All 36 Services \u2192"}
         ],
         "custom_apps": [
-            {"name": "Python & FastAPI", "href": "/services/custom-apps/python-api"},
-            {"name": "Astro & React", "href": "/services/custom-apps/frontend"},
-            {"name": "Full-Stack", "href": "/services/custom-apps/full-stack"},
-            {"name": "PostgreSQL", "href": "/services/custom-apps/database"},
-            {"name": "Google APIs", "href": "/services/custom-apps/google-apis"},
-            {"name": "WordPress", "href": "/services/custom-apps/wordpress"},
-            {"name": "Calculators", "href": "/services/custom-apps/calculators"},
-            {"name": "3D & Visual", "href": "/services/custom-apps/3d-visual"},
+            {"href": "/services/custom-apps/python-api", "name": "Python & FastAPI"},
+            {"href": "/services/custom-apps/frontend", "name": "Astro & React"},
+            {"href": "/services/custom-apps/full-stack", "name": "Full-Stack"},
+            {"href": "/services/custom-apps/database", "name": "PostgreSQL"},
+            {"href": "/services/custom-apps/google-apis", "name": "Google APIs"},
+            {"href": "/services/custom-apps/wordpress", "name": "WordPress"},
+            {"href": "/services/custom-apps/calculators", "name": "Calculators"},
+            {"href": "/services/custom-apps/3d-visual", "name": "3D & Visual"}
         ],
-        "growth_tools": [],
-        "cta": {"label": "Work With Me", "href": "#contact"},
+        "growth_tools": [
+            {"href": "https://jumpstartscaling.com", "name": "Jumpstart Scaling"},
+            {"href": "https://jumpstartscaling.com/services/growth-retainer", "name": "Growth Retainer"},
+            {"href": "https://jumpstartscaling.com/services/crm-transformation", "name": "CRM Build"}
+        ]
     },
     "footer": {
         "tagline": "The Unicorn Developer.",

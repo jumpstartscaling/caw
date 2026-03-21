@@ -85,7 +85,44 @@ CREATE TABLE IF NOT EXISTS content_matrix (
 );
 
 -- =============================================================================
--- FOUNDATION: Independent tables (no FKs to new tables)
+-- V5 CONSOLIDATED SCHEMA (Master Plan)
+-- =============================================================================
+
+-- site_displays (Global configuration: nav, footer, palette)
+CREATE TABLE IF NOT EXISTS site_displays (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    domain TEXT UNIQUE NOT NULL,
+    palette TEXT DEFAULT 'emerald',
+    navigation JSONB DEFAULT '{}',
+    footer JSONB DEFAULT '{}',
+    scripts JSONB DEFAULT '[]',
+    cdn_config JSONB DEFAULT '{}',
+    local_seo JSONB DEFAULT '{}',
+    site_name TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- site_contents (Master content: pages, blocks, posts, articles, pseo_rows)
+CREATE TABLE IF NOT EXISTS site_contents (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    site_id UUID REFERENCES site_displays(id) ON DELETE CASCADE,
+    slug TEXT NOT NULL,
+    content_type TEXT NOT NULL, -- 'page', 'post', 'article', 'pseo_row'
+    title TEXT,
+    meta_description TEXT,
+    body_content TEXT,
+    blocks_json JSONB DEFAULT '[]', -- For complex layouts (blocks for a page)
+    attributes JSONB DEFAULT '{}',   -- For pSEO (city, service, etc.)
+    is_published BOOLEAN DEFAULT TRUE,
+    sort_order INTEGER DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(site_id, slug, content_type)
+);
+
+-- =============================================================================
+-- FOUNDATION: Legacy tables (retained for backward compatibility/migration)
 -- =============================================================================
 
 CREATE TABLE IF NOT EXISTS sites (
@@ -98,6 +135,27 @@ CREATE TABLE IF NOT EXISTS sites (
     date_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 ALTER TABLE sites ADD COLUMN IF NOT EXISTS theme_config JSONB;
+
+CREATE TABLE IF NOT EXISTS page_blocks (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    page_id UUID,
+    block_type VARCHAR(100),
+    name VARCHAR(255),
+    data JSONB,
+    sort_order INTEGER DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS pages (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    status VARCHAR(50) DEFAULT 'published',
+    site_id UUID REFERENCES sites(id) ON DELETE CASCADE,
+    title VARCHAR(255),
+    slug VARCHAR(255),
+    content TEXT,
+    schema_json JSONB,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
 CREATE TABLE IF NOT EXISTS avatar_intelligence (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -144,14 +202,6 @@ CREATE TABLE IF NOT EXISTS offer_blocks (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     block_type VARCHAR(100),
     avatar_key VARCHAR(255),
-    data JSONB,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE IF NOT EXISTS page_blocks (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    block_type VARCHAR(100),
-    name VARCHAR(255),
     data JSONB,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

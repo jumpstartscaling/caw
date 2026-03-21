@@ -1192,6 +1192,76 @@ async def api_generated_articles_bulk_delete(body: dict = Body(default=None)):
     return {"deleted": len(uuids)}
 
 
+@router.post("/site-display")
+async def upsert_site_display(data: dict):
+    """Upsert site configuration into site_displays."""
+    domain = data.get("domain")
+    if not domain:
+        return JSONResponse(status_code=400, content={"detail": "domain required"})
+    
+    async with get_db() as conn:
+        await conn.execute(
+            """
+            INSERT INTO site_displays (domain, palette, navigation, footer, scripts, cdn_config, local_seo, site_name)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+            ON CONFLICT (domain) DO UPDATE SET
+                palette = EXCLUDED.palette,
+                navigation = EXCLUDED.navigation,
+                footer = EXCLUDED.footer,
+                scripts = EXCLUDED.scripts,
+                cdn_config = EXCLUDED.cdn_config,
+                local_seo = EXCLUDED.local_seo,
+                site_name = EXCLUDED.site_name,
+                updated_at = CURRENT_TIMESTAMP
+            """,
+            domain,
+            data.get("palette", "emerald"),
+            json.dumps(data.get("navigation", {})),
+            json.dumps(data.get("footer", {})),
+            json.dumps(data.get("scripts", [])),
+            json.dumps(data.get("cdn_config", {})),
+            json.dumps(data.get("local_seo", {})),
+            data.get("site_name")
+        )
+    return {"status": "success"}
+
+
+@router.post("/site-content")
+async def upsert_site_content(data: dict):
+    """Upsert content (page, post, article, etc.) into site_contents."""
+    site_id = data.get("site_id")
+    slug = data.get("slug", "")
+    content_type = data.get("content_type", "page")
+    
+    if not site_id:
+         return JSONResponse(status_code=400, content={"detail": "site_id required"})
+
+    async with get_db() as conn:
+        await conn.execute(
+            """
+            INSERT INTO site_contents (site_id, slug, content_type, title, meta_description, body_content, blocks_json, attributes, is_published, sort_order)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+            ON CONFLICT (site_id, slug, content_type) DO UPDATE SET
+                title = EXCLUDED.title,
+                meta_description = EXCLUDED.meta_description,
+                body_content = EXCLUDED.body_content,
+                blocks_json = EXCLUDED.blocks_json,
+                attributes = EXCLUDED.attributes,
+                is_published = EXCLUDED.is_published,
+                sort_order = EXCLUDED.sort_order,
+                updated_at = CURRENT_TIMESTAMP
+            """,
+            site_id, slug, content_type,
+            data.get("title"),
+            data.get("meta_description"),
+            data.get("body_content"),
+            json.dumps(data.get("blocks_json", [])),
+            json.dumps(data.get("attributes", {})),
+            data.get("is_published", True),
+            data.get("sort_order", 0)
+        )
+    return {"status": "success"}
+
 @api_router.post("/run-schema")
 async def api_run_schema(x_admin_key: str = Header(alias="X-Admin-Key", default=""), key: str = Query(default="")):
     """Apply schema.sql to the DB. Requires ADMIN_KEY in X-Admin-Key header or key query param."""

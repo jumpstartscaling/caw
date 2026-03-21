@@ -20,6 +20,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 # Default theme_config for chrisamaya
 DEFAULT_THEME = {
     "palette": "emerald",
+    "cdn_provider": "cloudflare",
+    "cdn_config": {},
+    "site_name": "Chris Amaya",
     "content_structure": {
         "section_ids": {
             "hero": "hero",
@@ -29,15 +32,53 @@ DEFAULT_THEME = {
             "contact": "contact",
             "calculator": "calculator",
             "survey": "survey",
-        },
-        "section_classes": {
-            "default": "section dark",
-            "alternate": "section light",
-            "hero_full": "section section-hero section-hero-full",
-        },
-        "content_blocks": ["hero", "features", "cta", "faq", "contact", "calculator", "survey"],
+        }
     },
     "scripts": ["scroll-progress", "particles", "animation-observer"],
+    "nav": {
+        "cta": {
+            "href": "#audit",
+            "label": "INITIATE_HANDSHAKE"
+        },
+        "portfolio": [
+            {"href": "/#hook", "name": "The Problem"},
+            {"href": "/#solution", "name": "Architecture"},
+            {"href": "/blog", "name": "Blog"},
+            {"href": "/guide/how-i-build", "name": "How I Build"},
+            {"href": "/pricing", "name": "Pricing"},
+            {"href": "/knowledge-base", "name": "Knowledge Base"},
+            {"href": "/search", "name": "Search"}
+        ],
+        "solutions": [
+            {"href": "/solutions", "name": "All Solutions"},
+            {"href": "/solutions/custom-saas-development", "name": "Custom SaaS"},
+            {"href": "/solutions/private-ai-automation-system", "name": "Private AI Systems"},
+            {"href": "/solutions/zapier-replacement-workflow", "name": "Zapier Replacement"},
+            {"href": "/solutions/programmatic-seo-engine", "name": "Programmatic SEO"},
+            {"href": "/solutions/crm-transformation", "name": "CRM Transformation"},
+            {"href": "/solutions/headless-cms-architecture", "name": "Headless CMS"},
+            {"href": "/solutions", "name": "View All 36 Services \u2192"}
+        ],
+        "custom_apps": [
+            {"href": "/services/custom-apps/python-api", "name": "Python & FastAPI"},
+            {"href": "/services/custom-apps/frontend", "name": "Astro & React"},
+            {"href": "/services/custom-apps/full-stack", "name": "Full-Stack"},
+            {"href": "/services/custom-apps/database", "name": "PostgreSQL"},
+            {"href": "/services/custom-apps/google-apis", "name": "Google APIs"},
+            {"href": "/services/custom-apps/wordpress", "name": "WordPress"},
+            {"href": "/services/custom-apps/calculators", "name": "Calculators"},
+            {"href": "/services/custom-apps/3d-visual", "name": "3D & Visual"}
+        ],
+        "growth_tools": [
+            {"href": "https://jumpstartscaling.com", "name": "Jumpstart Scaling"},
+            {"href": "https://jumpstartscaling.com/services/growth-retainer", "name": "Growth Retainer"},
+            {"href": "https://jumpstartscaling.com/services/crm-transformation", "name": "CRM Build"}
+        ]
+    },
+    "footer": {
+        "tagline": "The Unicorn Developer.",
+        "copyright": "Chris Amaya",
+    },
 }
 
 SAMPLE_POSTS = [

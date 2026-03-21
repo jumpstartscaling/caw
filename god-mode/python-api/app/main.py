@@ -12,7 +12,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import config
 from app.db.connection import init_db, close_db, get_db, DatabaseUnavailableError
-from app.routers import auth, health, leads, admin, locations, pseo_services, content_matrix, seed, tenant
+from app.routers import auth, health, leads, admin, locations, pseo_services, content_matrix, seed, seed_jss, tenant
 
 
 @asynccontextmanager
@@ -23,9 +23,12 @@ async def lifespan(app: FastAPI):
         if config.AUTO_SEED_CHRISAMAYA and config.DATABASE_URL:
             try:
                 from app.routers.seed import _run_chrisamaya_seed
+                from app.seed_data.caw_content import seed_caw_content
                 async with get_db() as conn:
                     result = await _run_chrisamaya_seed(conn)
                     print(f"✅ Auto-seed chrisamaya: site_id={result.get('site_id')}", flush=True)
+                    caw_result = await seed_caw_content(conn)
+                    print(f"✅ Auto-seed caw_content: {caw_result.get('caw_content_pages', 0)} pages", flush=True)
             except Exception as e:
                 print(f"⚠️ Auto-seed chrisamaya failed (app continues): {e}", flush=True)
     except Exception as e:
@@ -62,6 +65,7 @@ app.include_router(locations.router)
 app.include_router(pseo_services.router)
 app.include_router(content_matrix.router)
 app.include_router(seed.router)
+app.include_router(seed_jss.router)
 app.include_router(tenant.router)
 app.include_router(tenant.sites_router)
 

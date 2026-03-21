@@ -24,11 +24,20 @@ def _resolve_domain(site_url: str) -> str | None:
 
 
 async def _get_site_id_by_domain(domain: str):
-    """Resolve domain to site_id. Returns (site_id, domain) or (None, None)."""
+    """Resolve domain to site_id. Checks site_displays first, then legacy sites."""
     if not domain:
         return None, None
     try:
         async with get_db() as conn:
+            # Check consolidated first
+            row = await conn.fetchrow(
+                "SELECT id FROM site_displays WHERE domain ILIKE $1 LIMIT 1",
+                f"%{domain}%",
+            )
+            if row:
+                return row["id"], domain
+            
+            # Fallback to legacy
             row = await conn.fetchrow(
                 "SELECT id FROM sites WHERE status = 'active' AND url ILIKE $1 LIMIT 1",
                 f"%{domain}%",
@@ -42,7 +51,7 @@ async def _get_site_id_by_domain(domain: str):
 
 @sites_router.get("/resolve")
 async def resolve_site(domain: str = Query(..., alias="domain")):
-    """Resolve domain to site_id and theme_config. Used by router for tenant proxy."""
+    """Resolve domain to site_id and config. Used by router for tenant proxy."""
     dom = _resolve_domain(domain)
     site_id, _ = await _get_site_id_by_domain(dom)
     if not site_id:
@@ -51,46 +60,40 @@ async def resolve_site(domain: str = Query(..., alias="domain")):
     try:
         async with get_db() as conn:
             row = await conn.fetchrow(
-                "SELECT id, theme_config FROM sites WHERE id = $1 AND status = 'active'",
+                """
+                SELECT id, palette, navigation, footer, scripts, cdn_config, local_seo, site_name 
+                FROM site_displays 
+                WHERE id = $1
+                """,
                 site_id,
             )
             if not row:
                 return {"found": False}
-            tc = row["theme_config"] or {}
-            if isinstance(tc, str):
-                try:
-                    tc = json.loads(tc) if tc else {}
-                except Exception:
-                    tc = {}
         return {
             "found": True,
             "site_id": str(site_id),
-            "theme_config": tc,
+            "theme_config": dict(row),
         }
     except DatabaseUnavailableError:
         return {"found": False}
 
 
 async def _get_theme_config(conn, site_id):
-    """Fetch theme_config for site. Returns palette, nav, footer, cdn_provider from theme_config JSONB."""
+    """Fetch configuration from site_displays."""
     row = await conn.fetchrow(
-        "SELECT theme_config FROM sites WHERE id = $1",
+        "SELECT palette, navigation as nav, footer, cdn_config, site_name, local_seo FROM site_displays WHERE id = $1",
         site_id,
     )
-    tc = (row["theme_config"] if row else None) or {}
-    if isinstance(tc, str):
-        try:
-            tc = json.loads(tc) if tc else {}
-        except Exception:
-            tc = {}
-    return {
-        "palette": tc.get("palette", "emerald"),
-        "nav": tc.get("nav"),
-        "footer": tc.get("footer"),
-        "cdn_provider": tc.get("cdn_provider"),
-        "site_name": tc.get("site_name"),
-        "local_seo": tc.get("local_seo"),
-    }
+    if not row:
+        return {
+            "palette": "emerald",
+            "nav": None,
+            "footer": None,
+            "cdn_provider": None,
+            "site_name": None,
+            "local_seo": None,
+        }
+    return dict(row)
 
 
 @router.get("/page")
@@ -98,65 +101,85 @@ async def get_tenant_page(
     domain: str = Query(..., alias="domain"),
     slug: str = Query("", alias="slug"),
 ):
-    """Resolve site by domain; fetch page by slug (empty = homepage); fetch page_blocks for page ORDER BY sort_order.
-    Returns { page, blocks, palette, nav, footer } for DB-driven template."""
+    """Resolve site; fetch page. Supports both consolidated and legacy schemas."""
     dom = _resolve_domain(domain)
-    site_id, _ = await _get_site_id_by_domain(dom)
+    site_id, resolved_domain = await _get_site_id_by_domain(dom)
     if not site_id:
-        return JSONResponse(status_code=404, content={"detail": "Site not found or inactive"})
+        return JSONResponse(status_code=404, content={"detail": "Site not found"})
 
-    # Normalize slug: empty or "index" -> homepage
     page_slug = (slug or "").strip().rstrip("/")
     if page_slug in ("", "index"):
         page_slug = ""
 
     try:
         async with get_db() as conn:
-            # Fetch theme config (palette, nav, footer)
-            theme = await _get_theme_config(conn, site_id)
-
-            # Fetch page: slug='' or slug matches
-            page_row = await conn.fetchrow(
-                """
-                SELECT id, site_id, title, slug, content, schema_json
-                FROM pages
-                WHERE site_id = $1 AND (slug IS NULL OR slug = $2 OR ($2 = '' AND (slug IS NULL OR slug = '')))
-                LIMIT 1
-                """,
-                site_id,
-                page_slug,
+            # 1. Try Consolidated Schema
+            site_display = await conn.fetchrow(
+                "SELECT palette, navigation, footer, local_seo FROM site_displays WHERE id = $1",
+                site_id
             )
-            if not page_row:
-                return JSONResponse(status_code=404, content={"detail": "Page not found"})
-
-            page_id = page_row["id"]
-            # page_blocks may have page_id (added via migration); fallback: no page_id column -> empty blocks
-            try:
-                blocks_rows = await conn.fetch(
+            if site_display:
+                page_row = await conn.fetchrow(
                     """
-                    SELECT id, block_type, name, data, sort_order
-                    FROM page_blocks
-                    WHERE page_id = $1
-                    ORDER BY sort_order ASC NULLS LAST, created_at ASC
+                    SELECT id, title, slug, body_content as content, blocks_json
+                    FROM site_contents
+                    WHERE site_id = $1 AND slug = $2 AND content_type = 'page' AND is_published = true
+                    LIMIT 1
                     """,
-                    page_id,
+                    site_id, page_slug
                 )
-            except Exception:
-                blocks_rows = []
+                if not page_row:
+                     page_row = await conn.fetchrow(
+                        """
+                        SELECT id, title, slug, body_content as content, blocks_json
+                        FROM site_contents
+                        WHERE site_id = $1 AND slug = $2 AND content_type = 'pseo_row'
+                        LIMIT 1
+                        """,
+                        site_id, page_slug
+                    )
+                
+                if page_row:
+                    return {
+                        "page": dict(page_row),
+                        "blocks": page_row.get("blocks_json") or [],
+                        "palette": site_display["palette"],
+                        "nav": site_display["navigation"],
+                        "footer": site_display["footer"],
+                        "local_seo": site_display["local_seo"]
+                    }
 
-        page = dict(page_row)
-        blocks = [
-            {"id": str(r["id"]), "block_type": r["block_type"], "name": r.get("name"), "data": r.get("data") or {}}
-            for r in blocks_rows
-        ]
-        return {
-            "page": page,
-            "blocks": blocks,
-            "palette": theme["palette"],
-            "nav": theme["nav"],
-            "footer": theme["footer"],
-            "local_seo": theme.get("local_seo"),
-        }
+            # 2. Fallback to Legacy Schema
+            site_legacy = await conn.fetchrow("SELECT theme_config FROM sites WHERE id = $1", site_id)
+            if site_legacy:
+                tc = site_legacy["theme_config"] or {}
+                if isinstance(tc, str): tc = json.loads(tc)
+                
+                page_row = await conn.fetchrow(
+                    """
+                    SELECT id, title, slug, content, schema_json
+                    FROM pages
+                    WHERE site_id = $1 AND (slug = $2 OR (slug IS NULL AND $2 = ''))
+                    LIMIT 1
+                    """,
+                    site_id, page_slug
+                )
+                if page_row:
+                    blocks_rows = await conn.fetch(
+                        "SELECT id, block_type, name, data FROM page_blocks WHERE page_id = $1 ORDER BY sort_order ASC",
+                        page_row["id"]
+                    )
+                    blocks = [{"id": str(r["id"]), "block_type": r["block_type"], "name": r["name"], "data": r["data"]} for r in blocks_rows]
+                    return {
+                        "page": dict(page_row),
+                        "blocks": blocks,
+                        "palette": tc.get("palette", "emerald"),
+                        "nav": tc.get("nav"),
+                        "footer": tc.get("footer"),
+                        "local_seo": tc.get("local_seo")
+                    }
+
+        return JSONResponse(status_code=404, content={"detail": "Page not found"})
     except DatabaseUnavailableError:
         return JSONResponse(status_code=503, content={"detail": "Database unavailable"})
 

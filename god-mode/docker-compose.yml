@@ -1,90 +1,23 @@
+# Optional: local Postgres for dev when you can't reach Coolify's internal DB.
+# Production/Coolify: use DATABASE_URL from god-mode-api (same Postgres).
 version: '3.8'
 
 services:
-  god-mode:
-    build: .
-    restart: always
-    ports:
-      - "4321:8100"
-    environment:
-      - NODE_ENV=production
-      - DATABASE_URL=${DATABASE_URL:-postgresql://godmode:godmode_local@postgres:5432/god_mode}
-      # Default to local redis container if no external URL provided
-      - REDIS_URL=${REDIS_URL:-redis://redis:6379}
-      - GOD_MODE_TOKEN=${GOD_MODE_TOKEN}
-    # GOD MODE LIMITS (100k Scale):
-    ulimits:
-      nofile:
-        soft: 65536
-        hard: 65536
-      nproc: 65536
-    deploy:
-      resources:
-        limits:
-          memory: 16G
-          cpus: '3.5'
-    logging:
-      options:
-        max-size: "10m"
-        max-file: "3"
-    depends_on:
-      redis:
-        condition: service_healthy
-      postgres:
-        condition: service_healthy
-    networks:
-      - default
-      - coolify
-    healthcheck:
-      test: [ "CMD", "wget", "--spider", "--no-verbose", "http://localhost:8100/health" ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
   postgres:
     image: postgres:16-alpine
     environment:
-      POSTGRES_DB: god_mode
-      POSTGRES_USER: godmode
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-godmode_local}
+      POSTGRES_DB: chrisamaya
+      POSTGRES_USER: caw
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-caw_local}
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
-      - god_mode_pgdata:/var/lib/postgresql/data
+      - chrisamaya_pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U godmode -d god_mode"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-    networks:
-      - default
-      - coolify
-
-  # Redis is REQUIRED for the Batch Processor (BullMQ)
-  # Included here so God Mode works standalone.
-  redis:
-    image: 'redis:7-alpine'
-    command: 'redis-server --appendonly yes'
-    restart: always
-    ports:
-      - "6379:6379"
-    volumes:
-      - 'god-mode-redis:/data'
-    networks:
-      - default
-      - coolify
-    healthcheck:
-      test: [ "CMD", "redis-cli", "ping" ]
+      test: ["CMD-SHELL", "pg_isready -U caw -d chrisamaya"]
       interval: 5s
       timeout: 5s
       retries: 5
 
 volumes:
-  god-mode-redis:
-  god_mode_pgdata:
-
-
-networks:
-  coolify:
-    external: true
-    name: coolify
+  chrisamaya_pgdata:
