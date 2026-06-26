@@ -5,6 +5,9 @@
   "scripts": {
     "start": "node server/index.mjs",
     "dev": "node --watch server/index.mjs",
+    "check:syntax": "node --check server/index.mjs && node --check server/db.js && node --check server/blocks.js",
+    "check:repo": "node scripts/validate-repo.mjs",
+    "check": "npm run check:syntax && npm run check:repo",
     "dev:astro": "astro dev --port 4321 --host",
     "build": "astro build",
     "preview": "astro preview",
